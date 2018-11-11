@@ -1,0 +1,54 @@
+﻿@model PcPartPicker.Data.Models.Ram
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Ram</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Model)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Model)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Manufacturer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Manufacturer)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MemoryType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MemoryType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MemoryCapacity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MemoryCapacity)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MemoryFrequency)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MemoryFrequency)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.RamId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

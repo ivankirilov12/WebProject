@@ -1,0 +1,54 @@
+﻿@model PcPartPicker.Data.Models.Cpu
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Cpu</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Model)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Model)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Manufacturer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Manufacturer)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Socket)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Socket)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfCores)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfCores)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CacheMemory)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CacheMemory)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.CpuId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
