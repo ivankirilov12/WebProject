@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PcPartPicker.Data;
@@ -9,27 +7,22 @@ using PcPartPicker.Data.Models;
 
 namespace PcPartPicker.Controllers
 {
-    public class CpusController : Controller
+    public class SystemBuildsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CpusController(ApplicationDbContext context)
+        public SystemBuildsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Cpus
+        // GET: SystemBuilds
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cpus.ToListAsync());
+            return View(await _context.SystemBuild.ToListAsync());
         }
 
-        public async Task<List<string>> GetCpuModels()
-        {
-            return await _context.Cpus.Select(a => a.Model).ToListAsync();
-        }
-
-        // GET: Cpus/Details/5
+        // GET: SystemBuilds/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,42 +30,45 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var cpu = await _context.Cpus
-                .FirstOrDefaultAsync(m => m.CpuId == id);
-            if (cpu == null)
+            var systemBuild = await _context.SystemBuild
+                .FirstOrDefaultAsync(m => m.SystemBuildId == id);
+            if (systemBuild == null)
             {
                 return NotFound();
             }
 
-            return View(cpu);
+            return View(systemBuild);
         }
 
-        // GET: Cpus/Create
-        [Authorize]
+        // GET: SystemBuilds/Create
         public IActionResult Create()
         {
+            //var cpus = _context.Cpus.Select(x => x.Model).ToList();
+            //var gpus = _context.Gpus.Select(x => x.Model).ToList();
+            //var cases = _context.Cases.Select(x => x.Model).ToList();
+            //var rams = _context.Rams.Select(x => x.Model).ToList();
+            //var motherboards = _context.Motherboard.Select(x => x.Model).ToList();
+            //var storages = _context.Storages.Select(x => x.Model).ToList();
             return View();
         }
 
-        // POST: Cpus/Create
+        // POST: SystemBuilds/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
-        public async Task<IActionResult> Create([Bind("CpuId,Model,Price,Manufacturer,Socket,NumberOfCores,CacheMemory")] Cpu cpu)
+        public async Task<IActionResult> Create([Bind("SystemBuildId,Price")] SystemBuild systemBuild)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cpu);
+                _context.Add(systemBuild);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(cpu);
+            return View(systemBuild);
         }
 
-        // GET: Cpus/Edit/5
-        [Authorize]
+        // GET: SystemBuilds/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,23 +76,22 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var cpu = await _context.Cpus.FindAsync(id);
-            if (cpu == null)
+            var systemBuild = await _context.SystemBuild.FindAsync(id);
+            if (systemBuild == null)
             {
                 return NotFound();
             }
-            return View(cpu);
+            return View(systemBuild);
         }
 
-        // POST: Cpus/Edit/5
+        // POST: SystemBuilds/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
-        public async Task<IActionResult> Edit(int id, [Bind("CpuId,Model,Price,Manufacturer,Socket,NumberOfCores,CacheMemory")] Cpu cpu)
+        public async Task<IActionResult> Edit(int id, [Bind("SystemBuildId,Price")] SystemBuild systemBuild)
         {
-            if (id != cpu.CpuId)
+            if (id != systemBuild.SystemBuildId)
             {
                 return NotFound();
             }
@@ -105,12 +100,12 @@ namespace PcPartPicker.Controllers
             {
                 try
                 {
-                    _context.Update(cpu);
+                    _context.Update(systemBuild);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CpuExists(cpu.CpuId))
+                    if (!SystemBuildExists(systemBuild.SystemBuildId))
                     {
                         return NotFound();
                     }
@@ -121,11 +116,10 @@ namespace PcPartPicker.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(cpu);
+            return View(systemBuild);
         }
 
-        // GET: Cpus/Delete/5
-        [Authorize]
+        // GET: SystemBuilds/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,31 +127,30 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var cpu = await _context.Cpus
-                .FirstOrDefaultAsync(m => m.CpuId == id);
-            if (cpu == null)
+            var systemBuild = await _context.SystemBuild
+                .FirstOrDefaultAsync(m => m.SystemBuildId == id);
+            if (systemBuild == null)
             {
                 return NotFound();
             }
 
-            return View(cpu);
+            return View(systemBuild);
         }
 
-        // POST: Cpus/Delete/5
+        // POST: SystemBuilds/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cpu = await _context.Cpus.FindAsync(id);
-            _context.Cpus.Remove(cpu);
+            var systemBuild = await _context.SystemBuild.FindAsync(id);
+            _context.SystemBuild.Remove(systemBuild);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CpuExists(int id)
+        private bool SystemBuildExists(int id)
         {
-            return _context.Cpus.Any(e => e.CpuId == id);
+            return _context.SystemBuild.Any(e => e.SystemBuildId == id);
         }
     }
 }

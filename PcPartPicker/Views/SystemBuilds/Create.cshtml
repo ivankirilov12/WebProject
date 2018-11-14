@@ -1,0 +1,63 @@
+﻿@model PcPartPicker.Data.Models.SystemBuild
+
+@{
+    ViewData["Title"] = "Create";
+    var cpusList = new List<string>();
+}
+
+<h2>Create</h2>
+
+<h4>SystemBuild</h4>
+<hr />
+<button type="button" onclick="loadCpus()"> click me</button>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                @*@Html.DropDownList(
+                    "Foo",
+                    new SelectList(
+                        Model.Select(x => new { Value = x, Text = x }),
+                        "Value",
+                        "Text"
+                     )
+                 )*@
+                <select id="cpuList" name="cpus">                    
+                </select>
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<script>
+    function loadCpus() {
+        $.ajax({
+            url: "https://localhost:5001/Cpus/GetCpuModels",
+            success: function (data) {
+                debugger;
+                var cpuList = document.getElementById("cpuList")
+                for (var i = 0; i < data.length; i++) {
+                    var option = document.createElement("option");
+                    option.innerHTML = data[i];
+                    cpuList.appendChild(option);
+                }
+            }
+        });
+    } 
+</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

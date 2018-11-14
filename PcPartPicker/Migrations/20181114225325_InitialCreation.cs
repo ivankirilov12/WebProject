@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PcPartPicker.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -176,7 +176,7 @@ namespace PcPartPicker.Migrations
                     Manufacturer = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(type: "decimal(5, 2)", nullable: false),
                     Type = table.Column<string>(nullable: true),
-                    SystemBuildId = table.Column<int>(nullable: false)
+                    SystemBuildId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -186,7 +186,7 @@ namespace PcPartPicker.Migrations
                         column: x => x.SystemBuildId,
                         principalTable: "SystemBuild",
                         principalColumn: "SystemBuildId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -201,7 +201,7 @@ namespace PcPartPicker.Migrations
                     Socket = table.Column<string>(nullable: true),
                     NumberOfCores = table.Column<int>(nullable: false),
                     CacheMemory = table.Column<int>(nullable: false),
-                    SystemBuildId = table.Column<int>(nullable: false)
+                    SystemBuildId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -211,7 +211,7 @@ namespace PcPartPicker.Migrations
                         column: x => x.SystemBuildId,
                         principalTable: "SystemBuild",
                         principalColumn: "SystemBuildId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -224,7 +224,7 @@ namespace PcPartPicker.Migrations
                     Manufacturer = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(type: "decimal(5, 2)", nullable: false),
                     Memory = table.Column<string>(nullable: true),
-                    SystemBuildId = table.Column<int>(nullable: false)
+                    SystemBuildId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -234,7 +234,7 @@ namespace PcPartPicker.Migrations
                         column: x => x.SystemBuildId,
                         principalTable: "SystemBuild",
                         principalColumn: "SystemBuildId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -247,7 +247,7 @@ namespace PcPartPicker.Migrations
                     Manufacturer = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(type: "decimal(5, 2)", nullable: false),
                     CpuSocket = table.Column<string>(nullable: true),
-                    SystemBuildId = table.Column<int>(nullable: false)
+                    SystemBuildId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -257,7 +257,7 @@ namespace PcPartPicker.Migrations
                         column: x => x.SystemBuildId,
                         principalTable: "SystemBuild",
                         principalColumn: "SystemBuildId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -272,7 +272,7 @@ namespace PcPartPicker.Migrations
                     MemoryCapacity = table.Column<int>(nullable: false),
                     MemoryFrequency = table.Column<float>(nullable: false),
                     Price = table.Column<decimal>(type: "decimal(5, 2)", nullable: false),
-                    SystemBuildId = table.Column<int>(nullable: false)
+                    SystemBuildId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -282,7 +282,7 @@ namespace PcPartPicker.Migrations
                         column: x => x.SystemBuildId,
                         principalTable: "SystemBuild",
                         principalColumn: "SystemBuildId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -296,7 +296,7 @@ namespace PcPartPicker.Migrations
                     Price = table.Column<decimal>(type: "decimal(5, 2)", nullable: false),
                     Type = table.Column<string>(nullable: true),
                     Capacity = table.Column<string>(nullable: true),
-                    SystemBuildId = table.Column<int>(nullable: false)
+                    SystemBuildId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -306,7 +306,7 @@ namespace PcPartPicker.Migrations
                         column: x => x.SystemBuildId,
                         principalTable: "SystemBuild",
                         principalColumn: "SystemBuildId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -352,37 +352,43 @@ namespace PcPartPicker.Migrations
                 name: "IX_Cases_SystemBuildId",
                 table: "Cases",
                 column: "SystemBuildId",
-                unique: true);
+                unique: true,
+                filter: "[SystemBuildId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cpus_SystemBuildId",
                 table: "Cpus",
                 column: "SystemBuildId",
-                unique: true);
+                unique: true,
+                filter: "[SystemBuildId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Gpus_SystemBuildId",
                 table: "Gpus",
                 column: "SystemBuildId",
-                unique: true);
+                unique: true,
+                filter: "[SystemBuildId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Motherboard_SystemBuildId",
                 table: "Motherboard",
                 column: "SystemBuildId",
-                unique: true);
+                unique: true,
+                filter: "[SystemBuildId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rams_SystemBuildId",
                 table: "Rams",
                 column: "SystemBuildId",
-                unique: true);
+                unique: true,
+                filter: "[SystemBuildId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Storages_SystemBuildId",
                 table: "Storages",
                 column: "SystemBuildId",
-                unique: true);
+                unique: true,
+                filter: "[SystemBuildId] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

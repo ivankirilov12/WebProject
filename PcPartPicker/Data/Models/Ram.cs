@@ -21,6 +21,6 @@ namespace PcPartPicker.Data.Models
 
         public SystemBuild SystemBuild { get; set; }
 
-        public int SystemBuildId { get; set; }
+        public int? SystemBuildId { get; set; }
     }
 }

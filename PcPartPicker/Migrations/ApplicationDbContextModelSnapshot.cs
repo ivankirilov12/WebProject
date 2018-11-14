@@ -197,14 +197,15 @@ namespace PcPartPicker.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(5, 2)");
 
-                    b.Property<int>("SystemBuildId");
+                    b.Property<int?>("SystemBuildId");
 
                     b.Property<string>("Type");
 
                     b.HasKey("CaseId");
 
                     b.HasIndex("SystemBuildId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[SystemBuildId] IS NOT NULL");
 
                     b.ToTable("Cases");
                 });
@@ -228,12 +229,13 @@ namespace PcPartPicker.Migrations
 
                     b.Property<string>("Socket");
 
-                    b.Property<int>("SystemBuildId");
+                    b.Property<int?>("SystemBuildId");
 
                     b.HasKey("CpuId");
 
                     b.HasIndex("SystemBuildId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[SystemBuildId] IS NOT NULL");
 
                     b.ToTable("Cpus");
                 });
@@ -253,12 +255,13 @@ namespace PcPartPicker.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(5, 2)");
 
-                    b.Property<int>("SystemBuildId");
+                    b.Property<int?>("SystemBuildId");
 
                     b.HasKey("GpuId");
 
                     b.HasIndex("SystemBuildId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[SystemBuildId] IS NOT NULL");
 
                     b.ToTable("Gpus");
                 });
@@ -278,12 +281,13 @@ namespace PcPartPicker.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(5, 2)");
 
-                    b.Property<int>("SystemBuildId");
+                    b.Property<int?>("SystemBuildId");
 
                     b.HasKey("MotherboardId");
 
                     b.HasIndex("SystemBuildId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[SystemBuildId] IS NOT NULL");
 
                     b.ToTable("Motherboard");
                 });
@@ -307,12 +311,13 @@ namespace PcPartPicker.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(5, 2)");
 
-                    b.Property<int>("SystemBuildId");
+                    b.Property<int?>("SystemBuildId");
 
                     b.HasKey("RamId");
 
                     b.HasIndex("SystemBuildId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[SystemBuildId] IS NOT NULL");
 
                     b.ToTable("Rams");
                 });
@@ -332,14 +337,15 @@ namespace PcPartPicker.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(5, 2)");
 
-                    b.Property<int>("SystemBuildId");
+                    b.Property<int?>("SystemBuildId");
 
                     b.Property<string>("Type");
 
                     b.HasKey("StorageId");
 
                     b.HasIndex("SystemBuildId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[SystemBuildId] IS NOT NULL");
 
                     b.ToTable("Storages");
                 });
@@ -407,48 +413,42 @@ namespace PcPartPicker.Migrations
                 {
                     b.HasOne("PcPartPicker.Data.Models.SystemBuild", "SystemBuild")
                         .WithOne("Case")
-                        .HasForeignKey("PcPartPicker.Data.Models.Case", "SystemBuildId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PcPartPicker.Data.Models.Case", "SystemBuildId");
                 });
 
             modelBuilder.Entity("PcPartPicker.Data.Models.Cpu", b =>
                 {
                     b.HasOne("PcPartPicker.Data.Models.SystemBuild", "SystemBuild")
                         .WithOne("Cpu")
-                        .HasForeignKey("PcPartPicker.Data.Models.Cpu", "SystemBuildId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PcPartPicker.Data.Models.Cpu", "SystemBuildId");
                 });
 
             modelBuilder.Entity("PcPartPicker.Data.Models.Gpu", b =>
                 {
                     b.HasOne("PcPartPicker.Data.Models.SystemBuild", "SystemBuild")
                         .WithOne("Gpu")
-                        .HasForeignKey("PcPartPicker.Data.Models.Gpu", "SystemBuildId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PcPartPicker.Data.Models.Gpu", "SystemBuildId");
                 });
 
             modelBuilder.Entity("PcPartPicker.Data.Models.Motherboard", b =>
                 {
                     b.HasOne("PcPartPicker.Data.Models.SystemBuild", "SystemBuild")
                         .WithOne("Motherboard")
-                        .HasForeignKey("PcPartPicker.Data.Models.Motherboard", "SystemBuildId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PcPartPicker.Data.Models.Motherboard", "SystemBuildId");
                 });
 
             modelBuilder.Entity("PcPartPicker.Data.Models.Ram", b =>
                 {
                     b.HasOne("PcPartPicker.Data.Models.SystemBuild", "SystemBuild")
                         .WithOne("Ram")
-                        .HasForeignKey("PcPartPicker.Data.Models.Ram", "SystemBuildId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PcPartPicker.Data.Models.Ram", "SystemBuildId");
                 });
 
             modelBuilder.Entity("PcPartPicker.Data.Models.Storage", b =>
                 {
                     b.HasOne("PcPartPicker.Data.Models.SystemBuild", "SystemBuild")
                         .WithOne("Storage")
-                        .HasForeignKey("PcPartPicker.Data.Models.Storage", "SystemBuildId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PcPartPicker.Data.Models.Storage", "SystemBuildId");
                 });
 #pragma warning restore 612, 618
         }

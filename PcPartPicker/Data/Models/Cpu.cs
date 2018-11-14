@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PcPartPicker.Data.Models
 {
@@ -19,8 +20,9 @@ namespace PcPartPicker.Data.Models
 
         public int CacheMemory { get; set; }
 
+        
         public SystemBuild SystemBuild { get; set; }
 
-        public int SystemBuildId { get; set; }
+        public int? SystemBuildId { get; set; }
     }
 }
