@@ -23,7 +23,7 @@ namespace PcPartPicker.Controllers
         {
             return View(await _context.Cpus.ToListAsync());
         }
-
+               
         public async Task<List<string>> GetCpuModels()
         {
             return await _context.Cpus.Select(a => a.Model).ToListAsync();

@@ -195,7 +195,7 @@ namespace PcPartPicker.Migrations
                     b.Property<string>("Model");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5, 2)");
+                        .HasColumnType("decimal(10, 5)");
 
                     b.Property<int?>("SystemBuildId");
 
@@ -225,7 +225,7 @@ namespace PcPartPicker.Migrations
                     b.Property<int>("NumberOfCores");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5, 2)");
+                        .HasColumnType("decimal(10, 5)");
 
                     b.Property<string>("Socket");
 
@@ -253,7 +253,7 @@ namespace PcPartPicker.Migrations
                     b.Property<string>("Model");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5, 2)");
+                        .HasColumnType("decimal(10, 5)");
 
                     b.Property<int?>("SystemBuildId");
 
@@ -279,7 +279,7 @@ namespace PcPartPicker.Migrations
                     b.Property<string>("Model");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5, 2)");
+                        .HasColumnType("decimal(10, 5)");
 
                     b.Property<int?>("SystemBuildId");
 
@@ -309,7 +309,7 @@ namespace PcPartPicker.Migrations
                     b.Property<string>("Model");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5, 2)");
+                        .HasColumnType("decimal(10, 5)");
 
                     b.Property<int?>("SystemBuildId");
 
@@ -335,7 +335,7 @@ namespace PcPartPicker.Migrations
                     b.Property<string>("Model");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5, 2)");
+                        .HasColumnType("decimal(10, 5)");
 
                     b.Property<int?>("SystemBuildId");
 
@@ -357,7 +357,7 @@ namespace PcPartPicker.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5, 2)");
+                        .HasColumnType("decimal(10, 5)");
 
                     b.HasKey("SystemBuildId");
 

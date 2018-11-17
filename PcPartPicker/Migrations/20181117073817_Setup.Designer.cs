@@ -10,8 +10,8 @@ using PcPartPicker.Data;
 namespace PcPartPicker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181114225325_InitialCreation")]
-    partial class InitialCreation
+    [Migration("20181117073817_Setup")]
+    partial class Setup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -197,7 +197,7 @@ namespace PcPartPicker.Migrations
                     b.Property<string>("Model");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5, 2)");
+                        .HasColumnType("decimal(10, 5)");
 
                     b.Property<int?>("SystemBuildId");
 
@@ -227,7 +227,7 @@ namespace PcPartPicker.Migrations
                     b.Property<int>("NumberOfCores");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5, 2)");
+                        .HasColumnType("decimal(10, 5)");
 
                     b.Property<string>("Socket");
 
@@ -255,7 +255,7 @@ namespace PcPartPicker.Migrations
                     b.Property<string>("Model");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5, 2)");
+                        .HasColumnType("decimal(10, 5)");
 
                     b.Property<int?>("SystemBuildId");
 
@@ -281,7 +281,7 @@ namespace PcPartPicker.Migrations
                     b.Property<string>("Model");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5, 2)");
+                        .HasColumnType("decimal(10, 5)");
 
                     b.Property<int?>("SystemBuildId");
 
@@ -311,7 +311,7 @@ namespace PcPartPicker.Migrations
                     b.Property<string>("Model");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5, 2)");
+                        .HasColumnType("decimal(10, 5)");
 
                     b.Property<int?>("SystemBuildId");
 
@@ -337,7 +337,7 @@ namespace PcPartPicker.Migrations
                     b.Property<string>("Model");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5, 2)");
+                        .HasColumnType("decimal(10, 5)");
 
                     b.Property<int?>("SystemBuildId");
 
@@ -359,7 +359,7 @@ namespace PcPartPicker.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5, 2)");
+                        .HasColumnType("decimal(10, 5)");
 
                     b.HasKey("SystemBuildId");
 

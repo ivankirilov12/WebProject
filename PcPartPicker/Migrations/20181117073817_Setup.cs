@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PcPartPicker.Migrations
 {
-    public partial class InitialCreation : Migration
+    public partial class Setup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,7 +53,7 @@ namespace PcPartPicker.Migrations
                 {
                     SystemBuildId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Price = table.Column<decimal>(type: "decimal(5, 2)", nullable: false)
+                    Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -174,7 +174,7 @@ namespace PcPartPicker.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Model = table.Column<string>(nullable: true),
                     Manufacturer = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(5, 2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
                     Type = table.Column<string>(nullable: true),
                     SystemBuildId = table.Column<int>(nullable: true)
                 },
@@ -196,7 +196,7 @@ namespace PcPartPicker.Migrations
                     CpuId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Model = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(5, 2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
                     Manufacturer = table.Column<string>(nullable: true),
                     Socket = table.Column<string>(nullable: true),
                     NumberOfCores = table.Column<int>(nullable: false),
@@ -222,7 +222,7 @@ namespace PcPartPicker.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Model = table.Column<string>(nullable: true),
                     Manufacturer = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(5, 2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
                     Memory = table.Column<string>(nullable: true),
                     SystemBuildId = table.Column<int>(nullable: true)
                 },
@@ -245,7 +245,7 @@ namespace PcPartPicker.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Model = table.Column<string>(nullable: true),
                     Manufacturer = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(5, 2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
                     CpuSocket = table.Column<string>(nullable: true),
                     SystemBuildId = table.Column<int>(nullable: true)
                 },
@@ -271,7 +271,7 @@ namespace PcPartPicker.Migrations
                     MemoryType = table.Column<string>(nullable: true),
                     MemoryCapacity = table.Column<int>(nullable: false),
                     MemoryFrequency = table.Column<float>(nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(5, 2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
                     SystemBuildId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -293,7 +293,7 @@ namespace PcPartPicker.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Model = table.Column<string>(nullable: true),
                     Manufacturer = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(5, 2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
                     Type = table.Column<string>(nullable: true),
                     Capacity = table.Column<string>(nullable: true),
                     SystemBuildId = table.Column<int>(nullable: true)

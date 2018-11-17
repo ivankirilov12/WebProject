@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,11 @@ namespace PcPartPicker.Controllers
         public CasesController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public async Task<List<string>> GetCaseModels()
+        {
+            return await _context.Cases.Select(a => a.Model).ToListAsync();
         }
 
         // GET: Cases

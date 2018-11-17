@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +23,11 @@ namespace PcPartPicker.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Gpus.ToListAsync());
+        }
+
+        public async Task<List<string>> GetGpuModels()
+        {
+            return await _context.Gpus.Select(a => a.Model).ToListAsync();
         }
 
         // GET: Gpus/Details/5
@@ -54,7 +61,7 @@ namespace PcPartPicker.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Create([Bind("GpuId,Model,Manufacturer,Price,Memory")] Gpu gpu)
+        public async Task<IActionResult> Create([Bind("Model,Manufacturer,Price,Memory")] Gpu gpu)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +95,7 @@ namespace PcPartPicker.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Edit(int id, [Bind("GpuId,Model,Manufacturer,Price,Memory")] Gpu gpu)
+        public async Task<IActionResult> Edit(int? id, [Bind("GpuId,Model,Manufacturer,Price,Memory")] Gpu gpu)
         {
             if (id != gpu.GpuId)
             {
@@ -149,7 +156,7 @@ namespace PcPartPicker.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GpuExists(int id)
+        private bool GpuExists(int? id)
         {
             return _context.Gpus.Any(e => e.GpuId == id);
         }

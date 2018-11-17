@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PcPartPicker.Data.Models
 {
     public class Ram
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, Column(Order = 0)]
         public int RamId { get; set; }
 
         public string Model { get; set; }
@@ -16,7 +19,7 @@ namespace PcPartPicker.Data.Models
 
         public float MemoryFrequency { get; set; }
 
-        [Column(TypeName = "decimal(5, 2)")]
+        [Column(TypeName = "decimal(10, 5)")]
         public decimal Price { get; set; }
 
         public SystemBuild SystemBuild { get; set; }

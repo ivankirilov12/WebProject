@@ -5,11 +5,13 @@ namespace PcPartPicker.Data.Models
 {
     public class Cpu
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, Column(Order = 0)]
         public int CpuId { get; set; }
 
         public string Model { get; set; }
 
-        [Column(TypeName = "decimal(5, 2)")]
+        [Column(TypeName = "decimal(10, 5)")]
         public decimal Price { get; set; }
 
         public string Manufacturer { get; set; }

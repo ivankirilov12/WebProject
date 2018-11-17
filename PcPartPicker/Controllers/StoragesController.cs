@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,11 @@ namespace PcPartPicker.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Storages.ToListAsync());
+        }
+
+        public async Task<List<string>> GetStorageModels()
+        {
+            return await _context.Storages.Select(a => a.Model).ToListAsync();
         }
 
         // GET: Storages/Details/5

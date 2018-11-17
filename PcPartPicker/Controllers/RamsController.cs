@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,11 @@ namespace PcPartPicker.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Rams.ToListAsync());
+        }
+
+        public async Task<List<string>> GetRamModels()
+        {
+            return await _context.Rams.Select(a => a.Model).ToListAsync();
         }
 
         // GET: Rams/Details/5
