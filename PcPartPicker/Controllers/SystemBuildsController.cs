@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PcPartPicker.Data;
@@ -19,7 +20,7 @@ namespace PcPartPicker.Controllers
         // GET: SystemBuilds
         public async Task<IActionResult> Index()
         {
-            return View(await _context.SystemBuild.ToListAsync());
+            return View(await _context.SystemBuilds.ToListAsync());
         }
 
         // GET: SystemBuilds/Details/5
@@ -30,7 +31,13 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var systemBuild = await _context.SystemBuild
+            var systemBuild = await _context.SystemBuilds
+                .Include(b => b.Cpu)
+                .Include(b => b.Case)
+                .Include(b => b.Gpu)
+                .Include(b => b.Motherboard)
+                .Include(b => b.Ram)
+                .Include(b => b.Storage)
                 .FirstOrDefaultAsync(m => m.SystemBuildId == id);
             if (systemBuild == null)
             {
@@ -43,12 +50,6 @@ namespace PcPartPicker.Controllers
         // GET: SystemBuilds/Create
         public IActionResult Create()
         {
-            //var cpus = _context.Cpus.Select(x => x.Model).ToList();
-            //var gpus = _context.Gpus.Select(x => x.Model).ToList();
-            //var cases = _context.Cases.Select(x => x.Model).ToList();
-            //var rams = _context.Rams.Select(x => x.Model).ToList();
-            //var motherboards = _context.Motherboard.Select(x => x.Model).ToList();
-            //var storages = _context.Storages.Select(x => x.Model).ToList();
             return View();
         }
 
@@ -57,9 +58,19 @@ namespace PcPartPicker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SystemBuildId,Price")] SystemBuild systemBuild)
+        public async Task<IActionResult> Create(IFormCollection collection)
         {
-            if (ModelState.IsValid)
+            SystemBuild systemBuild = new SystemBuild();
+            systemBuild.Cpu = _context.Cpus.FirstOrDefault(x => x.Model == Request.Form["cpus"].ToString());
+            systemBuild.Gpu = _context.Gpus.FirstOrDefault(x => x.Model == Request.Form["gpus"].ToString());
+            systemBuild.Case = _context.Cases.FirstOrDefault(x => x.Model == Request.Form["cases"].ToString());
+            systemBuild.Motherboard = _context.Motherboards.FirstOrDefault(x => x.Model == Request.Form["motherboards"].ToString());
+            systemBuild.Storage = _context.Storages.FirstOrDefault(x => x.Model == Request.Form["storages"].ToString());
+            systemBuild.Ram = _context.Rams.FirstOrDefault(x => x.Model == Request.Form["rams"].ToString());
+            systemBuild.Price = decimal.Parse(Request.Form["Price"].ToString());
+            systemBuild.Name = Request.Form["Name"].ToString();
+            systemBuild.Description = Request.Form["Description"].ToString();
+            if (ModelState.IsValid) // remove?
             {
                 _context.Add(systemBuild);
                 await _context.SaveChangesAsync();
@@ -76,7 +87,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var systemBuild = await _context.SystemBuild.FindAsync(id);
+            var systemBuild = await _context.SystemBuilds.FindAsync(id);
             if (systemBuild == null)
             {
                 return NotFound();
@@ -127,7 +138,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var systemBuild = await _context.SystemBuild
+            var systemBuild = await _context.SystemBuilds
                 .FirstOrDefaultAsync(m => m.SystemBuildId == id);
             if (systemBuild == null)
             {
@@ -142,15 +153,15 @@ namespace PcPartPicker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var systemBuild = await _context.SystemBuild.FindAsync(id);
-            _context.SystemBuild.Remove(systemBuild);
+            var systemBuild = await _context.SystemBuilds.FindAsync(id);
+            _context.SystemBuilds.Remove(systemBuild);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SystemBuildExists(int id)
         {
-            return _context.SystemBuild.Any(e => e.SystemBuildId == id);
+            return _context.SystemBuilds.Any(e => e.SystemBuildId == id);
         }
     }
 }

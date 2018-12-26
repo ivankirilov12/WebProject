@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PcPartPicker.Data;
 
 namespace PcPartPicker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181223115313_InitialSetup")]
+    partial class InitialSetup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,7 +267,7 @@ namespace PcPartPicker.Migrations
 
                     b.HasKey("MotherboardId");
 
-                    b.ToTable("Motherboards");
+                    b.ToTable("Motherboard");
                 });
 
             modelBuilder.Entity("PcPartPicker.Data.Models.Ram", b =>
@@ -324,13 +326,9 @@ namespace PcPartPicker.Migrations
 
                     b.Property<int?>("CpuId");
 
-                    b.Property<string>("Description");
-
                     b.Property<int?>("GpuId");
 
                     b.Property<int?>("MotherboardId");
-
-                    b.Property<string>("Name");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10, 5)");
@@ -338,6 +336,8 @@ namespace PcPartPicker.Migrations
                     b.Property<int?>("RamId");
 
                     b.Property<int?>("StorageId");
+
+                    b.Property<int?>("SystemBuildId1");
 
                     b.HasKey("SystemBuildId");
 
@@ -353,7 +353,9 @@ namespace PcPartPicker.Migrations
 
                     b.HasIndex("StorageId");
 
-                    b.ToTable("SystemBuilds");
+                    b.HasIndex("SystemBuildId1");
+
+                    b.ToTable("SystemBuild");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -426,6 +428,10 @@ namespace PcPartPicker.Migrations
                     b.HasOne("PcPartPicker.Data.Models.Storage", "Storage")
                         .WithMany("SystemBuilds")
                         .HasForeignKey("StorageId");
+
+                    b.HasOne("PcPartPicker.Data.Models.SystemBuild")
+                        .WithMany("SystemBuilds")
+                        .HasForeignKey("SystemBuildId1");
                 });
 #pragma warning restore 612, 618
         }

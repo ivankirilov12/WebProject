@@ -21,12 +21,20 @@ namespace PcPartPicker.Controllers
         // GET: Motherboards
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Motherboard.ToListAsync());
+            return View(await _context.Motherboards.ToListAsync());
         }
 
         public async Task<List<string>> GetMotherboardModels()
         {
-            return await _context.Motherboard.Select(a => a.Model).ToListAsync();
+            return await _context.Motherboards.Select(a => a.Model).ToListAsync();
+        }
+
+        public async Task<Motherboard> GetMotherboardByModel(string model)
+        {
+            var mb = await _context.Motherboards
+                .FirstOrDefaultAsync(m => m.Model == model);
+
+            return mb;
         }
 
         // GET: Motherboards/Details/5
@@ -37,7 +45,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var motherboard = await _context.Motherboard
+            var motherboard = await _context.Motherboards
                 .FirstOrDefaultAsync(m => m.MotherboardId == id);
             if (motherboard == null)
             {
@@ -80,7 +88,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var motherboard = await _context.Motherboard.FindAsync(id);
+            var motherboard = await _context.Motherboards.FindAsync(id);
             if (motherboard == null)
             {
                 return NotFound();
@@ -133,7 +141,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var motherboard = await _context.Motherboard
+            var motherboard = await _context.Motherboards
                 .FirstOrDefaultAsync(m => m.MotherboardId == id);
             if (motherboard == null)
             {
@@ -149,15 +157,15 @@ namespace PcPartPicker.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var motherboard = await _context.Motherboard.FindAsync(id);
-            _context.Motherboard.Remove(motherboard);
+            var motherboard = await _context.Motherboards.FindAsync(id);
+            _context.Motherboards.Remove(motherboard);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MotherboardExists(int id)
         {
-            return _context.Motherboard.Any(e => e.MotherboardId == id);
+            return _context.Motherboards.Any(e => e.MotherboardId == id);
         }
     }
 }

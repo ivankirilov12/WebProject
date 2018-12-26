@@ -1,0 +1,31 @@
+﻿@model AdminPanelVm
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3>Manage user roles</h3>
+<div>
+    <form asp-action="AssignRole">
+        <span>User: </span>
+        <select name="users" id="usersDropdown">
+            @foreach (var item in Model.Users)
+            {
+
+                <option value="@item">
+                    @item
+                </option>
+            }
+        </select>
+        <span>Role: </span>
+        <select name="roles" id="rolesDropdown">
+            @foreach (var item in Model.Roles)
+            {
+
+                <option value="@item">
+                    @item
+                </option>
+            }
+        </select>
+        <button type="submit">Assign</button>
+    </form>
+</div>

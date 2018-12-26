@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PcPartPicker.Data;
 
 namespace PcPartPicker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181223115510_ModifiedBuild")]
+    partial class ModifiedBuild
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,7 +267,7 @@ namespace PcPartPicker.Migrations
 
                     b.HasKey("MotherboardId");
 
-                    b.ToTable("Motherboards");
+                    b.ToTable("Motherboard");
                 });
 
             modelBuilder.Entity("PcPartPicker.Data.Models.Ram", b =>
@@ -324,13 +326,9 @@ namespace PcPartPicker.Migrations
 
                     b.Property<int?>("CpuId");
 
-                    b.Property<string>("Description");
-
                     b.Property<int?>("GpuId");
 
                     b.Property<int?>("MotherboardId");
-
-                    b.Property<string>("Name");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10, 5)");
@@ -353,7 +351,7 @@ namespace PcPartPicker.Migrations
 
                     b.HasIndex("StorageId");
 
-                    b.ToTable("SystemBuilds");
+                    b.ToTable("SystemBuild");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

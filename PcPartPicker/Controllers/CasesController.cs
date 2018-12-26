@@ -23,6 +23,14 @@ namespace PcPartPicker.Controllers
             return await _context.Cases.Select(a => a.Model).ToListAsync();
         }
 
+        public async Task<Case> GetCaseByModel(string model)
+        {
+            var pccase = await _context.Cases
+                .FirstOrDefaultAsync(m => m.Model == model);
+
+            return pccase;
+        }
+
         // GET: Cases
         public async Task<IActionResult> Index()
         {

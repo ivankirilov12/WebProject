@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PcPartPicker.Data.Models
@@ -8,6 +9,10 @@ namespace PcPartPicker.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key, Column(Order = 0)]
         public int SystemBuildId { get; set; }
+
+        public string Name { get; set; }
+
+        public string Description { get; set; }
 
         [Column(TypeName = "decimal(10, 5)")]
         public decimal Price { get; set; }

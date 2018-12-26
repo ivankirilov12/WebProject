@@ -35,3 +35,16 @@ body {
         display: none;
     }
 }
+
+.component-box {
+    padding: 10px;
+    display: inline-block;
+    background-color: #91C4E4;
+    margin: 5px;
+    cursor:pointer;
+    color:black;
+}
+
+    /*.component-box a {
+        text-decoration: none;
+    }*/

@@ -30,6 +30,14 @@ namespace PcPartPicker.Controllers
             return await _context.Gpus.Select(a => a.Model).ToListAsync();
         }
 
+        public async Task<Gpu> GetGpuByModel(string model)
+        {
+            var gpu = await _context.Gpus
+                .FirstOrDefaultAsync(m => m.Model == model);
+
+            return gpu;
+        }
+
         // GET: Gpus/Details/5
         public async Task<IActionResult> Details(int? id)
         {

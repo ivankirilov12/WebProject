@@ -29,6 +29,14 @@ namespace PcPartPicker.Controllers
             return await _context.Rams.Select(a => a.Model).ToListAsync();
         }
 
+        public async Task<Ram> GetRamByModel(string model)
+        {
+            var ram = await _context.Rams
+                .FirstOrDefaultAsync(m => m.Model == model);
+
+            return ram;
+        }
+
         // GET: Rams/Details/5
         public async Task<IActionResult> Details(int? id)
         {

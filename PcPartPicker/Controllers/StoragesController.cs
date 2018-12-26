@@ -29,6 +29,14 @@ namespace PcPartPicker.Controllers
             return await _context.Storages.Select(a => a.Model).ToListAsync();
         }
 
+        public async Task<Storage> GetStorageByModel(string model)
+        {
+            var storage = await _context.Storages
+                .FirstOrDefaultAsync(m => m.Model == model);
+
+            return storage;
+        }
+
         // GET: Storages/Details/5
         public async Task<IActionResult> Details(int? id)
         {

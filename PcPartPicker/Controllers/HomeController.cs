@@ -34,6 +34,11 @@ namespace PcPartPicker.Controllers
             return View();
         }
 
+        public IActionResult BrowseComponents()
+        {
+            return View();
+        }
+
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

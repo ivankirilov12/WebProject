@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using PcPartPicker.Data;
 using PcPartPicker.Data.Models;
 
@@ -28,6 +29,15 @@ namespace PcPartPicker.Controllers
         {
             return await _context.Cpus.Select(a => a.Model).ToListAsync();
         }
+
+        public async Task<Cpu> GetCpuByModel(string model)
+        {
+            var cpu = await _context.Cpus
+                .FirstOrDefaultAsync(m => m.Model == model);
+
+            return cpu;
+        }
+
 
         // GET: Cpus/Details/5
         public async Task<IActionResult> Details(int? id)

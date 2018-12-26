@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PcPartPicker.Data.Models
@@ -18,8 +19,6 @@ namespace PcPartPicker.Data.Models
 
         public string Memory { get; set; }
 
-        public SystemBuild SystemBuild { get; set; }
-
-        public int? SystemBuildId { get; set; }
+        public ICollection<SystemBuild> SystemBuilds { get; set; }
     }
 }

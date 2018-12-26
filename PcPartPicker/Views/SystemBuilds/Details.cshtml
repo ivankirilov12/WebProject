@@ -7,9 +7,61 @@
 <h2>Details</h2>
 
 <div>
-    <h4>SystemBuild</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cpu)
+        </dt>
+        <dd>
+            <a asp-controller="Cpus" asp-action="Details" asp-route-id="@Model.Cpu.CpuId">@Html.DisplayFor(model => model.Cpu.Model)</a>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Gpu)
+        </dt>
+        <dd>
+            <a asp-controller="Gpus" asp-action="Details" asp-route-id="@Model.Gpu.GpuId">@Html.DisplayFor(model => model.Gpu.Model)</a>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Case)
+        </dt>
+        <dd>
+            <a asp-controller="Cases" asp-action="Details" asp-route-id="@Model.Case.CaseId">@Html.DisplayFor(model => model.Case.Model)</a>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Motherboard)
+        </dt>
+        <dd>
+            <a asp-controller="Motherboards" asp-action="Details" asp-route-id="@Model.Motherboard.MotherboardId">@Html.DisplayFor(model => model.Motherboard.Model)</a>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ram)
+        </dt>
+        <dd>
+            <a asp-controller="Rams" asp-action="Details" asp-route-id="@Model.Ram.RamId">@Html.DisplayFor(model => model.Ram.Model)</a>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Storage)
+        </dt>
+        <dd>
+            <a asp-controller="Storages" asp-action="Details" asp-route-id="@Model.Storage.StorageId">@Html.DisplayFor(model => model.Storage.Model)</a>
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Price)
         </dt>

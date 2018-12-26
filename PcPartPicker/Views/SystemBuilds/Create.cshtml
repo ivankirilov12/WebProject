@@ -2,128 +2,61 @@
 
 @{
     ViewData["Title"] = "Create";
-    var cpusList = new List<string>();
 }
 
 <h2>Create</h2>
 
 <h4>SystemBuild</h4>
 <hr />
-<button type="button" onclick="loadDropDowns()"> click me</button>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4">        
         <form asp-action="Create">
+            <div class="form-group">
+                <span>Name: </span>
+                <input type="text" asp-for="Name"/>
+            </div>
+            <div class="form-group">
+                <span>Choose a Cpu: </span><select asp-for="Cpu" id="cpuList" name="cpus" onchange="choosePart(this)"><option>Select a cpu</option></select>
+                <div id="chosencpu">
+                </div>
+            </div>
+            <div class="form-group">
+                <span>Choose a Case: </span><select id="caseList" name="cases" onchange="choosePart(this)"><option>Select a case</option></select>
+                <div id="chosencase"></div>
+            </div>
+            <div class="form-group">
+                <span>Choose a Gpu: </span><select id="gpuList" name="gpus" onchange="choosePart(this)"><option>Select a gpu</option></select>
+                <div id="chosengpu"></div>
+            </div>
+            <div class="form-group">
+                <span>Choose a Motherboard: </span><select id="motherboardList" name="motherboards" onchange="choosePart(this)"><option>Select a motherboard</option></select>
+                <div id="chosenmotherboard"></div>
+            </div>
+            <div class="form-group">
+                <span>Choose a storage option: </span><select id="storageList" name="storages" onchange="choosePart(this)"><option>Select a storage option</option></select>
+                <div id="chosenstorage"></div>
+            </div>
+            <div class="form-group">
+                <span>Choose a ram option: </span><select id="ramList" name="rams" onchange="choosePart(this)"><option>Select a ram stick</option></select>
+                <div id="chosenram"></div>
+            </div>
+            <div>Total Price: $<span id="price">0</span></div>
+            <input type="hidden" id="totalPrice" asp-for="Price" />
+            <div class="form-group">
+                <span>Description: </span>
+                <textarea asp-for="Description"></textarea>
+            </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <span>Choose a Cpu: </span><select id="cpuList" name="cpus"></select>
-            </div>
-            <div class="form-group">
-                <span>Choose a Case: </span><select id="caseList" name="cases"></select>
-            </div>
-            <div class="form-group">
-                <span>Choose a Gpu: </span><select id="gpuList" name="gpus"></select>
-            </div>
-            <div class="form-group">
-                <span>Choose a Motherboard: </span><select id="mbList" name="mbs"></select>
-            </div>
-            <div class="form-group">
-                <span>Choose a storage option: </span><select id="storageList" name="storages"></select>
-            </div>
-            <div class="form-group">
-                <span>Choose a ram option: </span><select id="ramList" name="rams"></select>
-            </div>
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
-
+<script src="@Url.Content("~/js/createBuild.js")"></script>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-<script>
-    function loadDropDowns() {
-        //load cpus
-        $.ajax({
-            url: "https://localhost:5001/Cpus/GetCpuModels",
-            success: function (data) {
-                var cpuList = document.getElementById("cpuList")
-                for (var i = 0; i < data.length; i++) {
-                    var option = document.createElement("option");
-                    option.innerHTML = data[i];
-                    cpuList.appendChild(option);
-                }
-            }
-        });
-
-        $.ajax({
-            url: "https://localhost:5001/Cases/GetCaseModels",
-            success: function (data) {
-                var caseList = document.getElementById("caseList")
-                for (var i = 0; i < data.length; i++) {
-                    var option = document.createElement("option");
-                    option.innerHTML = data[i];
-                    caseList.appendChild(option);
-                }
-            }
-        });
-
-        $.ajax({
-            url: "https://localhost:5001/Gpus/GetGpuModels",
-            success: function (data) {
-                var gpuList = document.getElementById("gpuList")
-                for (var i = 0; i < data.length; i++) {
-                    var option = document.createElement("option");
-                    option.innerHTML = data[i];
-                    gpuList.appendChild(option);
-                }
-            }
-        });
-
-        $.ajax({
-            url: "https://localhost:5001/Motherboards/GetMotherboardModels",
-            success: function (data) {
-                var mbList = document.getElementById("mbList")
-                for (var i = 0; i < data.length; i++) {
-                    var option = document.createElement("option");
-                    option.innerHTML = data[i];
-                    mbList.appendChild(option);
-                }
-            }
-        });
-
-        $.ajax({
-            url: "https://localhost:5001/Rams/GetRamModels",
-            success: function (data) {
-                var ramList = document.getElementById("ramList")
-                for (var i = 0; i < data.length; i++) {
-                    var option = document.createElement("option");
-                    option.innerHTML = data[i];
-                    ramList.appendChild(option);
-                }
-            }
-        });
-
-        $.ajax({
-            url: "https://localhost:5001/Storages/GetStorageModels",
-            success: function (data) {
-                var storageList = document.getElementById("storageList")
-                for (var i = 0; i < data.length; i++) {
-                    var option = document.createElement("option");
-                    option.innerHTML = data[i];
-                    storageList.appendChild(option);
-                }
-            }
-        });
-    } 
-</script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
