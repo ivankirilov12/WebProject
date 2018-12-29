@@ -56,7 +56,7 @@ namespace PcPartPicker.Controllers
         }
 
         // GET: Storages/Create
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public IActionResult Create()
         {
             return View();
@@ -67,7 +67,7 @@ namespace PcPartPicker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Create([Bind("StorageId,Model,Manufacturer,Price,Type,Capacity")] Storage storage)
         {
             if (ModelState.IsValid)
@@ -80,7 +80,7 @@ namespace PcPartPicker.Controllers
         }
 
         // GET: Storages/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,7 +101,7 @@ namespace PcPartPicker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int id, [Bind("StorageId,Model,Manufacturer,Price,Type,Capacity")] Storage storage)
         {
             if (id != storage.StorageId)
@@ -133,7 +133,7 @@ namespace PcPartPicker.Controllers
         }
 
         // GET: Storages/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -154,7 +154,7 @@ namespace PcPartPicker.Controllers
         // POST: Storages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var storage = await _context.Storages.FindAsync(id);

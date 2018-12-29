@@ -32,6 +32,12 @@
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="SystemBuilds" asp-action="Index">System Builds</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="BrowseComponents">Components</a></li>
+                    @{
+                        if (User.IsInRole("Admin"))
+                                    {
+                            <li><a asp-area="" asp-controller="Account" asp-action="Index">Admin Panel</a></li>
+                        }
+                    }
                 </ul>
                 <partial name="_LoginPartial" />
             </div>

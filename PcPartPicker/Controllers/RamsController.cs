@@ -56,7 +56,7 @@ namespace PcPartPicker.Controllers
         }
 
         // GET: Rams/Create
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public IActionResult Create()
         {
             return View();
@@ -67,7 +67,7 @@ namespace PcPartPicker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Create([Bind("RamId,Model,Manufacturer,MemoryType,MemoryCapacity,MemoryFrequency,Price")] Ram ram)
         {
             if (ModelState.IsValid)
@@ -80,7 +80,7 @@ namespace PcPartPicker.Controllers
         }
 
         // GET: Rams/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,7 +101,7 @@ namespace PcPartPicker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int id, [Bind("RamId,Model,Manufacturer,MemoryType,MemoryCapacity,MemoryFrequency,Price")] Ram ram)
         {
             if (id != ram.RamId)
@@ -133,7 +133,7 @@ namespace PcPartPicker.Controllers
         }
 
         // GET: Rams/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -154,7 +154,7 @@ namespace PcPartPicker.Controllers
         // POST: Rams/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var ram = await _context.Rams.FindAsync(id);

@@ -57,7 +57,7 @@ namespace PcPartPicker.Controllers
         }
 
         // GET: Gpus/Create
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public IActionResult Create()
         {
             return View();
@@ -68,7 +68,7 @@ namespace PcPartPicker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Create([Bind("Model,Manufacturer,Price,Memory")] Gpu gpu)
         {
             if (ModelState.IsValid)
@@ -81,7 +81,7 @@ namespace PcPartPicker.Controllers
         }
 
         // GET: Gpus/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -102,7 +102,7 @@ namespace PcPartPicker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int? id, [Bind("GpuId,Model,Manufacturer,Price,Memory")] Gpu gpu)
         {
             if (id != gpu.GpuId)
@@ -134,7 +134,7 @@ namespace PcPartPicker.Controllers
         }
 
         // GET: Gpus/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -155,7 +155,7 @@ namespace PcPartPicker.Controllers
         // POST: Gpus/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var gpu = await _context.Gpus.FindAsync(id);

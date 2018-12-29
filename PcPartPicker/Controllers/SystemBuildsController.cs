@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -46,7 +47,8 @@ namespace PcPartPicker.Controllers
 
             return View(systemBuild);
         }
-
+        
+        [Authorize(Roles = "Admin, Vendor")]
         // GET: SystemBuilds/Create
         public IActionResult Create()
         {
@@ -58,6 +60,7 @@ namespace PcPartPicker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Create(IFormCollection collection)
         {
             SystemBuild systemBuild = new SystemBuild();
@@ -80,6 +83,7 @@ namespace PcPartPicker.Controllers
         }
 
         // GET: SystemBuilds/Edit/5
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,7 +91,14 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var systemBuild = await _context.SystemBuilds.FindAsync(id);
+            var systemBuild = await _context.SystemBuilds
+                .Include(b => b.Cpu)
+                .Include(b => b.Case)
+                .Include(b => b.Gpu)
+                .Include(b => b.Motherboard)
+                .Include(b => b.Ram)
+                .Include(b => b.Storage)
+                .FirstOrDefaultAsync(m => m.SystemBuildId == id);
             if (systemBuild == null)
             {
                 return NotFound();
@@ -100,12 +111,24 @@ namespace PcPartPicker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int id, [Bind("SystemBuildId,Price")] SystemBuild systemBuild)
         {
             if (id != systemBuild.SystemBuildId)
             {
                 return NotFound();
             }
+
+
+            systemBuild.Cpu = _context.Cpus.FirstOrDefault(x => x.Model == Request.Form["cpus"].ToString());
+            systemBuild.Gpu = _context.Gpus.FirstOrDefault(x => x.Model == Request.Form["gpus"].ToString());
+            systemBuild.Case = _context.Cases.FirstOrDefault(x => x.Model == Request.Form["cases"].ToString());
+            systemBuild.Motherboard = _context.Motherboards.FirstOrDefault(x => x.Model == Request.Form["motherboards"].ToString());
+            systemBuild.Storage = _context.Storages.FirstOrDefault(x => x.Model == Request.Form["storages"].ToString());
+            systemBuild.Ram = _context.Rams.FirstOrDefault(x => x.Model == Request.Form["rams"].ToString());
+            systemBuild.Price = systemBuild.Cpu.Price + systemBuild.Gpu.Price + systemBuild.Motherboard.Price + systemBuild.Ram.Price + systemBuild.Storage.Price + systemBuild.Case.Price;
+            systemBuild.Name = Request.Form["Name"].ToString();
+            systemBuild.Description = Request.Form["Description"].ToString();
 
             if (ModelState.IsValid)
             {
@@ -131,6 +154,7 @@ namespace PcPartPicker.Controllers
         }
 
         // GET: SystemBuilds/Delete/5
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -151,6 +175,7 @@ namespace PcPartPicker.Controllers
         // POST: SystemBuilds/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var systemBuild = await _context.SystemBuilds.FindAsync(id);

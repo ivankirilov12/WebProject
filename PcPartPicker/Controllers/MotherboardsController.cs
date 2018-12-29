@@ -56,7 +56,7 @@ namespace PcPartPicker.Controllers
         }
 
         // GET: Motherboards/Create
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public IActionResult Create()
         {
             return View();
@@ -67,7 +67,7 @@ namespace PcPartPicker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Create([Bind("MotherboardId,Model,Manufacturer,Price,CpuSocket")] Motherboard motherboard)
         {
             if (ModelState.IsValid)
@@ -80,7 +80,7 @@ namespace PcPartPicker.Controllers
         }
 
         // GET: Motherboards/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,7 +101,7 @@ namespace PcPartPicker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int id, [Bind("MotherboardId,Model,Manufacturer,Price,CpuSocket")] Motherboard motherboard)
         {
             if (id != motherboard.MotherboardId)
@@ -133,7 +133,7 @@ namespace PcPartPicker.Controllers
         }
 
         // GET: Motherboards/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -154,7 +154,7 @@ namespace PcPartPicker.Controllers
         // POST: Motherboards/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var motherboard = await _context.Motherboards.FindAsync(id);

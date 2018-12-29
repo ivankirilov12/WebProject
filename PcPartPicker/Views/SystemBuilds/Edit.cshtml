@@ -4,27 +4,69 @@
     ViewData["Title"] = "Edit";
 }
 
+<script src="@Url.Content("~/js/editBuild.js")"></script>
 <h2>Edit</h2>
 
 <h4>SystemBuild</h4>
 <hr />
-<div class="row">
+<div class="row" >
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="SystemBuildId" />
             <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+                <label asp-for="Name" class="control-label"></label>
+                <input type="text" asp-for="Name" />
             </div>
+            <div class="form-group">
+                <label asp-for="Cpu" class="control-label"></label>
+                <select id="cpuList" name="cpus" onchange="calculatePrice()"><option>Select a cpu</option></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gpu" class="control-label"></label>
+                <select id="gpuList" name="gpus"><option>Select a gpu</option></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Case" class="control-label"></label>
+                <select id="caseList" name="cases"><option>Select a case</option></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Motherboard" class="control-label"></label>
+                <select id="motherboardList" name="motherboards"><option>Select a motherboard</option></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Storage" class="control-label"></label>
+                <select id="storageList" name="storages"><option>Select a storage option</option></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ram" class="control-label"></label>
+                <select id="ramList" name="rams"><option>Select a memory option</option></select>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="Price" class="control-label"></label>
+            <input asp-for="Price" id="price" class="form-control" type="hidden"/>
+            <span id="currentPrice"></span>
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>*@
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description"></textarea>
+            </div>
+            <input asp-for="SystemBuildId" type="hidden" id="buildId" />
+            <input asp-for="Cpu.Model" type="hidden" id="cpu" />
+            <input asp-for="Gpu.Model" type="hidden" id="gpu" />
+            <input asp-for="Motherboard.Model" type="hidden" id="mb" />
+            <input asp-for="Case.Model" type="hidden" id="case" />
+            <input asp-for="Ram.Model" type="hidden" id="ram" />
+            <input asp-for="Storage.Model" type="hidden" id="storage" />
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
-
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
