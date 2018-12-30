@@ -12,6 +12,11 @@ using Microsoft.EntityFrameworkCore;
 using PcPartPicker.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PcPartPicker.Services.Interfaces;
+using PcPartPicker.Services.Implementations;
+using PcPartPicker.Data.Interfaces;
+using PcPartPicker.Data.Implementations;
+using PcPartPicker.Models.Models;
 
 namespace PcPartPicker
 {
@@ -43,6 +48,22 @@ namespace PcPartPicker
                 .AddDefaultUI()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddScoped<ICaseService, CaseService>();
+            services.AddScoped<ICpuService, CpuService>();
+            services.AddScoped<IGpuService, GpuService>();
+            services.AddScoped<IMotherboardService, MotherboardService>();
+            services.AddScoped<IMemoryOptionService, MemoryOptionService>();
+            services.AddScoped<IStorageOptionService, StorageOptionService>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IRepository<Case>, Repository<Case>>();
+            services.AddScoped<IRepository<Cpu>, Repository<Cpu>>();
+            services.AddScoped<IRepository<Gpu>, Repository<Gpu>>();
+            services.AddScoped<IRepository<Motherboard>, Repository<Motherboard>>();
+            services.AddScoped<IRepository<Ram>, Repository<Ram>>();
+            services.AddScoped<IRepository<Storage>, Repository<Storage>>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

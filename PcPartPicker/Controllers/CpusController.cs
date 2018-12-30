@@ -6,36 +6,34 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using PcPartPicker.Data;
-using PcPartPicker.Data.Models;
+using PcPartPicker.Models.Models;
+using PcPartPicker.Services.Interfaces;
 
 namespace PcPartPicker.Controllers
 {
     public class CpusController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ICpuService _service;
 
-        public CpusController(ApplicationDbContext context)
+        public CpusController(ICpuService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: Cpus
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cpus.ToListAsync());
+            return View(_service.GetAllCpus());
         }
                
-        public async Task<List<string>> GetCpuModels()
+        public List<string> GetCpuModels()
         {
-            return await _context.Cpus.Select(a => a.Model).ToListAsync();
+            return _service.GetCpuModels().ToList();
         }
 
-        public async Task<Cpu> GetCpuByModel(string model)
+        public Cpu GetCpuByModel(string model)
         {
-            var cpu = await _context.Cpus
-                .FirstOrDefaultAsync(m => m.Model == model);
-
-            return cpu;
+            return _service.GetCpuByModel(model);
         }
 
 
@@ -47,8 +45,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var cpu = await _context.Cpus
-                .FirstOrDefaultAsync(m => m.CpuId == id);
+            var cpu = _service.GetCpuById(id);
             if (cpu == null)
             {
                 return NotFound();
@@ -74,8 +71,7 @@ namespace PcPartPicker.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cpu);
-                await _context.SaveChangesAsync();
+                _service.InsertCpu(cpu);
                 return RedirectToAction(nameof(Index));
             }
             return View(cpu);
@@ -90,7 +86,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var cpu = await _context.Cpus.FindAsync(id);
+            var cpu = _service.GetCpuById(id);
             if (cpu == null)
             {
                 return NotFound();
@@ -113,22 +109,7 @@ namespace PcPartPicker.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(cpu);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CpuExists(cpu.CpuId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _service.Update(cpu);
                 return RedirectToAction(nameof(Index));
             }
             return View(cpu);
@@ -142,8 +123,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var cpu = await _context.Cpus
-                .FirstOrDefaultAsync(m => m.CpuId == id);
+            var cpu = _service.GetCpuById(id);
             if (cpu == null)
             {
                 return NotFound();
@@ -158,15 +138,8 @@ namespace PcPartPicker.Controllers
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cpu = await _context.Cpus.FindAsync(id);
-            _context.Cpus.Remove(cpu);
-            await _context.SaveChangesAsync();
+            _service.Delete(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CpuExists(int id)
-        {
-            return _context.Cpus.Any(e => e.CpuId == id);
         }
     }
 }

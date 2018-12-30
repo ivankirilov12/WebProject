@@ -6,36 +6,34 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PcPartPicker.Data;
-using PcPartPicker.Data.Models;
+using PcPartPicker.Models.Models;
+using PcPartPicker.Services.Interfaces;
 
 namespace PcPartPicker.Controllers
 {
     public class GpusController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IGpuService _service;
 
-        public GpusController(ApplicationDbContext context)
+        public GpusController(IGpuService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: Gpus
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Gpus.ToListAsync());
+            return View(_service.GetAllGpus());
         }
 
-        public async Task<List<string>> GetGpuModels()
+        public List<string> GetGpuModels()
         {
-            return await _context.Gpus.Select(a => a.Model).ToListAsync();
+            return _service.GetGpuModels().ToList();
         }
 
-        public async Task<Gpu> GetGpuByModel(string model)
+        public Gpu GetGpuByModel(string model)
         {
-            var gpu = await _context.Gpus
-                .FirstOrDefaultAsync(m => m.Model == model);
-
-            return gpu;
+            return _service.GetGpuByModel(model);
         }
 
         // GET: Gpus/Details/5
@@ -46,8 +44,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var gpu = await _context.Gpus
-                .FirstOrDefaultAsync(m => m.GpuId == id);
+            var gpu = _service.GetGpuById(id);
             if (gpu == null)
             {
                 return NotFound();
@@ -73,8 +70,7 @@ namespace PcPartPicker.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(gpu);
-                await _context.SaveChangesAsync();
+                _service.InsertGpu(gpu);
                 return RedirectToAction(nameof(Index));
             }
             return View(gpu);
@@ -89,7 +85,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var gpu = await _context.Gpus.FindAsync(id);
+            var gpu = _service.GetGpuById(id);
             if (gpu == null)
             {
                 return NotFound();
@@ -112,22 +108,8 @@ namespace PcPartPicker.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(gpu);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!GpuExists(gpu.GpuId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _service.Update(gpu);
+                
                 return RedirectToAction(nameof(Index));
             }
             return View(gpu);
@@ -142,8 +124,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var gpu = await _context.Gpus
-                .FirstOrDefaultAsync(m => m.GpuId == id);
+            var gpu = _service.GetGpuById(id);
             if (gpu == null)
             {
                 return NotFound();
@@ -158,15 +139,8 @@ namespace PcPartPicker.Controllers
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var gpu = await _context.Gpus.FindAsync(id);
-            _context.Gpus.Remove(gpu);
-            await _context.SaveChangesAsync();
+            _service.Delete(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool GpuExists(int? id)
-        {
-            return _context.Gpus.Any(e => e.GpuId == id);
         }
     }
 }

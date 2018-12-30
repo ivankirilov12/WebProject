@@ -2,13 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PcPartPicker.Data.Models
+namespace PcPartPicker.Models.Models
 {
-    public class Motherboard
+    public class Case
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key, Column(Order = 0)]
-        public int MotherboardId { get; set; }
+        public int CaseId { get; set; }
 
         public string Model { get; set; }
 
@@ -17,8 +17,8 @@ namespace PcPartPicker.Data.Models
         [Column(TypeName = "decimal(10, 5)")]
         public decimal Price { get; set; }
 
-        public string CpuSocket { get; set; }
-        
+        public string Type { get; set; }
+
         public ICollection<SystemBuild> SystemBuilds { get; set; }
     }
 }

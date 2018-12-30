@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PcPartPicker.Data;
-using PcPartPicker.Data.Models;
+using PcPartPicker.Models.Models;
 
 namespace PcPartPicker.Controllers
 {
@@ -66,7 +66,7 @@ namespace PcPartPicker.Controllers
             SystemBuild systemBuild = new SystemBuild();
             systemBuild.Cpu = _context.Cpus.FirstOrDefault(x => x.Model == Request.Form["cpus"].ToString());
             systemBuild.Gpu = _context.Gpus.FirstOrDefault(x => x.Model == Request.Form["gpus"].ToString());
-            systemBuild.Case = _context.Cases.FirstOrDefault(x => x.Model == Request.Form["cases"].ToString());
+            //systemBuild.Case = _context.Cases.FirstOrDefault(x => x.Model == Request.Form["cases"].ToString());
             systemBuild.Motherboard = _context.Motherboards.FirstOrDefault(x => x.Model == Request.Form["motherboards"].ToString());
             systemBuild.Storage = _context.Storages.FirstOrDefault(x => x.Model == Request.Form["storages"].ToString());
             systemBuild.Ram = _context.Rams.FirstOrDefault(x => x.Model == Request.Form["rams"].ToString());
@@ -122,7 +122,7 @@ namespace PcPartPicker.Controllers
 
             systemBuild.Cpu = _context.Cpus.FirstOrDefault(x => x.Model == Request.Form["cpus"].ToString());
             systemBuild.Gpu = _context.Gpus.FirstOrDefault(x => x.Model == Request.Form["gpus"].ToString());
-            systemBuild.Case = _context.Cases.FirstOrDefault(x => x.Model == Request.Form["cases"].ToString());
+            //systemBuild.Case = _context.Cases.FirstOrDefault(x => x.Model == Request.Form["cases"].ToString());
             systemBuild.Motherboard = _context.Motherboards.FirstOrDefault(x => x.Model == Request.Form["motherboards"].ToString());
             systemBuild.Storage = _context.Storages.FirstOrDefault(x => x.Model == Request.Form["storages"].ToString());
             systemBuild.Ram = _context.Rams.FirstOrDefault(x => x.Model == Request.Form["rams"].ToString());

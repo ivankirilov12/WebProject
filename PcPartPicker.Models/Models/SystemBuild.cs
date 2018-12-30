@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PcPartPicker.Data.Models
+namespace PcPartPicker.Models.Models
 {
     public class SystemBuild
     {

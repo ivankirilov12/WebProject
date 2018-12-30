@@ -5,36 +5,34 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PcPartPicker.Data;
-using PcPartPicker.Data.Models;
+using PcPartPicker.Models.Models;
+using PcPartPicker.Services.Interfaces;
 
 namespace PcPartPicker.Controllers
 {
     public class StoragesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IStorageOptionService _service;
 
-        public StoragesController(ApplicationDbContext context)
+        public StoragesController(IStorageOptionService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: Storages
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Storages.ToListAsync());
+            return View(_service.GetAllStorageOptions());
         }
 
-        public async Task<List<string>> GetStorageModels()
+        public List<string> GetStorageModels()
         {
-            return await _context.Storages.Select(a => a.Model).ToListAsync();
+            return _service.GetStorageOptionModels().ToList();
         }
 
-        public async Task<Storage> GetStorageByModel(string model)
+        public Storage GetStorageByModel(string model)
         {
-            var storage = await _context.Storages
-                .FirstOrDefaultAsync(m => m.Model == model);
-
-            return storage;
+            return _service.GetStorageOptionByModel(model);
         }
 
         // GET: Storages/Details/5
@@ -45,8 +43,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var storage = await _context.Storages
-                .FirstOrDefaultAsync(m => m.StorageId == id);
+            var storage = _service.GetStorageOptionById(id);
             if (storage == null)
             {
                 return NotFound();
@@ -72,8 +69,7 @@ namespace PcPartPicker.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(storage);
-                await _context.SaveChangesAsync();
+                _service.InsertStorageOption(storage);
                 return RedirectToAction(nameof(Index));
             }
             return View(storage);
@@ -88,7 +84,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var storage = await _context.Storages.FindAsync(id);
+            var storage = _service.GetStorageOptionById(id);
             if (storage == null)
             {
                 return NotFound();
@@ -111,22 +107,7 @@ namespace PcPartPicker.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(storage);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!StorageExists(storage.StorageId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _service.Update(storage);
                 return RedirectToAction(nameof(Index));
             }
             return View(storage);
@@ -141,8 +122,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var storage = await _context.Storages
-                .FirstOrDefaultAsync(m => m.StorageId == id);
+            var storage = _service.GetStorageOptionById(id);
             if (storage == null)
             {
                 return NotFound();
@@ -157,15 +137,8 @@ namespace PcPartPicker.Controllers
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var storage = await _context.Storages.FindAsync(id);
-            _context.Storages.Remove(storage);
-            await _context.SaveChangesAsync();
+            _service.Delete(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool StorageExists(int id)
-        {
-            return _context.Storages.Any(e => e.StorageId == id);
         }
     }
 }

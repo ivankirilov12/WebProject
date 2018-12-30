@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using PcPartPicker.Data.Models;
+using PcPartPicker.Models.Models;
 
 namespace PcPartPicker.Data
 {

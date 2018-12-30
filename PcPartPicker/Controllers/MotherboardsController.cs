@@ -5,35 +5,34 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PcPartPicker.Data;
-using PcPartPicker.Data.Models;
+using PcPartPicker.Models.Models;
+using PcPartPicker.Services.Interfaces;
 
 namespace PcPartPicker.Controllers
 {
     public class MotherboardsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IMotherboardService _service;
 
-        public MotherboardsController(ApplicationDbContext context)
+        public MotherboardsController(IMotherboardService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: Motherboards
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Motherboards.ToListAsync());
+            return View(_service.GetAllMbs());
         }
 
-        public async Task<List<string>> GetMotherboardModels()
+        public List<string> GetMotherboardModels()
         {
-            return await _context.Motherboards.Select(a => a.Model).ToListAsync();
+            return _service.GetMbModels().ToList();
         }
 
-        public async Task<Motherboard> GetMotherboardByModel(string model)
+        public Motherboard GetMotherboardByModel(string model)
         {
-            var mb = await _context.Motherboards
-                .FirstOrDefaultAsync(m => m.Model == model);
-
+            var mb = _service.GetMbByModel(model);
             return mb;
         }
 
@@ -45,8 +44,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var motherboard = await _context.Motherboards
-                .FirstOrDefaultAsync(m => m.MotherboardId == id);
+            var motherboard = _service.GetMbById(id);
             if (motherboard == null)
             {
                 return NotFound();
@@ -72,8 +70,7 @@ namespace PcPartPicker.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(motherboard);
-                await _context.SaveChangesAsync();
+                _service.InsertMb(motherboard);
                 return RedirectToAction(nameof(Index));
             }
             return View(motherboard);
@@ -88,7 +85,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var motherboard = await _context.Motherboards.FindAsync(id);
+            var motherboard = _service.GetMbById(id);
             if (motherboard == null)
             {
                 return NotFound();
@@ -111,22 +108,7 @@ namespace PcPartPicker.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(motherboard);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MotherboardExists(motherboard.MotherboardId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _service.Update(motherboard);
                 return RedirectToAction(nameof(Index));
             }
             return View(motherboard);
@@ -141,8 +123,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var motherboard = await _context.Motherboards
-                .FirstOrDefaultAsync(m => m.MotherboardId == id);
+            var motherboard = _service.GetMbById(id);
             if (motherboard == null)
             {
                 return NotFound();
@@ -157,15 +138,8 @@ namespace PcPartPicker.Controllers
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var motherboard = await _context.Motherboards.FindAsync(id);
-            _context.Motherboards.Remove(motherboard);
-            await _context.SaveChangesAsync();
+            _service.Delete(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool MotherboardExists(int id)
-        {
-            return _context.Motherboards.Any(e => e.MotherboardId == id);
         }
     }
 }

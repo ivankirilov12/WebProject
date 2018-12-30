@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PcPartPicker.Data\PcPartPicker.Data.csproj" />
+    <ProjectReference Include="..\PcPartPicker.Models\PcPartPicker.Models.csproj" />
+  </ItemGroup>
+
+</Project>

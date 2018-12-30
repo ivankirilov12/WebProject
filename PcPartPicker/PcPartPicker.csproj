@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.Internal" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" PrivateAssets="All" />
@@ -15,6 +16,12 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PcPartPicker.Data\PcPartPicker.Data.csproj" />
+    <ProjectReference Include="..\PcPartPicker.Models\PcPartPicker.Models.csproj" />
+    <ProjectReference Include="..\PcPartPicker.Services\PcPartPicker.Services.csproj" />
   </ItemGroup>
 
 </Project>

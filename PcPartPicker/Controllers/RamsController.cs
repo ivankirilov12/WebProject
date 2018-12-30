@@ -5,36 +5,34 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PcPartPicker.Data;
-using PcPartPicker.Data.Models;
+using PcPartPicker.Models.Models;
+using PcPartPicker.Services.Interfaces;
 
 namespace PcPartPicker.Controllers
 {
     public class RamsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IMemoryOptionService _service;
 
-        public RamsController(ApplicationDbContext context)
+        public RamsController(IMemoryOptionService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: Rams
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Rams.ToListAsync());
+            return View(_service.GetAllMemoryOptions());
         }
 
-        public async Task<List<string>> GetRamModels()
+        public List<string> GetRamModels()
         {
-            return await _context.Rams.Select(a => a.Model).ToListAsync();
+            return _service.GetMemoryOptionModels().ToList();
         }
 
-        public async Task<Ram> GetRamByModel(string model)
+        public Ram GetRamByModel(string model)
         {
-            var ram = await _context.Rams
-                .FirstOrDefaultAsync(m => m.Model == model);
-
-            return ram;
+            return _service.GetMemoryOptionByModel(model);
         }
 
         // GET: Rams/Details/5
@@ -45,8 +43,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var ram = await _context.Rams
-                .FirstOrDefaultAsync(m => m.RamId == id);
+            var ram = _service.GetMemoryOptionById(id);
             if (ram == null)
             {
                 return NotFound();
@@ -72,8 +69,7 @@ namespace PcPartPicker.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(ram);
-                await _context.SaveChangesAsync();
+                _service.InsertMemoryOption(ram);
                 return RedirectToAction(nameof(Index));
             }
             return View(ram);
@@ -88,7 +84,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var ram = await _context.Rams.FindAsync(id);
+            var ram = _service.GetMemoryOptionById(id);
             if (ram == null)
             {
                 return NotFound();
@@ -111,22 +107,7 @@ namespace PcPartPicker.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(ram);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RamExists(ram.RamId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _service.Update(ram);
                 return RedirectToAction(nameof(Index));
             }
             return View(ram);
@@ -141,8 +122,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var ram = await _context.Rams
-                .FirstOrDefaultAsync(m => m.RamId == id);
+            var ram = _service.GetMemoryOptionById(id);
             if (ram == null)
             {
                 return NotFound();
@@ -157,15 +137,8 @@ namespace PcPartPicker.Controllers
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ram = await _context.Rams.FindAsync(id);
-            _context.Rams.Remove(ram);
-            await _context.SaveChangesAsync();
+            _service.Delete(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool RamExists(int id)
-        {
-            return _context.Rams.Any(e => e.RamId == id);
         }
     }
 }

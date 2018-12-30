@@ -2,27 +2,23 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PcPartPicker.Data.Models
+namespace PcPartPicker.Models.Models
 {
-    public class Ram
+    public class Motherboard
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key, Column(Order = 0)]
-        public int RamId { get; set; }
+        public int MotherboardId { get; set; }
 
         public string Model { get; set; }
 
         public string Manufacturer { get; set; }
 
-        public string MemoryType { get; set; }
-
-        public int MemoryCapacity { get; set; }
-
-        public float MemoryFrequency { get; set; }
-
         [Column(TypeName = "decimal(10, 5)")]
         public decimal Price { get; set; }
 
+        public string CpuSocket { get; set; }
+        
         public ICollection<SystemBuild> SystemBuilds { get; set; }
     }
 }

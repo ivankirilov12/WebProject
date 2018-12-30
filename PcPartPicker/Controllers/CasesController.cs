@@ -1,40 +1,36 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PcPartPicker.Data;
-using PcPartPicker.Data.Models;
+using PcPartPicker.Models.Models;
+using PcPartPicker.Services.Interfaces;
 
 namespace PcPartPicker.Controllers
 {
     public class CasesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ICaseService _service;
 
-        public CasesController(ApplicationDbContext context)
+        public CasesController(ICaseService service)
         {
-            _context = context;
+            _service = service;
         }
 
-        public async Task<List<string>> GetCaseModels()
+        public IEnumerable<string> GetCaseModels()
         {
-            return await _context.Cases.Select(a => a.Model).ToListAsync();
+            return _service.GetCaseModels();
         }
 
         public async Task<Case> GetCaseByModel(string model)
         {
-            var pccase = await _context.Cases
-                .FirstOrDefaultAsync(m => m.Model == model);
-
-            return pccase;
+            return _service.GetCaseByModel(model);
         }
 
         // GET: Cases
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cases.ToListAsync());
+            return View(_service.GetAllCases());
         }
 
         // GET: Cases/Details/5
@@ -45,8 +41,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var @case = await _context.Cases
-                .FirstOrDefaultAsync(m => m.CaseId == id);
+            var @case = _service.GetCaseById(id);
             if (@case == null)
             {
                 return NotFound();
@@ -72,8 +67,7 @@ namespace PcPartPicker.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@case);
-                await _context.SaveChangesAsync();
+                _service.InsertCase(@case);
                 return RedirectToAction(nameof(Index));
             }
             return View(@case);
@@ -88,7 +82,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var @case = await _context.Cases.FindAsync(id);
+            var @case = _service.GetCaseById(id);
             if (@case == null)
             {
                 return NotFound();
@@ -111,22 +105,7 @@ namespace PcPartPicker.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(@case);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CaseExists(@case.CaseId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _service.Update(@case);
                 return RedirectToAction(nameof(Index));
             }
             return View(@case);
@@ -141,8 +120,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var @case = await _context.Cases
-                .FirstOrDefaultAsync(m => m.CaseId == id);
+            var @case = _service.GetCaseById(id);
             if (@case == null)
             {
                 return NotFound();
@@ -157,15 +135,8 @@ namespace PcPartPicker.Controllers
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @case = await _context.Cases.FindAsync(id);
-            _context.Cases.Remove(@case);
-            await _context.SaveChangesAsync();
+            _service.Delete(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CaseExists(int id)
-        {
-            return _context.Cases.Any(e => e.CaseId == id);
         }
     }
 }

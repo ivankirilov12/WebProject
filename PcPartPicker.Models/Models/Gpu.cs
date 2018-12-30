@@ -2,13 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PcPartPicker.Data.Models
+namespace PcPartPicker.Models.Models
 {
-    public class Storage
+    public class Gpu
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key, Column(Order = 0)]
-        public int StorageId { get; set; }
+        public int GpuId { get; set; }
 
         public string Model { get; set; }
 
@@ -17,9 +17,7 @@ namespace PcPartPicker.Data.Models
         [Column(TypeName = "decimal(10, 5)")]
         public decimal Price { get; set; }
 
-        public string Type { get; set; }
-
-        public string Capacity { get; set; }
+        public string Memory { get; set; }
 
         public ICollection<SystemBuild> SystemBuilds { get; set; }
     }
