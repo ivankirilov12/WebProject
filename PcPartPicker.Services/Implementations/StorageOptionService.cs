@@ -22,17 +22,17 @@ namespace PcPartPicker.Services.Implementations
             unitOfWork.Save();
         }
 
-        public IEnumerable<Storage> GetAllStorageOptions()
+        public IEnumerable<StorageOption> GetAllStorageOptions()
         {
             return unitOfWork.StorageOptionsRepository.Get(a => true);
         }
 
-        public Storage GetStorageOptionById(int? id)
+        public StorageOption GetStorageOptionById(int? id)
         {
             return unitOfWork.StorageOptionsRepository.GetByID(id);
         }
 
-        public Storage GetStorageOptionByModel(string model)
+        public StorageOption GetStorageOptionByModel(string model)
         {
             return unitOfWork.StorageOptionsRepository.Get(a => a.Model == model).First();
         }
@@ -42,13 +42,13 @@ namespace PcPartPicker.Services.Implementations
             return unitOfWork.StorageOptionsRepository.Get(a => true).Select(s => s.Model);
         }
 
-        public void InsertStorageOption(Storage storageOption)
+        public void InsertStorageOption(StorageOption storageOption)
         {
             unitOfWork.StorageOptionsRepository.Insert(storageOption);
             unitOfWork.Save();
         }
 
-        public void Update(Storage storageOption)
+        public void Update(StorageOption storageOption)
         {
             unitOfWork.StorageOptionsRepository.Update(storageOption);
             unitOfWork.Save();

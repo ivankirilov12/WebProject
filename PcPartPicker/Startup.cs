@@ -55,6 +55,7 @@ namespace PcPartPicker
             services.AddScoped<IMotherboardService, MotherboardService>();
             services.AddScoped<IMemoryOptionService, MemoryOptionService>();
             services.AddScoped<IStorageOptionService, StorageOptionService>();
+            services.AddScoped<ISystemBuildService, SystemBuildService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -62,8 +63,9 @@ namespace PcPartPicker
             services.AddScoped<IRepository<Cpu>, Repository<Cpu>>();
             services.AddScoped<IRepository<Gpu>, Repository<Gpu>>();
             services.AddScoped<IRepository<Motherboard>, Repository<Motherboard>>();
-            services.AddScoped<IRepository<Ram>, Repository<Ram>>();
-            services.AddScoped<IRepository<Storage>, Repository<Storage>>();
+            services.AddScoped<IRepository<MemoryOption>, Repository<MemoryOption>>();
+            services.AddScoped<IRepository<StorageOption>, Repository<StorageOption>>();
+            services.AddScoped<IRepository<SystemBuild>, Repository<SystemBuild>>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

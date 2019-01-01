@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PcPartPicker.Models.Models
 {
-    public class Storage
+    public class StorageOption
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key, Column(Order = 0)]
-        public int StorageId { get; set; }
+        public int StorageOptionId { get; set; }
 
         public string Model { get; set; }
 

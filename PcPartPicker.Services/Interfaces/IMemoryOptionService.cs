@@ -7,15 +7,15 @@ namespace PcPartPicker.Services.Interfaces
     {
         IEnumerable<string> GetMemoryOptionModels();
 
-        Ram GetMemoryOptionByModel(string model);
+        MemoryOption GetMemoryOptionByModel(string model);
 
-        IEnumerable<Ram> GetAllMemoryOptions();
+        IEnumerable<MemoryOption> GetAllMemoryOptions();
 
-        Ram GetMemoryOptionById(int? id);
+        MemoryOption GetMemoryOptionById(int? id);
 
-        void InsertMemoryOption(Ram memoryOption);
+        void InsertMemoryOption(MemoryOption memoryOption);
 
-        void Update(Ram memoryOption);
+        void Update(MemoryOption memoryOption);
 
         void Delete(int? id);
     }

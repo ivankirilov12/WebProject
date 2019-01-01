@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PcPartPicker.Models.Models.Ram>
+﻿@model IEnumerable<PcPartPicker.Models.Models.MemoryOption>
 
 @{
     ViewData["Title"] = "Index";
@@ -55,9 +55,9 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.RamId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RamId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RamId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.MemoryOptionId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MemoryOptionId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MemoryOptionId">Delete</a>
             </td>
         </tr>
 }

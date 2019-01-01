@@ -1,4 +1,4 @@
-﻿@model PcPartPicker.Models.Models.Storage
+﻿@model PcPartPicker.Models.Models.StorageOption
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="StorageId" />
+            <input type="hidden" asp-for="StorageOptionId" />
             <div class="form-group">
                 <label asp-for="Model" class="control-label"></label>
                 <input asp-for="Model" class="form-control" />

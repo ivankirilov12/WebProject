@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PcPartPicker.Models.Models.Storage>
+﻿@model IEnumerable<PcPartPicker.Models.Models.StorageOption>
 
 @{
     ViewData["Title"] = "Index";
@@ -49,9 +49,9 @@
                 @Html.DisplayFor(modelItem => item.Capacity)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.StorageId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.StorageId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.StorageId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.StorageOptionId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.StorageOptionId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.StorageOptionId">Delete</a>
             </td>
         </tr>
 }

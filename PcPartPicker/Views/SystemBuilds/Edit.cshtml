@@ -4,12 +4,11 @@
     ViewData["Title"] = "Edit";
 }
 
-<script src="@Url.Content("~/js/editBuild.js")"></script>
 <h2>Edit</h2>
 
 <h4>SystemBuild</h4>
 <hr />
-<div class="row" >
+<div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -35,19 +34,19 @@
                 <select id="motherboardList" name="motherboards"><option>Select a motherboard</option></select>
             </div>
             <div class="form-group">
-                <label asp-for="Storage" class="control-label"></label>
-                <select id="storageList" name="storages"><option>Select a storage option</option></select>
+                <label asp-for="StorageOption" class="control-label"></label>
+                <select id="storageoptionList" name="storageoption"><option>Select a storage option</option></select>
             </div>
             <div class="form-group">
-                <label asp-for="Ram" class="control-label"></label>
-                <select id="ramList" name="rams"><option>Select a memory option</option></select>
+                <label asp-for="MemoryOption" class="control-label"></label>
+                <select id="memoryoptionList" name="memoryoption"><option>Select a memory option</option></select>
             </div>
             @*<div class="form-group">
-            <label asp-for="Price" class="control-label"></label>
-            <input asp-for="Price" id="price" class="form-control" type="hidden"/>
-            <span id="currentPrice"></span>
-            <span asp-validation-for="Price" class="text-danger"></span>
-        </div>*@
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" id="price" class="form-control" type="hidden"/>
+                    <span id="currentPrice"></span>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>*@
 
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
@@ -58,8 +57,8 @@
             <input asp-for="Gpu.Model" type="hidden" id="gpu" />
             <input asp-for="Motherboard.Model" type="hidden" id="mb" />
             <input asp-for="Case.Model" type="hidden" id="case" />
-            <input asp-for="Ram.Model" type="hidden" id="ram" />
-            <input asp-for="Storage.Model" type="hidden" id="storage" />
+            <input asp-for="MemoryOption.Model" type="hidden" id="memoryoption" />
+            <input asp-for="StorageOption.Model" type="hidden" id="storageoption" />
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -71,6 +70,7 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+<script src="@Url.Content("~/js/editBuild.js")"></script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

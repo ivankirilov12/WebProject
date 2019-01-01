@@ -6,22 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PcPartPicker.Data;
 using PcPartPicker.Models.Models;
+using PcPartPicker.Services.Interfaces;
 
 namespace PcPartPicker.Controllers
 {
     public class SystemBuildsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ISystemBuildService _service;
 
-        public SystemBuildsController(ApplicationDbContext context)
+        public SystemBuildsController(ISystemBuildService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: SystemBuilds
         public async Task<IActionResult> Index()
         {
-            return View(await _context.SystemBuilds.ToListAsync());
+            return View(_service.GetAllSystemBuilds());
         }
 
         // GET: SystemBuilds/Details/5
@@ -32,14 +33,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var systemBuild = await _context.SystemBuilds
-                .Include(b => b.Cpu)
-                .Include(b => b.Case)
-                .Include(b => b.Gpu)
-                .Include(b => b.Motherboard)
-                .Include(b => b.Ram)
-                .Include(b => b.Storage)
-                .FirstOrDefaultAsync(m => m.SystemBuildId == id);
+            var systemBuild = _service.GetSystemBuildById(id);
             if (systemBuild == null)
             {
                 return NotFound();
@@ -63,23 +57,22 @@ namespace PcPartPicker.Controllers
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Create(IFormCollection collection)
         {
-            SystemBuild systemBuild = new SystemBuild();
-            systemBuild.Cpu = _context.Cpus.FirstOrDefault(x => x.Model == Request.Form["cpus"].ToString());
-            systemBuild.Gpu = _context.Gpus.FirstOrDefault(x => x.Model == Request.Form["gpus"].ToString());
-            //systemBuild.Case = _context.Cases.FirstOrDefault(x => x.Model == Request.Form["cases"].ToString());
-            systemBuild.Motherboard = _context.Motherboards.FirstOrDefault(x => x.Model == Request.Form["motherboards"].ToString());
-            systemBuild.Storage = _context.Storages.FirstOrDefault(x => x.Model == Request.Form["storages"].ToString());
-            systemBuild.Ram = _context.Rams.FirstOrDefault(x => x.Model == Request.Form["rams"].ToString());
-            systemBuild.Price = decimal.Parse(Request.Form["Price"].ToString());
-            systemBuild.Name = Request.Form["Name"].ToString();
-            systemBuild.Description = Request.Form["Description"].ToString();
+            string cpuModel = Request.Form["cpus"].ToString();
+            string caseModel = Request.Form["cases"].ToString();
+            string gpuModel = Request.Form["gpus"].ToString();
+            string memoryOptionModel = Request.Form["memoryoptions"].ToString();
+            string motherboardModel = Request.Form["motherboards"].ToString();
+            string storageOptionModel = Request.Form["storageoptions"].ToString();
+
+            decimal price = decimal.Parse(Request.Form["Price"].ToString());
+            string name = Request.Form["Name"].ToString();
+            string description = Request.Form["Description"].ToString();
+            _service.InsertSystemBuild(cpuModel, caseModel, gpuModel, memoryOptionModel, motherboardModel, storageOptionModel, price, name, description);
             if (ModelState.IsValid) // remove?
             {
-                _context.Add(systemBuild);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(systemBuild);
+            return View();
         }
 
         // GET: SystemBuilds/Edit/5
@@ -91,14 +84,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var systemBuild = await _context.SystemBuilds
-                .Include(b => b.Cpu)
-                .Include(b => b.Case)
-                .Include(b => b.Gpu)
-                .Include(b => b.Motherboard)
-                .Include(b => b.Ram)
-                .Include(b => b.Storage)
-                .FirstOrDefaultAsync(m => m.SystemBuildId == id);
+            var systemBuild = _service.GetSystemBuildById(id);
             if (systemBuild == null)
             {
                 return NotFound();
@@ -119,35 +105,19 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
+            string cpuModel = Request.Form["cpus"].ToString();
+            string caseModel = Request.Form["cases"].ToString();
+            string gpuModel = Request.Form["gpus"].ToString();
+            string memoryOptionModel = Request.Form["memoryoption"].ToString();
+            string motherboardModel = Request.Form["motherboards"].ToString();
+            string storageOptionModel = Request.Form["storageoption"].ToString();
 
-            systemBuild.Cpu = _context.Cpus.FirstOrDefault(x => x.Model == Request.Form["cpus"].ToString());
-            systemBuild.Gpu = _context.Gpus.FirstOrDefault(x => x.Model == Request.Form["gpus"].ToString());
-            //systemBuild.Case = _context.Cases.FirstOrDefault(x => x.Model == Request.Form["cases"].ToString());
-            systemBuild.Motherboard = _context.Motherboards.FirstOrDefault(x => x.Model == Request.Form["motherboards"].ToString());
-            systemBuild.Storage = _context.Storages.FirstOrDefault(x => x.Model == Request.Form["storages"].ToString());
-            systemBuild.Ram = _context.Rams.FirstOrDefault(x => x.Model == Request.Form["rams"].ToString());
-            systemBuild.Price = systemBuild.Cpu.Price + systemBuild.Gpu.Price + systemBuild.Motherboard.Price + systemBuild.Ram.Price + systemBuild.Storage.Price + systemBuild.Case.Price;
-            systemBuild.Name = Request.Form["Name"].ToString();
-            systemBuild.Description = Request.Form["Description"].ToString();
+            string name = Request.Form["Name"].ToString();
+            string description = Request.Form["Description"].ToString();
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(systemBuild);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SystemBuildExists(systemBuild.SystemBuildId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _service.Update(cpuModel, caseModel, gpuModel, memoryOptionModel, motherboardModel, storageOptionModel, name, description, id);
                 return RedirectToAction(nameof(Index));
             }
             return View(systemBuild);
@@ -162,8 +132,7 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var systemBuild = await _context.SystemBuilds
-                .FirstOrDefaultAsync(m => m.SystemBuildId == id);
+            var systemBuild = _service.GetSystemBuildById(id);
             if (systemBuild == null)
             {
                 return NotFound();
@@ -178,15 +147,8 @@ namespace PcPartPicker.Controllers
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var systemBuild = await _context.SystemBuilds.FindAsync(id);
-            _context.SystemBuilds.Remove(systemBuild);
-            await _context.SaveChangesAsync();
+            _service.Delete(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool SystemBuildExists(int id)
-        {
-            return _context.SystemBuilds.Any(e => e.SystemBuildId == id);
         }
     }
 }

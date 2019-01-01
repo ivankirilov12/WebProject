@@ -25,8 +25,8 @@ namespace PcPartPicker.Models.Models
 
         public Motherboard Motherboard { get; set; }
 
-        public Ram Ram { get; set; }
+        public MemoryOption MemoryOption { get; set; }
 
-        public Storage Storage { get; set; }
+        public StorageOption StorageOption { get; set; }
     }
 }

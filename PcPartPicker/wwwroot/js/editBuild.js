@@ -1,8 +1,8 @@
-﻿var parts = ["cpu", "gpu", "motherboard", "ram", "case", "storage"];
+﻿var parts = ["cpu", "gpu", "motherboard", "memoryoption", "case", "storageoption"];
 var loadedComponents;
 var count = 0;
-for (count = 0; count < parts.length; count++) {
-    loadDropdown(parts[count]);
+for (i = 0; i < parts.length; i++) {
+    loadDropdown(parts[i]);
 }
 
 function loadDropdown(part) {
@@ -12,6 +12,7 @@ function loadDropdown(part) {
 
     request.onreadystatechange = function () {
         if (this.readyState == 4) {
+            count++;
             var data = JSON.parse(this.response);
             var elementId = part + "List";
             var List = document.getElementById(elementId);
@@ -34,19 +35,6 @@ function getDetails() {
     document.getElementById("gpuList").value = document.getElementById("gpu").value;
     document.getElementById("motherboardList").value = document.getElementById("mb").value;
     document.getElementById("caseList").value = document.getElementById("case").value;
-    document.getElementById("ramList").value = document.getElementById("ram").value;
-    document.getElementById("storageList").value = document.getElementById("storage").value;
+    document.getElementById("memoryoptionList").value = document.getElementById("memoryoption").value;
+    document.getElementById("storageoptionList").value = document.getElementById("storageoption").value;
 }
-
-//var price;
-//function calculatePrice() {
-//    debugger;
-//    if (!price) {
-//        var price = document.getElementById("price").value;
-//    }
-//    else {
-
-//    }
-    
-//    document.getElementById("currentPrice").innerHTML = price;
-//}

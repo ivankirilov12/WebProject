@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace PcPartPicker.Migrations
+namespace PcPartPicker.Data.Migrations
 {
-    public partial class InitialSetup : Migration
+    public partial class Setup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -98,7 +98,25 @@ namespace PcPartPicker.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Motherboard",
+                name: "MemoryOptions",
+                columns: table => new
+                {
+                    MemoryOptionId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Model = table.Column<string>(nullable: true),
+                    Manufacturer = table.Column<string>(nullable: true),
+                    MemoryType = table.Column<string>(nullable: true),
+                    MemoryCapacity = table.Column<int>(nullable: false),
+                    MemoryFrequency = table.Column<float>(nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MemoryOptions", x => x.MemoryOptionId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Motherboards",
                 columns: table => new
                 {
                     MotherboardId = table.Column<int>(nullable: false)
@@ -110,32 +128,14 @@ namespace PcPartPicker.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Motherboard", x => x.MotherboardId);
+                    table.PrimaryKey("PK_Motherboards", x => x.MotherboardId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rams",
+                name: "StorageOptions",
                 columns: table => new
                 {
-                    RamId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Model = table.Column<string>(nullable: true),
-                    Manufacturer = table.Column<string>(nullable: true),
-                    MemoryType = table.Column<string>(nullable: true),
-                    MemoryCapacity = table.Column<int>(nullable: false),
-                    MemoryFrequency = table.Column<float>(nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rams", x => x.RamId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Storages",
-                columns: table => new
-                {
-                    StorageId = table.Column<int>(nullable: false)
+                    StorageOptionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Model = table.Column<string>(nullable: true),
                     Manufacturer = table.Column<string>(nullable: true),
@@ -145,7 +145,7 @@ namespace PcPartPicker.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Storages", x => x.StorageId);
+                    table.PrimaryKey("PK_StorageOptions", x => x.StorageOptionId);
                 });
 
             migrationBuilder.CreateTable(
@@ -194,8 +194,8 @@ namespace PcPartPicker.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -239,8 +239,8 @@ namespace PcPartPicker.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -255,64 +255,59 @@ namespace PcPartPicker.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SystemBuild",
+                name: "SystemBuilds",
                 columns: table => new
                 {
                     SystemBuildId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
                     CaseId = table.Column<int>(nullable: true),
                     CpuId = table.Column<int>(nullable: true),
                     GpuId = table.Column<int>(nullable: true),
                     MotherboardId = table.Column<int>(nullable: true),
-                    RamId = table.Column<int>(nullable: true),
-                    StorageId = table.Column<int>(nullable: true),
-                    SystemBuildId1 = table.Column<int>(nullable: true)
+                    MemoryOptionId = table.Column<int>(nullable: true),
+                    StorageOptionId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SystemBuild", x => x.SystemBuildId);
+                    table.PrimaryKey("PK_SystemBuilds", x => x.SystemBuildId);
                     table.ForeignKey(
-                        name: "FK_SystemBuild_Cases_CaseId",
+                        name: "FK_SystemBuilds_Cases_CaseId",
                         column: x => x.CaseId,
                         principalTable: "Cases",
                         principalColumn: "CaseId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SystemBuild_Cpus_CpuId",
+                        name: "FK_SystemBuilds_Cpus_CpuId",
                         column: x => x.CpuId,
                         principalTable: "Cpus",
                         principalColumn: "CpuId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SystemBuild_Gpus_GpuId",
+                        name: "FK_SystemBuilds_Gpus_GpuId",
                         column: x => x.GpuId,
                         principalTable: "Gpus",
                         principalColumn: "GpuId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SystemBuild_Motherboard_MotherboardId",
+                        name: "FK_SystemBuilds_MemoryOptions_MemoryOptionId",
+                        column: x => x.MemoryOptionId,
+                        principalTable: "MemoryOptions",
+                        principalColumn: "MemoryOptionId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SystemBuilds_Motherboards_MotherboardId",
                         column: x => x.MotherboardId,
-                        principalTable: "Motherboard",
+                        principalTable: "Motherboards",
                         principalColumn: "MotherboardId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SystemBuild_Rams_RamId",
-                        column: x => x.RamId,
-                        principalTable: "Rams",
-                        principalColumn: "RamId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_SystemBuild_Storages_StorageId",
-                        column: x => x.StorageId,
-                        principalTable: "Storages",
-                        principalColumn: "StorageId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_SystemBuild_SystemBuild_SystemBuildId1",
-                        column: x => x.SystemBuildId1,
-                        principalTable: "SystemBuild",
-                        principalColumn: "SystemBuildId",
+                        name: "FK_SystemBuilds_StorageOptions_StorageOptionId",
+                        column: x => x.StorageOptionId,
+                        principalTable: "StorageOptions",
+                        principalColumn: "StorageOptionId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -356,39 +351,34 @@ namespace PcPartPicker.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SystemBuild_CaseId",
-                table: "SystemBuild",
+                name: "IX_SystemBuilds_CaseId",
+                table: "SystemBuilds",
                 column: "CaseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SystemBuild_CpuId",
-                table: "SystemBuild",
+                name: "IX_SystemBuilds_CpuId",
+                table: "SystemBuilds",
                 column: "CpuId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SystemBuild_GpuId",
-                table: "SystemBuild",
+                name: "IX_SystemBuilds_GpuId",
+                table: "SystemBuilds",
                 column: "GpuId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SystemBuild_MotherboardId",
-                table: "SystemBuild",
+                name: "IX_SystemBuilds_MemoryOptionId",
+                table: "SystemBuilds",
+                column: "MemoryOptionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SystemBuilds_MotherboardId",
+                table: "SystemBuilds",
                 column: "MotherboardId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SystemBuild_RamId",
-                table: "SystemBuild",
-                column: "RamId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SystemBuild_StorageId",
-                table: "SystemBuild",
-                column: "StorageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SystemBuild_SystemBuildId1",
-                table: "SystemBuild",
-                column: "SystemBuildId1");
+                name: "IX_SystemBuilds_StorageOptionId",
+                table: "SystemBuilds",
+                column: "StorageOptionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -409,7 +399,7 @@ namespace PcPartPicker.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "SystemBuild");
+                name: "SystemBuilds");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -427,13 +417,13 @@ namespace PcPartPicker.Migrations
                 name: "Gpus");
 
             migrationBuilder.DropTable(
-                name: "Motherboard");
+                name: "MemoryOptions");
 
             migrationBuilder.DropTable(
-                name: "Rams");
+                name: "Motherboards");
 
             migrationBuilder.DropTable(
-                name: "Storages");
+                name: "StorageOptions");
         }
     }
 }

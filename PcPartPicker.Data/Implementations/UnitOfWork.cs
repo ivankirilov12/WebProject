@@ -6,13 +6,14 @@ namespace PcPartPicker.Data.Implementations
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private ApplicationDbContext _context;// = new ApplicationDbContext(new Microsoft.EntityFrameworkCore.DbContextOptions<ApplicationDbContext>());
+        private ApplicationDbContext _context;
         private Repository<Case> casesRepository;
         private Repository<Cpu> cpusRepository;
         private Repository<Gpu> gpusRepository;
         private Repository<Motherboard> motherboardsRepository;
-        private Repository<Storage> storageRepository;
-        private Repository<Ram> memoryRepository;
+        private Repository<StorageOption> storageRepository;
+        private Repository<MemoryOption> memoryRepository;
+        private Repository<SystemBuild> systembuildsRepository;
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -68,27 +69,39 @@ namespace PcPartPicker.Data.Implementations
             }
         }
 
-        public Repository<Storage> StorageOptionsRepository
+        public Repository<StorageOption> StorageOptionsRepository
         {
             get
             {
                 if (storageRepository == null)
                 {
-                    storageRepository = new Repository<Storage>(_context);
+                    storageRepository = new Repository<StorageOption>(_context);
                 }
                 return storageRepository;
             }
         }
 
-        public Repository<Ram> MemoryOptionsRepository
+        public Repository<MemoryOption> MemoryOptionsRepository
         {
             get
             {
                 if (memoryRepository == null)
                 {
-                    memoryRepository = new Repository<Ram>(_context);
+                    memoryRepository = new Repository<MemoryOption>(_context);
                 }
                 return memoryRepository;
+            }
+        }
+
+        public Repository<SystemBuild> SystemBuildRepository
+        {
+            get
+            {
+                if (systembuildsRepository == null)
+                {
+                    systembuildsRepository = new Repository<SystemBuild>(_context);
+                }
+                return systembuildsRepository;
             }
         }
         #endregion
@@ -102,14 +115,14 @@ namespace PcPartPicker.Data.Implementations
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!disposed)
             {
                 if (disposing)
                 {
                     _context.Dispose();
                 }
             }
-            this.disposed = true;
+            disposed = true;
         }
 
         public void Dispose()

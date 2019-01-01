@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using PcPartPicker.Data.Interfaces;
+using PcPartPicker.Models.Models;
 
 namespace PcPartPicker.Data.Implementations
 {

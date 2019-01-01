@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PcPartPicker.Models.Models
 {
-    public class Ram
+    public class MemoryOption
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key, Column(Order = 0)]
-        public int RamId { get; set; }
+        public int MemoryOptionId { get; set; }
 
         public string Model { get; set; }
 

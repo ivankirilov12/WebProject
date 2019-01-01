@@ -22,17 +22,17 @@ namespace PcPartPicker.Services.Implementations
             unitOfWork.Save();
         }
 
-        public IEnumerable<Ram> GetAllMemoryOptions()
+        public IEnumerable<MemoryOption> GetAllMemoryOptions()
         {
             return unitOfWork.MemoryOptionsRepository.Get(a => true);
         }
 
-        public Ram GetMemoryOptionById(int? id)
+        public MemoryOption GetMemoryOptionById(int? id)
         {
             return unitOfWork.MemoryOptionsRepository.GetByID(id);
         }
 
-        public Ram GetMemoryOptionByModel(string model)
+        public MemoryOption GetMemoryOptionByModel(string model)
         {
             return unitOfWork.MemoryOptionsRepository.Get(a => a.Model == model).First();
         }
@@ -42,13 +42,13 @@ namespace PcPartPicker.Services.Implementations
             return unitOfWork.MemoryOptionsRepository.Get(a => true).Select(s => s.Model);
         }
 
-        public void InsertMemoryOption(Ram memoryOption)
+        public void InsertMemoryOption(MemoryOption memoryOption)
         {
             unitOfWork.MemoryOptionsRepository.Insert(memoryOption);
             unitOfWork.Save();
         }
 
-        public void Update(Ram memoryOption)
+        public void Update(MemoryOption memoryOption)
         {
             unitOfWork.MemoryOptionsRepository.Update(memoryOption);
             unitOfWork.Save();

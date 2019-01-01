@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PcPartPicker.Data;
 
-namespace PcPartPicker.Migrations
+namespace PcPartPicker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -136,11 +136,9 @@ namespace PcPartPicker.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -171,11 +169,9 @@ namespace PcPartPicker.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -184,7 +180,7 @@ namespace PcPartPicker.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("PcPartPicker.Data.Models.Case", b =>
+            modelBuilder.Entity("PcPartPicker.Models.Models.Case", b =>
                 {
                     b.Property<int>("CaseId")
                         .ValueGeneratedOnAdd()
@@ -204,7 +200,7 @@ namespace PcPartPicker.Migrations
                     b.ToTable("Cases");
                 });
 
-            modelBuilder.Entity("PcPartPicker.Data.Models.Cpu", b =>
+            modelBuilder.Entity("PcPartPicker.Models.Models.Cpu", b =>
                 {
                     b.Property<int>("CpuId")
                         .ValueGeneratedOnAdd()
@@ -228,7 +224,7 @@ namespace PcPartPicker.Migrations
                     b.ToTable("Cpus");
                 });
 
-            modelBuilder.Entity("PcPartPicker.Data.Models.Gpu", b =>
+            modelBuilder.Entity("PcPartPicker.Models.Models.Gpu", b =>
                 {
                     b.Property<int>("GpuId")
                         .ValueGeneratedOnAdd()
@@ -248,7 +244,31 @@ namespace PcPartPicker.Migrations
                     b.ToTable("Gpus");
                 });
 
-            modelBuilder.Entity("PcPartPicker.Data.Models.Motherboard", b =>
+            modelBuilder.Entity("PcPartPicker.Models.Models.MemoryOption", b =>
+                {
+                    b.Property<int>("MemoryOptionId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Manufacturer");
+
+                    b.Property<int>("MemoryCapacity");
+
+                    b.Property<float>("MemoryFrequency");
+
+                    b.Property<string>("MemoryType");
+
+                    b.Property<string>("Model");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(10, 5)");
+
+                    b.HasKey("MemoryOptionId");
+
+                    b.ToTable("MemoryOptions");
+                });
+
+            modelBuilder.Entity("PcPartPicker.Models.Models.Motherboard", b =>
                 {
                     b.Property<int>("MotherboardId")
                         .ValueGeneratedOnAdd()
@@ -268,33 +288,9 @@ namespace PcPartPicker.Migrations
                     b.ToTable("Motherboards");
                 });
 
-            modelBuilder.Entity("PcPartPicker.Data.Models.Ram", b =>
+            modelBuilder.Entity("PcPartPicker.Models.Models.StorageOption", b =>
                 {
-                    b.Property<int>("RamId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Manufacturer");
-
-                    b.Property<int>("MemoryCapacity");
-
-                    b.Property<float>("MemoryFrequency");
-
-                    b.Property<string>("MemoryType");
-
-                    b.Property<string>("Model");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(10, 5)");
-
-                    b.HasKey("RamId");
-
-                    b.ToTable("Rams");
-                });
-
-            modelBuilder.Entity("PcPartPicker.Data.Models.Storage", b =>
-                {
-                    b.Property<int>("StorageId")
+                    b.Property<int>("StorageOptionId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -309,12 +305,12 @@ namespace PcPartPicker.Migrations
 
                     b.Property<string>("Type");
 
-                    b.HasKey("StorageId");
+                    b.HasKey("StorageOptionId");
 
-                    b.ToTable("Storages");
+                    b.ToTable("StorageOptions");
                 });
 
-            modelBuilder.Entity("PcPartPicker.Data.Models.SystemBuild", b =>
+            modelBuilder.Entity("PcPartPicker.Models.Models.SystemBuild", b =>
                 {
                     b.Property<int>("SystemBuildId")
                         .ValueGeneratedOnAdd()
@@ -328,6 +324,8 @@ namespace PcPartPicker.Migrations
 
                     b.Property<int?>("GpuId");
 
+                    b.Property<int?>("MemoryOptionId");
+
                     b.Property<int?>("MotherboardId");
 
                     b.Property<string>("Name");
@@ -335,9 +333,7 @@ namespace PcPartPicker.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10, 5)");
 
-                    b.Property<int?>("RamId");
-
-                    b.Property<int?>("StorageId");
+                    b.Property<int?>("StorageOptionId");
 
                     b.HasKey("SystemBuildId");
 
@@ -347,11 +343,11 @@ namespace PcPartPicker.Migrations
 
                     b.HasIndex("GpuId");
 
+                    b.HasIndex("MemoryOptionId");
+
                     b.HasIndex("MotherboardId");
 
-                    b.HasIndex("RamId");
-
-                    b.HasIndex("StorageId");
+                    b.HasIndex("StorageOptionId");
 
                     b.ToTable("SystemBuilds");
                 });
@@ -401,31 +397,31 @@ namespace PcPartPicker.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("PcPartPicker.Data.Models.SystemBuild", b =>
+            modelBuilder.Entity("PcPartPicker.Models.Models.SystemBuild", b =>
                 {
-                    b.HasOne("PcPartPicker.Data.Models.Case", "Case")
+                    b.HasOne("PcPartPicker.Models.Models.Case", "Case")
                         .WithMany("SystemBuilds")
                         .HasForeignKey("CaseId");
 
-                    b.HasOne("PcPartPicker.Data.Models.Cpu", "Cpu")
+                    b.HasOne("PcPartPicker.Models.Models.Cpu", "Cpu")
                         .WithMany("SystemBuilds")
                         .HasForeignKey("CpuId");
 
-                    b.HasOne("PcPartPicker.Data.Models.Gpu", "Gpu")
+                    b.HasOne("PcPartPicker.Models.Models.Gpu", "Gpu")
                         .WithMany("SystemBuilds")
                         .HasForeignKey("GpuId");
 
-                    b.HasOne("PcPartPicker.Data.Models.Motherboard", "Motherboard")
+                    b.HasOne("PcPartPicker.Models.Models.MemoryOption", "MemoryOption")
+                        .WithMany("SystemBuilds")
+                        .HasForeignKey("MemoryOptionId");
+
+                    b.HasOne("PcPartPicker.Models.Models.Motherboard", "Motherboard")
                         .WithMany("SystemBuilds")
                         .HasForeignKey("MotherboardId");
 
-                    b.HasOne("PcPartPicker.Data.Models.Ram", "Ram")
+                    b.HasOne("PcPartPicker.Models.Models.StorageOption", "StorageOption")
                         .WithMany("SystemBuilds")
-                        .HasForeignKey("RamId");
-
-                    b.HasOne("PcPartPicker.Data.Models.Storage", "Storage")
-                        .WithMany("SystemBuilds")
-                        .HasForeignKey("StorageId");
+                        .HasForeignKey("StorageOptionId");
                 });
 #pragma warning restore 612, 618
         }

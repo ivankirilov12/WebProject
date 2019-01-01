@@ -7,15 +7,15 @@ namespace PcPartPicker.Services.Interfaces
     {
         IEnumerable<string> GetStorageOptionModels();
 
-        Storage GetStorageOptionByModel(string model);
+        StorageOption GetStorageOptionByModel(string model);
 
-        IEnumerable<Storage> GetAllStorageOptions();
+        IEnumerable<StorageOption> GetAllStorageOptions();
 
-        Storage GetStorageOptionById(int? id);
+        StorageOption GetStorageOptionById(int? id);
 
-        void InsertStorageOption(Storage storageOption);
+        void InsertStorageOption(StorageOption storageOption);
 
-        void Update(Storage storageOption);
+        void Update(StorageOption storageOption);
 
         void Delete(int? id);
     }

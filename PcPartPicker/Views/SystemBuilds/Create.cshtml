@@ -33,12 +33,12 @@
                 <div id="chosenmotherboard"></div>
             </div>
             <div class="form-group">
-                <span>Choose a storage option: </span><select id="storageList" name="storages" onchange="choosePart(this)"><option>Select a storage option</option></select>
-                <div id="chosenstorage"></div>
+                <span>Choose a storage option: </span><select id="storageoptionList" name="storageoptions" onchange="choosePart(this)"><option>Select a storage option</option></select>
+                <div id="chosenstorageoption"></div>
             </div>
             <div class="form-group">
-                <span>Choose a ram option: </span><select id="ramList" name="rams" onchange="choosePart(this)"><option>Select a ram stick</option></select>
-                <div id="chosenram"></div>
+                <span>Choose a memory option: </span><select id="memoryoptionList" name="memoryoptions" onchange="choosePart(this)"><option>Select a memory option</option></select>
+                <div id="chosenmemoryoption"></div>
             </div>
             <div>Total Price: $<span id="price">0</span></div>
             <input type="hidden" id="totalPrice" asp-for="Price" />

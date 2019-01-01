@@ -10,32 +10,32 @@ using PcPartPicker.Services.Interfaces;
 
 namespace PcPartPicker.Controllers
 {
-    public class RamsController : Controller
+    public class StorageOptionsController : Controller
     {
-        private readonly IMemoryOptionService _service;
+        private readonly IStorageOptionService _service;
 
-        public RamsController(IMemoryOptionService service)
+        public StorageOptionsController(IStorageOptionService service)
         {
             _service = service;
         }
 
-        // GET: Rams
+        // GET: Storages
         public async Task<IActionResult> Index()
         {
-            return View(_service.GetAllMemoryOptions());
+            return View(_service.GetAllStorageOptions());
         }
 
-        public List<string> GetRamModels()
+        public List<string> GetStorageOptionModels()
         {
-            return _service.GetMemoryOptionModels().ToList();
+            return _service.GetStorageOptionModels().ToList();
         }
 
-        public Ram GetRamByModel(string model)
+        public StorageOption GetStorageOptionByModel(string model)
         {
-            return _service.GetMemoryOptionByModel(model);
+            return _service.GetStorageOptionByModel(model);
         }
 
-        // GET: Rams/Details/5
+        // GET: Storages/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,39 +43,39 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var ram = _service.GetMemoryOptionById(id);
-            if (ram == null)
+            var storage = _service.GetStorageOptionById(id);
+            if (storage == null)
             {
                 return NotFound();
             }
 
-            return View(ram);
+            return View(storage);
         }
 
-        // GET: Rams/Create
+        // GET: Storages/Create
         [Authorize(Roles = "Admin, Vendor")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Rams/Create
+        // POST: Storages/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Create([Bind("RamId,Model,Manufacturer,MemoryType,MemoryCapacity,MemoryFrequency,Price")] Ram ram)
+        public async Task<IActionResult> Create([Bind("StorageId,Model,Manufacturer,Price,Type,Capacity")] StorageOption storageOption)
         {
             if (ModelState.IsValid)
             {
-                _service.InsertMemoryOption(ram);
+                _service.InsertStorageOption(storageOption);
                 return RedirectToAction(nameof(Index));
             }
-            return View(ram);
+            return View(storageOption);
         }
 
-        // GET: Rams/Edit/5
+        // GET: Storages/Edit/5
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -84,36 +84,36 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var ram = _service.GetMemoryOptionById(id);
-            if (ram == null)
+            var storage = _service.GetStorageOptionById(id);
+            if (storage == null)
             {
                 return NotFound();
             }
-            return View(ram);
+            return View(storage);
         }
 
-        // POST: Rams/Edit/5
+        // POST: Storages/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int id, [Bind("RamId,Model,Manufacturer,MemoryType,MemoryCapacity,MemoryFrequency,Price")] Ram ram)
+        public async Task<IActionResult> Edit(int id, [Bind("StorageId,Model,Manufacturer,Price,Type,Capacity")] StorageOption storageOption)
         {
-            if (id != ram.RamId)
+            if (id != storageOption.StorageOptionId)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                _service.Update(ram);
+                _service.Update(storageOption);
                 return RedirectToAction(nameof(Index));
             }
-            return View(ram);
+            return View(storageOption);
         }
 
-        // GET: Rams/Delete/5
+        // GET: Storages/Delete/5
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -122,16 +122,16 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var ram = _service.GetMemoryOptionById(id);
-            if (ram == null)
+            var storage = _service.GetStorageOptionById(id);
+            if (storage == null)
             {
                 return NotFound();
             }
 
-            return View(ram);
+            return View(storage);
         }
 
-        // POST: Rams/Delete/5
+        // POST: Storages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]

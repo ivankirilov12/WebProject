@@ -1,4 +1,4 @@
-﻿var parts = ["cpu", "gpu", "motherboard", "ram", "case", "storage"];
+﻿var parts = ["cpu", "gpu", "motherboard", "memoryoption", "case", "storageoption"];
 for (var i = 0; i < parts.length; i++) {
     loadDropdown(parts[i]);
 }
