@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PcPartPicker.Data", "PcPart
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PcPartPicker.Models", "PcPartPicker.Models\PcPartPicker.Models.csproj", "{4FDDB7B2-178A-45CF-8AC8-6DBF59E6794C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PcPartPicker.Services", "PcPartPicker.Services\PcPartPicker.Services.csproj", "{2D429823-F5AE-4986-981C-8ECB8ECC8EE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PcPartPicker.Services", "PcPartPicker.Services\PcPartPicker.Services.csproj", "{2D429823-F5AE-4986-981C-8ECB8ECC8EE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PcPartPicker.Services.Tests", "PcPartPicker.Tests\PcPartPicker.Services.Tests.csproj", "{35006BE2-61A1-4B11-8814-83C6C93E673C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{2D429823-F5AE-4986-981C-8ECB8ECC8EE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D429823-F5AE-4986-981C-8ECB8ECC8EE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D429823-F5AE-4986-981C-8ECB8ECC8EE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35006BE2-61A1-4B11-8814-83C6C93E673C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35006BE2-61A1-4B11-8814-83C6C93E673C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35006BE2-61A1-4B11-8814-83C6C93E673C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35006BE2-61A1-4B11-8814-83C6C93E673C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

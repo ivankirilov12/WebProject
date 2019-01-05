@@ -34,7 +34,7 @@ namespace PcPartPicker.Services.Implementations
 
         public Gpu GetGpuByModel(string model)
         {
-            return unitOfWork.GpusRepository.Get(a => a.Model == model).First();
+            return unitOfWork.GpusRepository.Get(a => a.Model == model).FirstOrDefault();
         }
 
         public IEnumerable<string> GetGpuModels()

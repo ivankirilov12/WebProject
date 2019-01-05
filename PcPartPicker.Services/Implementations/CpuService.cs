@@ -34,7 +34,7 @@ namespace PcPartPicker.Services.Implementations
 
         public Cpu GetCpuByModel(string model)
         {
-            return unitOfWork.CpusRepository.Get(a => a.Model == model).ToList().First();
+            return unitOfWork.CpusRepository.Get(a => a.Model == model).ToList().FirstOrDefault();
         }
 
         public IEnumerable<string> GetCpuModels()

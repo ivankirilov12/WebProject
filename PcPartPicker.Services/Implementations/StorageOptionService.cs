@@ -34,7 +34,7 @@ namespace PcPartPicker.Services.Implementations
 
         public StorageOption GetStorageOptionByModel(string model)
         {
-            return unitOfWork.StorageOptionsRepository.Get(a => a.Model == model).First();
+            return unitOfWork.StorageOptionsRepository.Get(a => a.Model == model).FirstOrDefault();
         }
 
         public IEnumerable<string> GetStorageOptionModels()

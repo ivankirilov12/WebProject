@@ -34,7 +34,7 @@ namespace PcPartPicker.Services.Implementations
 
         public Motherboard GetMbByModel(string model)
         {
-            return unitOfWork.MotherboardsRepository.Get(a => a.Model == model).First();
+            return unitOfWork.MotherboardsRepository.Get(a => a.Model == model).FirstOrDefault();
         }
 
         public IEnumerable<string> GetMbModels()

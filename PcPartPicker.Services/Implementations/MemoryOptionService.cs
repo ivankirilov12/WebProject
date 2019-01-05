@@ -34,7 +34,7 @@ namespace PcPartPicker.Services.Implementations
 
         public MemoryOption GetMemoryOptionByModel(string model)
         {
-            return unitOfWork.MemoryOptionsRepository.Get(a => a.Model == model).First();
+            return unitOfWork.MemoryOptionsRepository.Get(a => a.Model == model).FirstOrDefault();
         }
 
         public IEnumerable<string> GetMemoryOptionModels()

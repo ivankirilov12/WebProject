@@ -35,7 +35,7 @@ namespace PcPartPicker.Services.Implementations
 
         public Case GetCaseByModel(string model)
         {
-            return unitOfWork.CasesRepository.Get(a => a.Model == model).ToList().First();
+            return unitOfWork.CasesRepository.Get(a => a.Model == model).ToList().FirstOrDefault();
         }
 
         public IEnumerable<string> GetCaseModels()

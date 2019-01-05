@@ -29,7 +29,7 @@ namespace PcPartPicker.Services.Implementations
 
         public SystemBuild GetSystemBuildById(int? id)
         {
-            return unitOfWork.SystemBuildRepository.Get(a => a.SystemBuildId == id, null, "Cpu,Case,Gpu,Motherboard,MemoryOption,StorageOption").First();
+            return unitOfWork.SystemBuildRepository.Get(a => a.SystemBuildId == id, null, "Cpu,Case,Gpu,Motherboard,MemoryOption,StorageOption").FirstOrDefault();
         }
 
         public void InsertSystemBuild(string cpuModel, string caseModel, string gpuModel, string memoryOptionModel, 
@@ -51,7 +51,7 @@ namespace PcPartPicker.Services.Implementations
 
         public void Update(string cpuModel, string caseModel, string gpuModel, string memoryOptionModel, string motherboardModel, string storageOptionModel, string name, string description, int id)
         {
-            SystemBuild systemBuild = new SystemBuild();
+            SystemBuild systemBuild = unitOfWork.SystemBuildRepository.GetByID(id);
             systemBuild.Cpu = unitOfWork.CpusRepository.Get(a => a.Model == cpuModel).First();
             systemBuild.Case = unitOfWork.CasesRepository.Get(a => a.Model == caseModel).First();
             systemBuild.Gpu = unitOfWork.GpusRepository.Get(a => a.Model == gpuModel).First();
@@ -61,7 +61,6 @@ namespace PcPartPicker.Services.Implementations
             systemBuild.Price = systemBuild.Cpu.Price + systemBuild.Case.Price + systemBuild.Gpu.Price + systemBuild.MemoryOption.Price + 
                 systemBuild.Motherboard.Price + systemBuild.StorageOption.Price;
             systemBuild.Name = name;
-            systemBuild.SystemBuildId = id;
             systemBuild.Description = description;
             unitOfWork.SystemBuildRepository.Update(systemBuild);
             unitOfWork.Save();
