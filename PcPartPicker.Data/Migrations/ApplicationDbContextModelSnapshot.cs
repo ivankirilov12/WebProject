@@ -8,8 +8,8 @@ using PcPartPicker.Data;
 
 namespace PcPartPicker.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(PcPartPickerDbContext))]
+    partial class PcPartPickerDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

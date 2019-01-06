@@ -15,14 +15,14 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 {
     public class MemoryOptionServiceTests
     {
-        private ApplicationDbContext _context;
+        private PcPartPickerDbContext _context;
         private IMemoryOptionService _memoryOptionService;
         private List<MemoryOption> _testMemoryOptions;
 
         private void SetUp()
         {
             var services = new ServiceCollection();
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<PcPartPickerDbContext>(options =>
             options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
             services.AddScoped<IMemoryOptionService, MemoryOptionService>();
@@ -31,14 +31,14 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
             services.AddScoped<IRepository<MemoryOption>, Repository<MemoryOption>>();
             IServiceProvider provider = services.BuildServiceProvider();
-            _context = provider.GetService<ApplicationDbContext>();
+            _context = provider.GetService<PcPartPickerDbContext>();
             _memoryOptionService = provider.GetService<IMemoryOptionService>();
 
             _testMemoryOptions = GetMemoryOptions();
         }
 
         [Fact]
-        public void GetAllMemoryOptions_ListOfMemoryOptions_ShouldReturnAllMemoryOptions()
+        public void GetAllMemoryOptions_WithListOfMemoryOptions_ShouldReturnAllMemoryOptions()
         {
             SetUp();
 
@@ -49,7 +49,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetAllMemoryOptions_EmptyListOfMemoryOptions_ShouldReturnEmptyList()
+        public void GetAllMemoryOptions_WithEmptyListOfMemoryOptions_ShouldReturnEmptyList()
         {
             SetUp();
 
@@ -60,7 +60,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetMemoryOptionModels_ListOfMemoryOptions_ShouldReturnAllModels()
+        public void GetMemoryOptionModels_WithListOfMemoryOptions_ShouldReturnAllModels()
         {
             SetUp();
 
@@ -72,7 +72,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetMemoryOptionModels_EmptyListOfMemoryOptions_ShouldReturnNoModels()
+        public void GetMemoryOptionModels_WithEmptyListOfMemoryOptions_ShouldReturnNoModels()
         {
             SetUp();
             List<string> expectedResult = new List<string>();
@@ -84,7 +84,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
 
         [Fact]
-        public void GetMemoryOptionByModel_ModelMatchesMemoryOption_ShouldReturnCorrectMemoryOption()
+        public void GetMemoryOptionByModel_WithModelMatchingMemoryOption_ShouldReturnCorrectMemoryOption()
         {
             SetUp();
 
@@ -95,7 +95,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetMemoryOptionByModel_NoMatchingModel_ShouldReturnNull()
+        public void GetMemoryOptionByModel_WithNoMatchingModel_ShouldReturnNull()
         {
             SetUp();
 
@@ -106,7 +106,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetMemoryOptionById_IdMatchesMemoryOption_ShouldReturnCorrectMemoryOption()
+        public void GetMemoryOptionById_WithIdMatchingMemoryOption_ShouldReturnCorrectMemoryOption()
         {
             SetUp();
 
@@ -117,7 +117,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetMemoryOptionById_NoMatches_ShouldReturnNull()
+        public void GetMemoryOptionById_WithNoMatches_ShouldReturnNull()
         {
             SetUp();
 
@@ -128,7 +128,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void InsertMemoryOption_InsertModel_ShouldBeInserted()
+        public void InsertMemoryOption_WithValidModel_ShouldBeInserted()
         {
             SetUp();
 
@@ -139,7 +139,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void Update_UpdateExistingMemoryOption_ShouldUpdateMemoryOption()
+        public void Update_WithExistingMemoryOption_ShouldUpdateMemoryOption()
         {
             SetUp();
 
@@ -152,7 +152,17 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void Delete_ExistingModel_ShouldRemoveMemoryOption()
+        public void Update_WithNonExistingMemoryOption_ShouldThrowError()
+        {
+            SetUp();
+
+            var mo = new MemoryOption();
+
+            Assert.ThrowsAny<Exception>(() => _memoryOptionService.Update(mo));
+        }
+
+        [Fact]
+        public void Delete_WithExistingModel_ShouldRemoveMemoryOption()
         {
             SetUp();
 
@@ -163,6 +173,14 @@ namespace PcPartPicker.Services.Tests.Services.Tests
             Assert.DoesNotContain(memoryOption, _context.MemoryOptions);
         }
 
+        [Fact]
+        public void Delete_WithNonExistingModel_ShouldThrowError()
+        {
+            SetUp();
+
+            Assert.ThrowsAny<Exception>(() => _memoryOptionService.Delete(1));
+        }
+
         private void SeedData()
         {
             _context.AddRange(_testMemoryOptions);
@@ -171,8 +189,8 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
         private List<MemoryOption> GetMemoryOptions()
         {
-            MemoryOption testMemoryOptionOne = new MemoryOption() { MemoryOptionId = 1, Model = "model1" };
-            MemoryOption testMemoryOptionTwo = new MemoryOption() { MemoryOptionId = 2, Model = "model2" };
+            MemoryOption testMemoryOptionOne = new MemoryOption() { Model = "model1" };
+            MemoryOption testMemoryOptionTwo = new MemoryOption() { Model = "model2" };
             return new List<MemoryOption> { testMemoryOptionOne, testMemoryOptionTwo };
         }
     }

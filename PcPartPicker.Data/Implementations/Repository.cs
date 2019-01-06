@@ -10,10 +10,10 @@ namespace PcPartPicker.Data.Implementations
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        private readonly ApplicationDbContext _context;
+        private readonly PcPartPickerDbContext _context;
         internal DbSet<TEntity> dbSet;
 
-        public Repository(ApplicationDbContext context)
+        public Repository(PcPartPickerDbContext context)
         {
             _context = context;
             dbSet = _context.Set<TEntity>();

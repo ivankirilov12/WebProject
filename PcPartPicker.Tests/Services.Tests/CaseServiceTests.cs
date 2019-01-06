@@ -15,14 +15,14 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 {
     public class CaseServiceTests
     {
-        private ApplicationDbContext _context;
+        private PcPartPickerDbContext _context;
         private ICaseService _caseService;
         private List<Case> _testCases;
 
         private void SetUp()
         {
             var services = new ServiceCollection();
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<PcPartPickerDbContext>(options =>
             options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
             services.AddScoped<ICaseService, CaseService>();
@@ -31,7 +31,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
             services.AddScoped<IRepository<Case>, Repository<Case>>();
             IServiceProvider provider = services.BuildServiceProvider();
-            _context = provider.GetService<ApplicationDbContext>();
+            _context = provider.GetService<PcPartPickerDbContext>();
             _caseService = provider.GetService<ICaseService>();
 
             _testCases = GetCases();
@@ -139,7 +139,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void Update_UpdateExistingCase_ShouldUpdateCase()
+        public void Update_WithExistingCase_ShouldUpdateCase()
         {
             SetUp();
 
@@ -149,10 +149,20 @@ namespace PcPartPicker.Services.Tests.Services.Tests
             _caseService.Update(@case);
 
             Assert.Equal(@case, _context.Cases.First());
+        }  
+
+        [Fact]
+        public void Update_WithNonExistingCase_ShouldThrowError()
+        {
+            SetUp();
+
+            var @case = new Case();
+
+            Assert.ThrowsAny<Exception>(() => _caseService.Update(@case));
         }
 
         [Fact]
-        public void Delete_ExistingModel_ShouldRemoveCase()
+        public void Delete_WithExistingModel_ShouldRemoveCase()
         {
             SetUp();
 
@@ -161,6 +171,16 @@ namespace PcPartPicker.Services.Tests.Services.Tests
             _caseService.Delete(@case.CaseId);
 
             Assert.DoesNotContain(@case, _context.Cases);
+        }
+
+        [Fact]
+        public void Delete_WithNonExistingModel_ShouldThrowError()
+        {
+            SetUp();
+
+            var @case = new Case();
+
+            Assert.ThrowsAny<Exception>(() => _caseService.Delete(@case.CaseId));
         }
 
         private void SeedData()

@@ -4,9 +4,9 @@ using PcPartPicker.Models.Models;
 
 namespace PcPartPicker.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class PcPartPickerDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public PcPartPickerDbContext(DbContextOptions<PcPartPickerDbContext> options)
             : base(options)
         {
         }

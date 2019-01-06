@@ -15,14 +15,14 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 {
     public class MotherboardServiceTests
     {
-        private ApplicationDbContext _context;
+        private PcPartPickerDbContext _context;
         private IMotherboardService _motherboardService;
         private List<Motherboard> _testMotherboards;
 
         private void SetUp()
         {
             var services = new ServiceCollection();
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<PcPartPickerDbContext>(options =>
             options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
             services.AddScoped<IMotherboardService, MotherboardService>();
@@ -31,14 +31,14 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
             services.AddScoped<IRepository<Motherboard>, Repository<Motherboard>>();
             IServiceProvider provider = services.BuildServiceProvider();
-            _context = provider.GetService<ApplicationDbContext>();
+            _context = provider.GetService<PcPartPickerDbContext>();
             _motherboardService = provider.GetService<IMotherboardService>();
 
             _testMotherboards = GetMotherboards();
         }
 
         [Fact]
-        public void GetAllMotherboards_ListOfMotherboards_ShouldReturnAllMotherboards()
+        public void GetAllMotherboards_WithListOfMotherboards_ShouldReturnAllMotherboards()
         {
             SetUp();
 
@@ -49,7 +49,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetAllMotherboards_EmptyListOfMotherboards_ShouldReturnEmptyList()
+        public void GetAllMotherboards_WithEmptyListOfMotherboards_ShouldReturnEmptyList()
         {
             SetUp();
 
@@ -60,7 +60,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetMotherboardModels_ListOfMotherboards_ShouldReturnAllModels()
+        public void GetMotherboardModels_WithListOfMotherboards_ShouldReturnAllModels()
         {
             SetUp();
 
@@ -72,7 +72,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetMotherboardModels_EmptyListOfMotherboards_ShouldReturnNoModels()
+        public void GetMotherboardModels_WithEmptyListOfMotherboards_ShouldReturnNoModels()
         {
             SetUp();
             List<string> expectedResult = new List<string>();
@@ -84,7 +84,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
 
         [Fact]
-        public void GetMotherboardByModel_ModelMatchesMotherboard_ShouldReturnCorrectMotherboard()
+        public void GetMotherboardByModel_WithModelMatchingMotherboard_ShouldReturnCorrectMotherboard()
         {
             SetUp();
 
@@ -95,7 +95,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetMotherboardByModel_NoMatchingModel_ShouldReturnNull()
+        public void GetMotherboardByModel_WithNoMatchingModel_ShouldReturnNull()
         {
             SetUp();
 
@@ -106,7 +106,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetMotherboardById_IdMatchesMotherboard_ShouldReturnCorrectMotherboard()
+        public void GetMotherboardById_WithIdMatchingMotherboard_ShouldReturnCorrectMotherboard()
         {
             SetUp();
 
@@ -117,7 +117,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetMotherboardById_NoMatches_ShouldReturnNull()
+        public void GetMotherboardById_WithNoMatches_ShouldReturnNull()
         {
             SetUp();
 
@@ -128,7 +128,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void InsertMotherboard_InsertModel_ShouldBeInserted()
+        public void InsertMotherboard_WithValidModel_ShouldBeInserted()
         {
             SetUp();
 
@@ -139,7 +139,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void Update_UpdateExistingMotherboard_ShouldUpdateMotherboard()
+        public void Update_WithExistingMotherboard_ShouldUpdateMotherboard()
         {
             SetUp();
 
@@ -152,7 +152,17 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void Delete_ExistingModel_ShouldRemoveMotherboard()
+        public void Update_WithNonExistingMotherboard_ShouldThrowError()
+        {
+            SetUp();
+
+            var mb = new Motherboard();
+
+            Assert.ThrowsAny<Exception>(() => _motherboardService.Update(mb));
+        }
+
+        [Fact]
+        public void Delete_WithExistingModel_ShouldRemoveMotherboard()
         {
             SetUp();
 
@@ -163,6 +173,14 @@ namespace PcPartPicker.Services.Tests.Services.Tests
             Assert.DoesNotContain(motherboard, _context.Motherboards);
         }
 
+        [Fact]
+        public void Delete_WithNonExistingModel_ShouldThrowError()
+        {
+            SetUp();
+
+            Assert.ThrowsAny<Exception>(() => _motherboardService.Delete(1));
+        }
+
         private void SeedData()
         {
             _context.AddRange(_testMotherboards);
@@ -171,8 +189,8 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
         private List<Motherboard> GetMotherboards()
         {
-            Motherboard testMotherboardOne = new Motherboard() { MotherboardId = 1, Model = "model1" };
-            Motherboard testMotherboardTwo = new Motherboard() { MotherboardId = 2, Model = "model2" };
+            Motherboard testMotherboardOne = new Motherboard() { Model = "model1" };
+            Motherboard testMotherboardTwo = new Motherboard() { Model = "model2" };
             return new List<Motherboard> { testMotherboardOne, testMotherboardTwo };
         }
     }

@@ -11,7 +11,7 @@ namespace PcPartPicker.Services.Implementations
     {
         private UnitOfWork unitOfWork;
 
-        public MemoryOptionService(ApplicationDbContext context)
+        public MemoryOptionService(PcPartPickerDbContext context)
         {
             unitOfWork = new UnitOfWork(context);
         }

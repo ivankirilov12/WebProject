@@ -15,7 +15,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 {
     public class SystemBuildServiceTests
     {
-        private ApplicationDbContext _context;
+        private PcPartPickerDbContext _context;
         private ISystemBuildService _systemBuildService;
         private List<SystemBuild> _testSystemBuilds;
         private string cpuModel;
@@ -28,7 +28,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         private void SetUp()
         {
             var services = new ServiceCollection();
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<PcPartPickerDbContext>(options =>
             options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
             services.AddScoped<ISystemBuildService, SystemBuildService>();
@@ -37,7 +37,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
             services.AddScoped<IRepository<SystemBuild>, Repository<SystemBuild>>();
             IServiceProvider provider = services.BuildServiceProvider();
-            _context = provider.GetService<ApplicationDbContext>();
+            _context = provider.GetService<PcPartPickerDbContext>();
             _systemBuildService = provider.GetService<ISystemBuildService>();
 
             _testSystemBuilds = GetSystemBuilds();
@@ -127,7 +127,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void Delete_WithExistingBuild_ShouldDeleteRecord()
+        public void Delete_WithExistingSystemBuild_ShouldDeleteRecord()
         {
             SetUp();
             SeedData();
@@ -139,7 +139,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void Delete_WithNotAnExistingBuild_ShouldThrowError()
+        public void Delete_WithNonExistingModel_ShouldThrowError()
         {
             SetUp();
             SeedData();
@@ -149,12 +149,12 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
         private void SetUpComponents()
         {
-            _context.Cpus.Add(new Cpu() { CpuId = 1, Model = "cpuModel"});
-            _context.Gpus.Add(new Gpu() { GpuId = 1, Model = "gpuModel"});
-            _context.Cases.Add(new Case() { CaseId = 1, Model = "caseModel"});
-            _context.Motherboards.Add(new Motherboard() { MotherboardId = 1, Model = "mbModel"});
-            _context.MemoryOptions.Add(new MemoryOption() { MemoryOptionId = 1, Model = "memoryOptionModel"});
-            _context.StorageOptions.Add(new StorageOption() { StorageOptionId = 1, Model = "storageOptionModel"});
+            _context.Cpus.Add(new Cpu() { Model = "cpuModel"});
+            _context.Gpus.Add(new Gpu() { Model = "gpuModel"});
+            _context.Cases.Add(new Case() { Model = "caseModel"});
+            _context.Motherboards.Add(new Motherboard() { Model = "mbModel"});
+            _context.MemoryOptions.Add(new MemoryOption() { Model = "memoryOptionModel"});
+            _context.StorageOptions.Add(new StorageOption() { Model = "storageOptionModel"});
             _context.SaveChanges();
 
             cpuModel = "cpuModel";

@@ -12,7 +12,7 @@ namespace PcPartPicker.Services.Implementations
     {
         private UnitOfWork unitOfWork;
 
-        public CaseService(ApplicationDbContext context)
+        public CaseService(PcPartPickerDbContext context)
         {
             unitOfWork = new UnitOfWork(context);
         }

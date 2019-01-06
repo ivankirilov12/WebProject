@@ -15,14 +15,14 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 {
     public class CpuServiceTests
     {
-        private ApplicationDbContext _context;
+        private PcPartPickerDbContext _context;
         private ICpuService _cpuService;
         private List<Cpu> _testCpus;
 
         private void SetUp()
         {
             var services = new ServiceCollection();
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<PcPartPickerDbContext>(options =>
             options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
             services.AddScoped<ICpuService, CpuService>();
@@ -31,7 +31,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
             services.AddScoped<IRepository<Cpu>, Repository<Cpu>>();
             IServiceProvider provider = services.BuildServiceProvider();
-            _context = provider.GetService<ApplicationDbContext>();
+            _context = provider.GetService<PcPartPickerDbContext>();
             _cpuService = provider.GetService<ICpuService>();
 
             _testCpus = GetCpus();
@@ -39,7 +39,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
         //test GetAllCpus
         [Fact]
-        public void GetAllCpus_ListOfCpus_ShouldReturnAllCpus()
+        public void GetAllCpus_WithListOfCpus_ShouldReturnAllCpus()
         {
             SetUp();
 
@@ -50,7 +50,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetAllCpus_EmptyListOfCpus_ShouldReturnEmptyList()
+        public void GetAllCpus_WithEmptyListOfCpus_ShouldReturnEmptyList()
         {
             SetUp();
 
@@ -62,7 +62,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
         //test GetCpuModels
         [Fact]
-        public void GetCpuModels_ListOfCpus_ShouldReturnAllModels()
+        public void GetCpuModels_WithListOfCpus_ShouldReturnAllModels()
         {
             SetUp();
 
@@ -74,7 +74,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetCpuModels_EmptyListOfCpus_ShouldReturnNoModels()
+        public void GetCpuModels_WithEmptyListOfCpus_ShouldReturnNoModels()
         {
             SetUp();
             List<string> expectedResult = new List<string>();
@@ -84,10 +84,8 @@ namespace PcPartPicker.Services.Tests.Services.Tests
             Assert.Equal(expectedResult, cpuModels);
         }
 
-        //test Cpu GetCpuByModel(string model)
-
         [Fact]
-        public void GetCpuByModel_ModelMatchesCpu_ShouldReturnCorrectCpu()
+        public void GetCpuByModel_WithModelMatchingCpu_ShouldReturnCorrectCpu()
         {
             SetUp();
 
@@ -98,7 +96,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetCpuByModel_NoMatchingModel_ShouldReturnNull()
+        public void GetCpuByModel_WithNoMatchingModel_ShouldReturnNull()
         {
             SetUp();
 
@@ -107,11 +105,9 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
             Assert.True(cpu == null);
         }
-
-        //test Cpu GetCpuById(int? id)
-
+        
         [Fact]
-        public void GetCpuById_IdMatchesCpu_ShouldReturnCorrectCpu()
+        public void GetCpuById_WithIdMatchingCpu_ShouldReturnCorrectCpu()
         {
             SetUp();
 
@@ -122,7 +118,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetCpuById_NoMatches_ShouldReturnNull()
+        public void GetCpuById_WithNoMatches_ShouldReturnNull()
         {
             SetUp();
 
@@ -131,11 +127,9 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
             Assert.True(cpu == null);
         }
-
-        //test void InsertCpu(Cpu cpu);
-
+        
         [Fact]
-        public void InsertCpu_InsertModel_ShouldBeInserted()
+        public void InsertCpu_WithValidModel_ShouldInsertRecord()
         {
             SetUp();
 
@@ -145,10 +139,9 @@ namespace PcPartPicker.Services.Tests.Services.Tests
             Assert.Equal(cpu, _context.Cpus.First());
         }
 
-        //test  void Update(Cpu cpu);
 
         [Fact]
-        public void Update_UpdateExistingCpu_ShouldUpdateCpu()
+        public void Update_WithExistingCpu_ShouldUpdateCpu()
         {
             SetUp();
 
@@ -160,9 +153,18 @@ namespace PcPartPicker.Services.Tests.Services.Tests
             Assert.Equal(cpu, _context.Cpus.First());
         }
 
-        //test void Delete(int? id);
         [Fact]
-        public void Delete_ExistingModel_ShouldRemoveCpu()
+        public void Update_WithNonExistingCpu_ShouldThrowError()
+        {
+            SetUp();
+
+            var cpu = new Cpu();
+
+            Assert.ThrowsAny<Exception>(() => _cpuService.Update(cpu));
+        }
+
+        [Fact]
+        public void Delete_WithExistingModel_ShouldRemoveCpu()
         {
             SetUp();
 
@@ -173,6 +175,14 @@ namespace PcPartPicker.Services.Tests.Services.Tests
             Assert.DoesNotContain(cpu, _context.Cpus);
         }
 
+        [Fact]
+        public void Delete_WithNonExistingModel_ShouldThrowError()
+        {
+            SetUp();
+            
+            Assert.ThrowsAny<Exception>(() => _cpuService.Delete(10));
+        }
+
         private void SeedData()
         {
             _context.AddRange(_testCpus);
@@ -181,8 +191,8 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
         private List<Cpu> GetCpus()
         {
-            Cpu testCpuOne = new Cpu() {CpuId = 1, Model = "model1" };
-            Cpu testCpuTwo = new Cpu() {CpuId = 2, Model = "model2" };
+            Cpu testCpuOne = new Cpu() { Model = "model1" };
+            Cpu testCpuTwo = new Cpu() { Model = "model2" };
             return new List<Cpu> { testCpuOne, testCpuTwo};
         }
     }

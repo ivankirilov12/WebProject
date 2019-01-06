@@ -11,7 +11,7 @@ namespace PcPartPicker.Services.Implementations
     {
         private UnitOfWork unitOfWork;
 
-        public GpuService(ApplicationDbContext context)
+        public GpuService(PcPartPickerDbContext context)
         {
             unitOfWork = new UnitOfWork(context);
         }

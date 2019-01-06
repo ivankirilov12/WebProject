@@ -39,7 +39,7 @@ namespace PcPartPicker
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<PcPartPickerDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
@@ -47,7 +47,7 @@ namespace PcPartPicker
                 .AddRoleManager<RoleManager<IdentityRole>>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<PcPartPickerDbContext>();
 
             services.AddScoped<ICaseService, CaseService>();
             services.AddScoped<ICpuService, CpuService>();

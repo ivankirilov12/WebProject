@@ -15,14 +15,14 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 {
     public class GpuServiceTests
     {
-        private ApplicationDbContext _context;
+        private PcPartPickerDbContext _context;
         private IGpuService _gpuService;
         private List<Gpu> _testGpus;
 
         private void SetUp()
         {
             var services = new ServiceCollection();
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<PcPartPickerDbContext>(options =>
             options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
             services.AddScoped<IGpuService, GpuService>();
@@ -31,14 +31,14 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
             services.AddScoped<IRepository<Gpu>, Repository<Gpu>>();
             IServiceProvider provider = services.BuildServiceProvider();
-            _context = provider.GetService<ApplicationDbContext>();
+            _context = provider.GetService<PcPartPickerDbContext>();
             _gpuService = provider.GetService<IGpuService>();
 
             _testGpus = GetGpus();
         }
 
         [Fact]
-        public void GetAllGpus_ListOfGpus_ShouldReturnAllGpus()
+        public void GetAllGpus_WithListOfGpus_ShouldReturnAllGpus()
         {
             SetUp();
 
@@ -49,7 +49,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetAllGpus_EmptyListOfGpus_ShouldReturnEmptyList()
+        public void GetAllGpus_WithEmptyListOfGpus_ShouldReturnEmptyList()
         {
             SetUp();
 
@@ -60,7 +60,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetGpuModels_ListOfGpus_ShouldReturnAllModels()
+        public void GetGpuModels_WithListOfGpus_ShouldReturnAllModels()
         {
             SetUp();
 
@@ -72,7 +72,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetGpuModels_EmptyListOfGpus_ShouldReturnNoModels()
+        public void GetGpuModels_WithEmptyListOfGpus_ShouldReturnNoModels()
         {
             SetUp();
             List<string> expectedResult = new List<string>();
@@ -84,7 +84,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
 
         [Fact]
-        public void GetGpuByModel_ModelMatchesGpu_ShouldReturnCorrectGpu()
+        public void GetGpuByModel_WithModelMatchingGpu_ShouldReturnCorrectGpu()
         {
             SetUp();
 
@@ -95,7 +95,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetGpuByModel_NoMatchingModel_ShouldReturnNull()
+        public void GetGpuByModel_WithNoMatchingModel_ShouldReturnNull()
         {
             SetUp();
 
@@ -106,7 +106,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetGpuById_IdMatchesGpu_ShouldReturnCorrectGpu()
+        public void GetGpuById_WithIdMatchingGpu_ShouldReturnCorrectGpu()
         {
             SetUp();
 
@@ -117,7 +117,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void GetGpuById_NoMatches_ShouldReturnNull()
+        public void GetGpuById_WithNoMatches_ShouldReturnNull()
         {
             SetUp();
 
@@ -128,7 +128,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void InsertGpu_InsertModel_ShouldBeInserted()
+        public void InsertGpu_WithValidModel_ShouldBeInserted()
         {
             SetUp();
 
@@ -139,7 +139,7 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
                 
         [Fact]
-        public void Update_UpdateExistingGpu_ShouldUpdateGpu()
+        public void Update_WithExistingGpu_ShouldUpdateGpu()
         {
             SetUp();
 
@@ -152,7 +152,17 @@ namespace PcPartPicker.Services.Tests.Services.Tests
         }
 
         [Fact]
-        public void Delete_ExistingModel_ShouldRemoveGpu()
+        public void Update_WithNonExistingGpu_ShouldThrowError()
+        {
+            SetUp();
+
+            var gpu = new Gpu();
+
+            Assert.ThrowsAny<Exception>(() => _gpuService.Update(gpu));
+        }
+
+        [Fact]
+        public void Delete_WithExistingModel_ShouldRemoveGpu()
         {
             SetUp();
 
@@ -163,6 +173,14 @@ namespace PcPartPicker.Services.Tests.Services.Tests
             Assert.DoesNotContain(gpu, _context.Gpus);
         }
 
+        [Fact]
+        public void Delete_WithNonExistingModel_ShouldThrowError()
+        {
+            SetUp();
+
+            Assert.ThrowsAny<Exception>(() => _gpuService.Delete(1));
+        }
+
         private void SeedData()
         {
             _context.AddRange(_testGpus);
@@ -171,8 +189,8 @@ namespace PcPartPicker.Services.Tests.Services.Tests
 
         private List<Gpu> GetGpus()
         {
-            Gpu testGpuOne = new Gpu() { GpuId = 1, Model = "model1" };
-            Gpu testGpuTwo = new Gpu() { GpuId = 2, Model = "model2" };
+            Gpu testGpuOne = new Gpu() { Model = "model1" };
+            Gpu testGpuTwo = new Gpu() { Model = "model2" };
             return new List<Gpu> { testGpuOne, testGpuTwo };
         }
     }

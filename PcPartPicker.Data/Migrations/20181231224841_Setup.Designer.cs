@@ -9,7 +9,7 @@ using PcPartPicker.Data;
 
 namespace PcPartPicker.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(PcPartPickerDbContext))]
     [Migration("20181231224841_Setup")]
     partial class Setup
     {

@@ -6,7 +6,7 @@ namespace PcPartPicker.Data.Implementations
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private ApplicationDbContext _context;
+        private PcPartPickerDbContext _context;
         private Repository<Case> casesRepository;
         private Repository<Cpu> cpusRepository;
         private Repository<Gpu> gpusRepository;
@@ -15,7 +15,7 @@ namespace PcPartPicker.Data.Implementations
         private Repository<MemoryOption> memoryRepository;
         private Repository<SystemBuild> systembuildsRepository;
 
-        public UnitOfWork(ApplicationDbContext context)
+        public UnitOfWork(PcPartPickerDbContext context)
         {
             _context = context;
         }

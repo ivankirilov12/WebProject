@@ -10,10 +10,10 @@ namespace PcPartPicker.Controllers
     [Authorize(Roles = "Admin")]
     public class AccountController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly PcPartPickerDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public AccountController(ApplicationDbContext context, UserManager<IdentityUser> usermanager)
+        public AccountController(PcPartPickerDbContext context, UserManager<IdentityUser> usermanager)
         {
             _context = context;
             _userManager = usermanager;
