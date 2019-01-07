@@ -1,39 +1,43 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PcPartPicker.Data;
 using PcPartPicker.Models.Models;
 using PcPartPicker.Services.Interfaces;
 
-namespace PcPartPicker.Controllers
+namespace PcPartPicker.Areas.Component
 {
-    public class CasesController : Controller
+    [Area("Component")]
+    public class MotherboardsController : Controller
     {
-        private readonly ICaseService _service;
+        private readonly IMotherboardService _service;
 
-        public CasesController(ICaseService service)
+        public MotherboardsController(IMotherboardService service)
         {
             _service = service;
         }
 
-        public IEnumerable<string> GetCaseModels()
-        {
-            return _service.GetCaseModels();
-        }
-
-        public async Task<Case> GetCaseByModel(string model)
-        {
-            return _service.GetCaseByModel(model);
-        }
-
-        // GET: Cases
+        // GET: Motherboards
         public async Task<IActionResult> Index()
         {
-            return View(_service.GetAllCases());
+            return View(_service.GetAllMbs());
         }
 
-        // GET: Cases/Details/5
+        public List<string> GetMotherboardModels()
+        {
+            return _service.GetMbModels().ToList();
+        }
+
+        public Motherboard GetMotherboardByModel(string model)
+        {
+            var mb = _service.GetMbByModel(model);
+            return mb;
+        }
+
+        // GET: Motherboards/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -41,39 +45,39 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var @case = _service.GetCaseById(id);
-            if (@case == null)
+            var motherboard = _service.GetMbById(id);
+            if (motherboard == null)
             {
                 return NotFound();
             }
 
-            return View(@case);
+            return View(motherboard);
         }
 
-        // GET: Cases/Create
+        // GET: Motherboards/Create
         [Authorize(Roles = "Admin, Vendor")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Cases/Create
+        // POST: Motherboards/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Create([Bind("CaseId,Model,Manufacturer,Price,Type")] Case @case)
+        public async Task<IActionResult> Create([Bind("MotherboardId,Model,Manufacturer,Price,CpuSocket")] Motherboard motherboard)
         {
             if (ModelState.IsValid)
             {
-                _service.InsertCase(@case);
+                _service.InsertMb(motherboard);
                 return RedirectToAction(nameof(Index));
             }
-            return View(@case);
+            return View(motherboard);
         }
 
-        // GET: Cases/Edit/5
+        // GET: Motherboards/Edit/5
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -82,36 +86,36 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var @case = _service.GetCaseById(id);
-            if (@case == null)
+            var motherboard = _service.GetMbById(id);
+            if (motherboard == null)
             {
                 return NotFound();
             }
-            return View(@case);
+            return View(motherboard);
         }
 
-        // POST: Cases/Edit/5
+        // POST: Motherboards/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int id, [Bind("CaseId,Model,Manufacturer,Price,Type")] Case @case)
+        public async Task<IActionResult> Edit(int id, [Bind("MotherboardId,Model,Manufacturer,Price,CpuSocket")] Motherboard motherboard)
         {
-            if (id != @case.CaseId)
+            if (id != motherboard.MotherboardId)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                _service.Update(@case);
+                _service.Update(motherboard);
                 return RedirectToAction(nameof(Index));
             }
-            return View(@case);
+            return View(motherboard);
         }
 
-        // GET: Cases/Delete/5
+        // GET: Motherboards/Delete/5
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -120,16 +124,16 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var @case = _service.GetCaseById(id);
-            if (@case == null)
+            var motherboard = _service.GetMbById(id);
+            if (motherboard == null)
             {
                 return NotFound();
             }
 
-            return View(@case);
+            return View(motherboard);
         }
 
-        // POST: Cases/Delete/5
+        // POST: Motherboards/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]

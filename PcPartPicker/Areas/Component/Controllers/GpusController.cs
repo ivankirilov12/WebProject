@@ -9,8 +9,9 @@ using PcPartPicker.Data;
 using PcPartPicker.Models.Models;
 using PcPartPicker.Services.Interfaces;
 
-namespace PcPartPicker.Controllers
+namespace PcPartPicker.Areas.Component
 {
+    [Area("Component")]
     public class GpusController : Controller
     {
         private readonly IGpuService _service;

@@ -4,38 +4,41 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using PcPartPicker.Data;
 using PcPartPicker.Models.Models;
 using PcPartPicker.Services.Interfaces;
 
-namespace PcPartPicker.Controllers
+namespace PcPartPicker.Areas.Component
 {
-    public class StorageOptionsController : Controller
+    [Area("Component")]
+    public class CpusController : Controller
     {
-        private readonly IStorageOptionService _service;
+        private readonly ICpuService _service;
 
-        public StorageOptionsController(IStorageOptionService service)
+        public CpusController(ICpuService service)
         {
             _service = service;
         }
 
-        // GET: Storages
+        // GET: Cpus
         public async Task<IActionResult> Index()
         {
-            return View(_service.GetAllStorageOptions());
+            return View(_service.GetAllCpus());
         }
-
-        public List<string> GetStorageOptionModels()
+               
+        public List<string> GetCpuModels()
         {
-            return _service.GetStorageOptionModels().ToList();
+            return _service.GetCpuModels().ToList();
         }
 
-        public StorageOption GetStorageOptionByModel(string model)
+        public Cpu GetCpuByModel(string model)
         {
-            return _service.GetStorageOptionByModel(model);
+            return _service.GetCpuByModel(model);
         }
 
-        // GET: Storages/Details/5
+
+        // GET: Cpus/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,39 +46,39 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var storage = _service.GetStorageOptionById(id);
-            if (storage == null)
+            var cpu = _service.GetCpuById(id);
+            if (cpu == null)
             {
                 return NotFound();
             }
 
-            return View(storage);
+            return View(cpu);
         }
 
-        // GET: Storages/Create
+        // GET: Cpus/Create
         [Authorize(Roles = "Admin, Vendor")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Storages/Create
+        // POST: Cpus/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Create([Bind("StorageId,Model,Manufacturer,Price,Type,Capacity")] StorageOption storageOption)
+        public async Task<IActionResult> Create([Bind("CpuId,Model,Price,Manufacturer,Socket,NumberOfCores,CacheMemory")] Cpu cpu)
         {
             if (ModelState.IsValid)
             {
-                _service.InsertStorageOption(storageOption);
+                _service.InsertCpu(cpu);
                 return RedirectToAction(nameof(Index));
             }
-            return View(storageOption);
+            return View(cpu);
         }
 
-        // GET: Storages/Edit/5
+        // GET: Cpus/Edit/5
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -84,37 +87,36 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var storage = _service.GetStorageOptionById(id);
-            if (storage == null)
+            var cpu = _service.GetCpuById(id);
+            if (cpu == null)
             {
                 return NotFound();
             }
-            return View(storage);
+            return View(cpu);
         }
 
-        // POST: Storages/Edit/5
+        // POST: Cpus/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int id, [Bind("StorageId,Model,Manufacturer,Price,Type,Capacity")] StorageOption storageOption)
+        public async Task<IActionResult> Edit(int id, [Bind("CpuId,Model,Price,Manufacturer,Socket,NumberOfCores,CacheMemory")] Cpu cpu)
         {
-            if (id != storageOption.StorageOptionId)
+            if (id != cpu.CpuId)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                _service.Update(storageOption);
+                _service.Update(cpu);
                 return RedirectToAction(nameof(Index));
             }
-            return View(storageOption);
+            return View(cpu);
         }
 
-        // GET: Storages/Delete/5
-        [Authorize(Roles = "Admin, Vendor")]
+        // GET: Cpus/Delete/5[Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -122,16 +124,16 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var storage = _service.GetStorageOptionById(id);
-            if (storage == null)
+            var cpu = _service.GetCpuById(id);
+            if (cpu == null)
             {
                 return NotFound();
             }
 
-            return View(storage);
+            return View(cpu);
         }
 
-        // POST: Storages/Delete/5
+        // POST: Cpus/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]

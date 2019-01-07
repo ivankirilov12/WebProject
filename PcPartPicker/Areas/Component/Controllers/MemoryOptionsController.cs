@@ -3,41 +3,38 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using PcPartPicker.Data;
 using PcPartPicker.Models.Models;
 using PcPartPicker.Services.Interfaces;
 
-namespace PcPartPicker.Controllers
+namespace PcPartPicker.Areas.Component
 {
-    public class CpusController : Controller
+    [Area("Component")]
+    public class MemoryOptionsController : Controller
     {
-        private readonly ICpuService _service;
+        private readonly IMemoryOptionService _service;
 
-        public CpusController(ICpuService service)
+        public MemoryOptionsController(IMemoryOptionService service)
         {
             _service = service;
         }
 
-        // GET: Cpus
+        // GET: Rams
         public async Task<IActionResult> Index()
         {
-            return View(_service.GetAllCpus());
+            return View(_service.GetAllMemoryOptions());
         }
-               
-        public List<string> GetCpuModels()
+
+        public List<string> GetMemoryOptionModels()
         {
-            return _service.GetCpuModels().ToList();
+            return _service.GetMemoryOptionModels().ToList();
         }
 
-        public Cpu GetCpuByModel(string model)
+        public MemoryOption GetMemoryOptionByModel(string model)
         {
-            return _service.GetCpuByModel(model);
+            return _service.GetMemoryOptionByModel(model);
         }
 
-
-        // GET: Cpus/Details/5
+        // GET: Rams/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,39 +42,39 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var cpu = _service.GetCpuById(id);
-            if (cpu == null)
+            var ram = _service.GetMemoryOptionById(id);
+            if (ram == null)
             {
                 return NotFound();
             }
 
-            return View(cpu);
+            return View(ram);
         }
 
-        // GET: Cpus/Create
+        // GET: Rams/Create
         [Authorize(Roles = "Admin, Vendor")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Cpus/Create
+        // POST: Rams/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Create([Bind("CpuId,Model,Price,Manufacturer,Socket,NumberOfCores,CacheMemory")] Cpu cpu)
+        public async Task<IActionResult> Create([Bind("RamId,Model,Manufacturer,MemoryType,MemoryCapacity,MemoryFrequency,Price")] MemoryOption memoryOption)
         {
             if (ModelState.IsValid)
             {
-                _service.InsertCpu(cpu);
+                _service.InsertMemoryOption(memoryOption);
                 return RedirectToAction(nameof(Index));
             }
-            return View(cpu);
+            return View(memoryOption);
         }
 
-        // GET: Cpus/Edit/5
+        // GET: Rams/Edit/5
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -86,36 +83,37 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var cpu = _service.GetCpuById(id);
-            if (cpu == null)
+            var ram = _service.GetMemoryOptionById(id);
+            if (ram == null)
             {
                 return NotFound();
             }
-            return View(cpu);
+            return View(ram);
         }
 
-        // POST: Cpus/Edit/5
+        // POST: Rams/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int id, [Bind("CpuId,Model,Price,Manufacturer,Socket,NumberOfCores,CacheMemory")] Cpu cpu)
+        public async Task<IActionResult> Edit(int id, [Bind("RamId,Model,Manufacturer,MemoryType,MemoryCapacity,MemoryFrequency,Price")] MemoryOption memoryOption)
         {
-            if (id != cpu.CpuId)
+            if (id != memoryOption.MemoryOptionId)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                _service.Update(cpu);
+                _service.Update(memoryOption);
                 return RedirectToAction(nameof(Index));
             }
-            return View(cpu);
+            return View(memoryOption);
         }
 
-        // GET: Cpus/Delete/5[Authorize(Roles = "Admin, Vendor")]
+        // GET: Rams/Delete/5
+        [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,16 +121,16 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var cpu = _service.GetCpuById(id);
-            if (cpu == null)
+            var ram = _service.GetMemoryOptionById(id);
+            if (ram == null)
             {
                 return NotFound();
             }
 
-            return View(cpu);
+            return View(ram);
         }
 
-        // POST: Cpus/Delete/5
+        // POST: Rams/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]

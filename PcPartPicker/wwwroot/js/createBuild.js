@@ -8,7 +8,7 @@ var selectedParts = {};
 var totalPrice = 0;
 function loadDropdown(part) {
     var request = new XMLHttpRequest();
-    var url = "https://localhost:5001/" + part + "s/Get" + part + "Models";
+    var url = "https://localhost:5001/Component/" + part + "s/Get" + part + "Models";
     request.open("GET", url, true);
 
     request.onreadystatechange = function () {
@@ -40,7 +40,7 @@ function choosePart(data) {
     }
 
     var partRequest = new XMLHttpRequest();
-    var url = "https://localhost:5001/" + partType + "s/Get" + partType + "ByModel?model=" + partName;
+    var url = "https://localhost:5001/Component/" + partType + "s/Get" + partType + "ByModel?model=" + partName;
     partRequest.open("GET", url, true);
     partRequest.onreadystatechange = function () {
         if (this.readyState == 4) {

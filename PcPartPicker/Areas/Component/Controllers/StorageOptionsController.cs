@@ -8,35 +8,35 @@ using PcPartPicker.Data;
 using PcPartPicker.Models.Models;
 using PcPartPicker.Services.Interfaces;
 
-namespace PcPartPicker.Controllers
+namespace PcPartPicker.Areas.Component
 {
-    public class MotherboardsController : Controller
+    [Area("Component")]
+    public class StorageOptionsController : Controller
     {
-        private readonly IMotherboardService _service;
+        private readonly IStorageOptionService _service;
 
-        public MotherboardsController(IMotherboardService service)
+        public StorageOptionsController(IStorageOptionService service)
         {
             _service = service;
         }
 
-        // GET: Motherboards
+        // GET: Storages
         public async Task<IActionResult> Index()
         {
-            return View(_service.GetAllMbs());
+            return View(_service.GetAllStorageOptions());
         }
 
-        public List<string> GetMotherboardModels()
+        public List<string> GetStorageOptionModels()
         {
-            return _service.GetMbModels().ToList();
+            return _service.GetStorageOptionModels().ToList();
         }
 
-        public Motherboard GetMotherboardByModel(string model)
+        public StorageOption GetStorageOptionByModel(string model)
         {
-            var mb = _service.GetMbByModel(model);
-            return mb;
+            return _service.GetStorageOptionByModel(model);
         }
 
-        // GET: Motherboards/Details/5
+        // GET: Storages/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,39 +44,39 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var motherboard = _service.GetMbById(id);
-            if (motherboard == null)
+            var storage = _service.GetStorageOptionById(id);
+            if (storage == null)
             {
                 return NotFound();
             }
 
-            return View(motherboard);
+            return View(storage);
         }
 
-        // GET: Motherboards/Create
+        // GET: Storages/Create
         [Authorize(Roles = "Admin, Vendor")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Motherboards/Create
+        // POST: Storages/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Create([Bind("MotherboardId,Model,Manufacturer,Price,CpuSocket")] Motherboard motherboard)
+        public async Task<IActionResult> Create([Bind("StorageId,Model,Manufacturer,Price,Type,Capacity")] StorageOption storageOption)
         {
             if (ModelState.IsValid)
             {
-                _service.InsertMb(motherboard);
+                _service.InsertStorageOption(storageOption);
                 return RedirectToAction(nameof(Index));
             }
-            return View(motherboard);
+            return View(storageOption);
         }
 
-        // GET: Motherboards/Edit/5
+        // GET: Storages/Edit/5
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -85,36 +85,36 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var motherboard = _service.GetMbById(id);
-            if (motherboard == null)
+            var storage = _service.GetStorageOptionById(id);
+            if (storage == null)
             {
                 return NotFound();
             }
-            return View(motherboard);
+            return View(storage);
         }
 
-        // POST: Motherboards/Edit/5
+        // POST: Storages/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int id, [Bind("MotherboardId,Model,Manufacturer,Price,CpuSocket")] Motherboard motherboard)
+        public async Task<IActionResult> Edit(int id, [Bind("StorageId,Model,Manufacturer,Price,Type,Capacity")] StorageOption storageOption)
         {
-            if (id != motherboard.MotherboardId)
+            if (id != storageOption.StorageOptionId)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                _service.Update(motherboard);
+                _service.Update(storageOption);
                 return RedirectToAction(nameof(Index));
             }
-            return View(motherboard);
+            return View(storageOption);
         }
 
-        // GET: Motherboards/Delete/5
+        // GET: Storages/Delete/5
         [Authorize(Roles = "Admin, Vendor")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -123,16 +123,16 @@ namespace PcPartPicker.Controllers
                 return NotFound();
             }
 
-            var motherboard = _service.GetMbById(id);
-            if (motherboard == null)
+            var storage = _service.GetStorageOptionById(id);
+            if (storage == null)
             {
                 return NotFound();
             }
 
-            return View(motherboard);
+            return View(storage);
         }
 
-        // POST: Motherboards/Delete/5
+        // POST: Storages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]

@@ -7,7 +7,7 @@ for (i = 0; i < parts.length; i++) {
 
 function loadDropdown(part) {
     var request = new XMLHttpRequest();
-    var url = "https://localhost:5001/" + part + "s/Get" + part + "Models";
+    var url = "https://localhost:5001/Component/" + part + "s/Get" + part + "Models";
     request.open("GET", url, true);
 
     request.onreadystatechange = function () {
