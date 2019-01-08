@@ -21,7 +21,7 @@ namespace PcPartPicker.Areas.Component
         }
 
         // GET: Motherboards
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View(_service.GetAllMbs());
         }
@@ -38,7 +38,7 @@ namespace PcPartPicker.Areas.Component
         }
 
         // GET: Motherboards/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -67,7 +67,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Create([Bind("MotherboardId,Model,Manufacturer,Price,CpuSocket")] Motherboard motherboard)
+        public IActionResult Create([Bind("MotherboardId,Model,Manufacturer,Price,CpuSocket")] Motherboard motherboard)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace PcPartPicker.Areas.Component
 
         // GET: Motherboards/Edit/5
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -100,7 +100,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int id, [Bind("MotherboardId,Model,Manufacturer,Price,CpuSocket")] Motherboard motherboard)
+        public IActionResult Edit(int id, [Bind("MotherboardId,Model,Manufacturer,Price,CpuSocket")] Motherboard motherboard)
         {
             if (id != motherboard.MotherboardId)
             {
@@ -117,7 +117,7 @@ namespace PcPartPicker.Areas.Component
 
         // GET: Motherboards/Delete/5
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -137,7 +137,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
             _service.Delete(id);
             return RedirectToAction(nameof(Index));

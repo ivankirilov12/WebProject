@@ -3,9 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using PcPartPicker.Data;
 using PcPartPicker.Models.Models;
 using PcPartPicker.Services.Interfaces;
 
@@ -22,7 +19,7 @@ namespace PcPartPicker.Areas.Component
         }
 
         // GET: Cpus
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View(_service.GetAllCpus());
         }
@@ -39,7 +36,7 @@ namespace PcPartPicker.Areas.Component
 
 
         // GET: Cpus/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -68,7 +65,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Create([Bind("CpuId,Model,Price,Manufacturer,Socket,NumberOfCores,CacheMemory")] Cpu cpu)
+        public IActionResult Create([Bind("CpuId,Model,Price,Manufacturer,Socket,NumberOfCores,CacheMemory")] Cpu cpu)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +77,7 @@ namespace PcPartPicker.Areas.Component
 
         // GET: Cpus/Edit/5
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -101,7 +98,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int id, [Bind("CpuId,Model,Price,Manufacturer,Socket,NumberOfCores,CacheMemory")] Cpu cpu)
+        public IActionResult Edit(int id, [Bind("CpuId,Model,Price,Manufacturer,Socket,NumberOfCores,CacheMemory")] Cpu cpu)
         {
             if (id != cpu.CpuId)
             {
@@ -117,7 +114,7 @@ namespace PcPartPicker.Areas.Component
         }
 
         // GET: Cpus/Delete/5[Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -137,7 +134,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
             _service.Delete(id);
             return RedirectToAction(nameof(Index));

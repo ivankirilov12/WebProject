@@ -10,6 +10,7 @@ namespace PcPartPicker.Models.Models
         [Key, Column(Order = 0)]
         public int CpuId { get; set; }
 
+        [Required]
         public string Model { get; set; }
 
         [Column(TypeName = "decimal(10, 5)")]

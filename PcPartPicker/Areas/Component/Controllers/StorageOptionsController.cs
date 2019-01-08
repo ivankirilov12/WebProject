@@ -3,8 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PcPartPicker.Data;
 using PcPartPicker.Models.Models;
 using PcPartPicker.Services.Interfaces;
 
@@ -21,7 +19,7 @@ namespace PcPartPicker.Areas.Component
         }
 
         // GET: Storages
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View(_service.GetAllStorageOptions());
         }
@@ -37,7 +35,7 @@ namespace PcPartPicker.Areas.Component
         }
 
         // GET: Storages/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -66,7 +64,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Create([Bind("StorageId,Model,Manufacturer,Price,Type,Capacity")] StorageOption storageOption)
+        public IActionResult Create([Bind("StorageId,Model,Manufacturer,Price,Type,Capacity")] StorageOption storageOption)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +76,7 @@ namespace PcPartPicker.Areas.Component
 
         // GET: Storages/Edit/5
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -99,7 +97,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int id, [Bind("StorageId,Model,Manufacturer,Price,Type,Capacity")] StorageOption storageOption)
+        public IActionResult Edit(int id, [Bind("StorageId,Model,Manufacturer,Price,Type,Capacity")] StorageOption storageOption)
         {
             if (id != storageOption.StorageOptionId)
             {
@@ -116,7 +114,7 @@ namespace PcPartPicker.Areas.Component
 
         // GET: Storages/Delete/5
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -136,7 +134,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
             _service.Delete(id);
             return RedirectToAction(nameof(Index));

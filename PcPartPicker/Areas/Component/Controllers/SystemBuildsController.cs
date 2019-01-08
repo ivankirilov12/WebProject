@@ -21,13 +21,13 @@ namespace PcPartPicker.Areas.Component
         }
 
         // GET: SystemBuilds
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View(_service.GetAllSystemBuilds());
         }
 
         // GET: SystemBuilds/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -56,7 +56,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Create(IFormCollection collection)
+        public IActionResult Create(IFormCollection collection)
         {
             string cpuModel = Request.Form["cpus"].ToString();
             string caseModel = Request.Form["cases"].ToString();
@@ -78,7 +78,7 @@ namespace PcPartPicker.Areas.Component
 
         // GET: SystemBuilds/Edit/5
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -99,7 +99,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int id, [Bind("SystemBuildId,Price")] SystemBuild systemBuild)
+        public IActionResult Edit(int id, [Bind("SystemBuildId,Price")] SystemBuild systemBuild)
         {
             if (id != systemBuild.SystemBuildId)
             {
@@ -126,7 +126,7 @@ namespace PcPartPicker.Areas.Component
 
         // GET: SystemBuilds/Delete/5
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -146,7 +146,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
             _service.Delete(id);
             return RedirectToAction(nameof(Index));

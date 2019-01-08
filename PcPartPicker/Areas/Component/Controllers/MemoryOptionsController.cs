@@ -19,7 +19,7 @@ namespace PcPartPicker.Areas.Component
         }
 
         // GET: Rams
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View(_service.GetAllMemoryOptions());
         }
@@ -35,7 +35,7 @@ namespace PcPartPicker.Areas.Component
         }
 
         // GET: Rams/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -64,7 +64,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Create([Bind("RamId,Model,Manufacturer,MemoryType,MemoryCapacity,MemoryFrequency,Price")] MemoryOption memoryOption)
+        public IActionResult Create([Bind("RamId,Model,Manufacturer,MemoryType,MemoryCapacity,MemoryFrequency,Price")] MemoryOption memoryOption)
         {
             if (ModelState.IsValid)
             {
@@ -76,7 +76,7 @@ namespace PcPartPicker.Areas.Component
 
         // GET: Rams/Edit/5
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -97,7 +97,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int id, [Bind("RamId,Model,Manufacturer,MemoryType,MemoryCapacity,MemoryFrequency,Price")] MemoryOption memoryOption)
+        public IActionResult Edit(int id, [Bind("RamId,Model,Manufacturer,MemoryType,MemoryCapacity,MemoryFrequency,Price")] MemoryOption memoryOption)
         {
             if (id != memoryOption.MemoryOptionId)
             {
@@ -114,7 +114,7 @@ namespace PcPartPicker.Areas.Component
 
         // GET: Rams/Delete/5
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -134,7 +134,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
             _service.Delete(id);
             return RedirectToAction(nameof(Index));

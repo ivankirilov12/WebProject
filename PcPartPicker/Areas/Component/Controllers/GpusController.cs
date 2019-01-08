@@ -22,7 +22,7 @@ namespace PcPartPicker.Areas.Component
         }
 
         // GET: Gpus
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View(_service.GetAllGpus());
         }
@@ -38,7 +38,7 @@ namespace PcPartPicker.Areas.Component
         }
 
         // GET: Gpus/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -67,7 +67,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Create([Bind("Model,Manufacturer,Price,Memory")] Gpu gpu)
+        public IActionResult Create([Bind("Model,Manufacturer,Price,Memory")] Gpu gpu)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace PcPartPicker.Areas.Component
 
         // GET: Gpus/Edit/5
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -100,7 +100,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Edit(int? id, [Bind("GpuId,Model,Manufacturer,Price,Memory")] Gpu gpu)
+        public IActionResult Edit(int? id, [Bind("GpuId,Model,Manufacturer,Price,Memory")] Gpu gpu)
         {
             if (id != gpu.GpuId)
             {
@@ -118,7 +118,7 @@ namespace PcPartPicker.Areas.Component
 
         // GET: Gpus/Delete/5
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -138,7 +138,7 @@ namespace PcPartPicker.Areas.Component
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Vendor")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
             _service.Delete(id);
             return RedirectToAction(nameof(Index));

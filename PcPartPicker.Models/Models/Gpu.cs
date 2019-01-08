@@ -10,6 +10,7 @@ namespace PcPartPicker.Models.Models
         [Key, Column(Order = 0)]
         public int GpuId { get; set; }
 
+        [Required]
         public string Model { get; set; }
 
         public string Manufacturer { get; set; }
