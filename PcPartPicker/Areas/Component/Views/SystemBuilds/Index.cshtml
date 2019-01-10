@@ -32,8 +32,13 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.SystemBuildId">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.SystemBuildId">Delete</a>
+                @{
+                    if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.SystemBuildId">Edit</a> <text>|</text>
+                        <a asp-action="Delete" asp-route-id="@item.SystemBuildId">Delete</a>
+                    }
+                }
             </td>
         </tr>
 }

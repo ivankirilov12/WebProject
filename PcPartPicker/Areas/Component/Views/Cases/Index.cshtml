@@ -43,9 +43,18 @@
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CaseId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CaseId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CaseId">Delete</a>
+                @{
+                    if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.CaseId">Edit</a> <text>|</text>
+                        <a asp-action="Details" asp-route-id="@item.CaseId">Details</a> <text>|</text>
+                        <a asp-action="Delete" asp-route-id="@item.CaseId">Delete</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Details" asp-route-id="@item.CaseId">Details</a>
+                    }
+                }
             </td>
         </tr>
 }

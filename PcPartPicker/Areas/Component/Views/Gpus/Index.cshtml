@@ -43,9 +43,18 @@
                 @Html.DisplayFor(modelItem => item.Memory)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.GpuId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GpuId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GpuId">Delete</a>
+                @{
+                    if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.GpuId">Edit</a> <text>|</text>
+                        <a asp-action="Details" asp-route-id="@item.GpuId">Details</a> <text>|</text>
+                        <a asp-action="Delete" asp-route-id="@item.GpuId">Delete</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Details" asp-route-id="@item.GpuId">Details</a>
+                    }
+                }
             </td>
         </tr>
 }

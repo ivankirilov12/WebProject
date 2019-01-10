@@ -55,9 +55,18 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.MemoryOptionId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MemoryOptionId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MemoryOptionId">Delete</a>
+                @{
+                    if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.MemoryOptionId">Edit</a> <text>|</text>
+                        <a asp-action="Details" asp-route-id="@item.MemoryOptionId">Details</a> <text>|</text>
+                        <a asp-action="Delete" asp-route-id="@item.MemoryOptionId">Delete</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Details" asp-route-id="@item.MemoryOptionId">Details</a>
+                    }
+                }
             </td>
         </tr>
 }

@@ -43,9 +43,18 @@
                 @Html.DisplayFor(modelItem => item.CpuSocket)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.MotherboardId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MotherboardId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MotherboardId">Delete</a>
+                @{
+                    if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.MotherboardId">Edit</a> <text>|</text>
+                        <a asp-action="Details" asp-route-id="@item.MotherboardId">Details</a> <text>|</text>
+                        <a asp-action="Delete" asp-route-id="@item.MotherboardId">Delete</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Details" asp-route-id="@item.MotherboardId">Details</a>
+                    }
+                }
             </td>
         </tr>
 }
