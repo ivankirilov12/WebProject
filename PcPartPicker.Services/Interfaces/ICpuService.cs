@@ -9,7 +9,7 @@ namespace PcPartPicker.Services.Interfaces
 
         Cpu GetCpuByModel(string model);
 
-        IEnumerable<Cpu> GetAllCpus();
+        IEnumerable<Cpu> GetAllCpus(int? skip = null, int? take = null);
 
         Cpu GetCpuById(int? id);
 

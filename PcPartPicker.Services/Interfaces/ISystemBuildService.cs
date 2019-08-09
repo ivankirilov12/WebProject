@@ -5,7 +5,7 @@ namespace PcPartPicker.Services.Interfaces
 {
     public interface ISystemBuildService
     {
-        IEnumerable<SystemBuild> GetAllSystemBuilds();
+        IEnumerable<SystemBuild> GetAllSystemBuilds(int? skip = null, int? take = null);
 
         SystemBuild GetSystemBuildById(int? id);
 

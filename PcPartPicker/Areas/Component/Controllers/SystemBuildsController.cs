@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +27,11 @@ namespace PcPartPicker.Areas.Component
             return View(_service.GetAllSystemBuilds());
         }
 
+        public IEnumerable<SystemBuild> GetSystemBuilds(int? skip, int? take)
+        {
+            return _service.GetAllSystemBuilds(skip, take);
+        }
+
         // GET: SystemBuilds/Details/5
         public IActionResult Details(int? id)
         {
@@ -43,7 +49,6 @@ namespace PcPartPicker.Areas.Component
             return View(systemBuild);
         }
         
-        [Authorize(Roles = "Admin, Vendor")]
         // GET: SystemBuilds/Create
         public IActionResult Create()
         {

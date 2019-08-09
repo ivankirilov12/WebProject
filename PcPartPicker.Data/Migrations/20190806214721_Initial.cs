@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PcPartPicker.Data.Migrations
 {
-    public partial class Setup : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,7 +53,7 @@ namespace PcPartPicker.Data.Migrations
                 {
                     CaseId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Model = table.Column<string>(nullable: true),
+                    Model = table.Column<string>(nullable: false),
                     Manufacturer = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
                     Type = table.Column<string>(nullable: true)
@@ -69,7 +69,7 @@ namespace PcPartPicker.Data.Migrations
                 {
                     CpuId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Model = table.Column<string>(nullable: true),
+                    Model = table.Column<string>(nullable: false),
                     Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
                     Manufacturer = table.Column<string>(nullable: true),
                     Socket = table.Column<string>(nullable: true),
@@ -87,7 +87,7 @@ namespace PcPartPicker.Data.Migrations
                 {
                     GpuId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Model = table.Column<string>(nullable: true),
+                    Model = table.Column<string>(nullable: false),
                     Manufacturer = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
                     Memory = table.Column<string>(nullable: true)
@@ -103,7 +103,7 @@ namespace PcPartPicker.Data.Migrations
                 {
                     MemoryOptionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Model = table.Column<string>(nullable: true),
+                    Model = table.Column<string>(nullable: false),
                     Manufacturer = table.Column<string>(nullable: true),
                     MemoryType = table.Column<string>(nullable: true),
                     MemoryCapacity = table.Column<int>(nullable: false),
@@ -121,7 +121,7 @@ namespace PcPartPicker.Data.Migrations
                 {
                     MotherboardId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Model = table.Column<string>(nullable: true),
+                    Model = table.Column<string>(nullable: false),
                     Manufacturer = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
                     CpuSocket = table.Column<string>(nullable: true)
@@ -137,7 +137,7 @@ namespace PcPartPicker.Data.Migrations
                 {
                     StorageOptionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Model = table.Column<string>(nullable: true),
+                    Model = table.Column<string>(nullable: false),
                     Manufacturer = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
                     Type = table.Column<string>(nullable: true),

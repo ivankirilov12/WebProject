@@ -26,6 +26,11 @@ namespace PcPartPicker.Areas.Component
             return View(_service.GetAllMbs());
         }
 
+        public IEnumerable<Motherboard> GetMotherboards(int? skip, int? take)
+        {
+            return _service.GetAllMbs(skip, take);
+        }
+
         public List<string> GetMotherboardModels()
         {
             return _service.GetMbModels().ToList();

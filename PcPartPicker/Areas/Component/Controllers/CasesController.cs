@@ -23,6 +23,11 @@ namespace PcPartPicker.Areas.Component
             return _service.GetCaseModels();
         }
 
+        public IEnumerable<Case> GetCases(int? skip, int? take)
+        {
+            return _service.GetAllCases(skip, take);
+        }
+
         public Case GetCaseByModel(string model)
         {
             return _service.GetCaseByModel(model);

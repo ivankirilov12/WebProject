@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PcPartPicker.Data;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PcPartPicker.Controllers
 {
@@ -35,12 +36,11 @@ namespace PcPartPicker.Controllers
             _userManager.AddToRoleAsync(user, roleName);
 
             return RedirectToAction("Index");
-        }
+        }       
     }
 }
 public class AdminPanelVm
 {
     public IEnumerable<string> Users { get; set; }
     public IEnumerable<string> Roles { get; set; }
-
 }

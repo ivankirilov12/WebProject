@@ -34,7 +34,8 @@ namespace PcPartPicker.Data.Implementations
             dbSet.Remove(entityToDelete);
         }
 
-        public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+        public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "",
+                int? skip = null, int? take = null)
         {
             IQueryable<TEntity> query = dbSet;
 
@@ -51,10 +52,30 @@ namespace PcPartPicker.Data.Implementations
 
             if (orderBy != null)
             {
-                return orderBy(query).ToList();
+                if (skip != null)
+                {
+                    query = orderBy(query).Skip((int)skip);
+                }
+
+                if (take != null)
+                {
+                    query = orderBy(query).Take((int)take);
+                }
+
+                return query.ToList();
             }
             else
             {
+                if (skip != null)
+                {
+                    query = query.Skip((int)skip);
+                }
+
+                if (take != null)
+                {
+                    query = query.Take((int)take);
+                }
+
                 return query.ToList();
             }
         }
@@ -68,7 +89,7 @@ namespace PcPartPicker.Data.Implementations
         {
             dbSet.Add(entity);
         }
-
+        
         public void Update(TEntity entityToUpdate)
         {
             dbSet.Attach(entityToUpdate);

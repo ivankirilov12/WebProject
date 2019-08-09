@@ -9,7 +9,7 @@ namespace PcPartPicker.Services.Interfaces
 
         MemoryOption GetMemoryOptionByModel(string model);
 
-        IEnumerable<MemoryOption> GetAllMemoryOptions();
+        IEnumerable<MemoryOption> GetAllMemoryOptions(int? skip = null, int? take = null);
 
         MemoryOption GetMemoryOptionById(int? id);
 

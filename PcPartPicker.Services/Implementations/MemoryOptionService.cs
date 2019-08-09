@@ -22,9 +22,9 @@ namespace PcPartPicker.Services.Implementations
             unitOfWork.Save();
         }
 
-        public IEnumerable<MemoryOption> GetAllMemoryOptions()
+        public IEnumerable<MemoryOption> GetAllMemoryOptions(int? skip = null, int? take = null)
         {
-            return unitOfWork.MemoryOptionsRepository.Get(a => true);
+            return unitOfWork.MemoryOptionsRepository.Get(a => true, null, "", skip, take);
         }
 
         public MemoryOption GetMemoryOptionById(int? id)

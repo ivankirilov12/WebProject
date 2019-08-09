@@ -22,9 +22,9 @@ namespace PcPartPicker.Services.Implementations
             unitOfWork.Save();
         }
 
-        public IEnumerable<StorageOption> GetAllStorageOptions()
+        public IEnumerable<StorageOption> GetAllStorageOptions(int? skip = null, int? take = null)
         {
-            return unitOfWork.StorageOptionsRepository.Get(a => true);
+            return unitOfWork.StorageOptionsRepository.Get(a => true, null, "", skip, take);
         }
 
         public StorageOption GetStorageOptionById(int? id)

@@ -5,13 +5,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PcPartPicker.Models;
+using PcPartPicker.Models.Models;
 
 namespace PcPartPicker.Controllers
 {
     public class HomeController : Controller
     {
         public IActionResult Index()
-        {
+        {            
+
             return View();
         }
 

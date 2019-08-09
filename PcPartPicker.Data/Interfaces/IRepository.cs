@@ -10,7 +10,9 @@ namespace PcPartPicker.Data.Interfaces
         IEnumerable<TEntity> Get(
            Expression<Func<TEntity, bool>> filter = null,
            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-           string includeProperties = "");
+           string includeProperties = "",
+           int? skip = null,
+           int? take = null);
 
         TEntity GetByID(object id);
 

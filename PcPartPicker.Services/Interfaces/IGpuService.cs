@@ -9,7 +9,7 @@ namespace PcPartPicker.Services.Interfaces
 
         Gpu GetGpuByModel(string model);
 
-        IEnumerable<Gpu> GetAllGpus();
+        IEnumerable<Gpu> GetAllGpus(int? skip = null, int? take = null);
 
         Gpu GetGpuById(int? id);
 

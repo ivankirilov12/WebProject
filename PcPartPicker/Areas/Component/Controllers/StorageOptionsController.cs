@@ -24,6 +24,11 @@ namespace PcPartPicker.Areas.Component
             return View(_service.GetAllStorageOptions());
         }
 
+        public IEnumerable<StorageOption> GetStorageOptions(int? skip, int? take)
+        {
+            return _service.GetAllStorageOptions(skip, take);
+        }
+
         public List<string> GetStorageOptionModels()
         {
             return _service.GetStorageOptionModels().ToList();

@@ -22,9 +22,9 @@ namespace PcPartPicker.Services.Implementations
             unitOfWork.Save();
         }
 
-        public IEnumerable<Motherboard> GetAllMbs()
+        public IEnumerable<Motherboard> GetAllMbs(int? skip = null, int? take = null)
         {
-            return unitOfWork.MotherboardsRepository.Get(a => true);
+            return unitOfWork.MotherboardsRepository.Get(a => true, null, "", skip, take);
         }
 
         public Motherboard GetMbById(int? id)

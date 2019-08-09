@@ -23,9 +23,9 @@ namespace PcPartPicker.Services.Implementations
             unitOfWork.Save();
         }
 
-        public IEnumerable<Case> GetAllCases()
+        public IEnumerable<Case> GetAllCases(int? skip = null, int? take = null)
         {
-            return unitOfWork.CasesRepository.Get(a => true);
+            return unitOfWork.CasesRepository.Get(a => true, null, "", skip, take);
         }
 
         public Case GetCaseById(int? id)

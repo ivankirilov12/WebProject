@@ -29,6 +29,11 @@ namespace PcPartPicker.Areas.Component
             return _service.GetCpuModels().ToList();
         }
 
+        public IEnumerable<Cpu> GetCpus(int? skip, int? take)
+        {
+            return _service.GetAllCpus(skip, take);
+        }
+
         public Cpu GetCpuByModel(string model)
         {
             return _service.GetCpuByModel(model);

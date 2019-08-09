@@ -22,6 +22,16 @@ namespace PcPartPicker
 {
     public class Startup
     {
+        private const string SEED_USERS_PASSWORD = "Qwerty123#";
+
+        private const string USER_EMAIL = "user@gmail.com";
+        private const string VENDOR_EMAIL = "vendor@gmail.com";
+        private const string ADMIN_EMAIL = "admin@gmail.com";
+
+        private const string USER_ROLE = "User";
+        private const string VENDOR_ROLE = "Vendor";
+        private const string ADMIN_ROLE = "Admin";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -114,7 +124,7 @@ namespace PcPartPicker
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-            string[] roleNames = { "Admin", "Vendor", "User" };
+            string[] roleNames = { ADMIN_ROLE, VENDOR_ROLE, USER_ROLE };
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)
@@ -126,18 +136,44 @@ namespace PcPartPicker
                 }
             }
 
-            IdentityUser user = await UserManager.FindByEmailAsync("admin@admin1.com");
+            IdentityUser user = await UserManager.FindByEmailAsync(USER_EMAIL);
 
             if (user == null)
             {
                 user = new IdentityUser()
                 {
-                    UserName = "admin@admin1.com",
-                    Email = "admin@admin1.com",
+                    UserName = USER_EMAIL,
+                    Email = USER_EMAIL
                 };
-                await UserManager.CreateAsync(user, "Password1.");
+                await UserManager.CreateAsync(user, SEED_USERS_PASSWORD);
             }
-            await UserManager.AddToRoleAsync(user, "Admin");
+            await UserManager.AddToRoleAsync(user, USER_ROLE);
+
+            IdentityUser vendor = await UserManager.FindByEmailAsync(VENDOR_EMAIL);
+
+            if (vendor == null)
+            {
+                vendor = new IdentityUser()
+                {
+                    UserName = VENDOR_EMAIL,
+                    Email = VENDOR_EMAIL
+                };
+                await UserManager.CreateAsync(vendor, SEED_USERS_PASSWORD);
+            }
+            await UserManager.AddToRoleAsync(vendor, VENDOR_ROLE);
+
+            IdentityUser admin = await UserManager.FindByEmailAsync(ADMIN_EMAIL);
+
+            if (admin == null)
+            {
+                admin = new IdentityUser()
+                {
+                    UserName = ADMIN_EMAIL,
+                    Email = ADMIN_EMAIL
+                };
+                await UserManager.CreateAsync(admin, SEED_USERS_PASSWORD);
+            }
+            await UserManager.AddToRoleAsync(admin, ADMIN_ROLE);
         }
     }
 }

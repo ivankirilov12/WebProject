@@ -9,7 +9,7 @@ namespace PcPartPicker.Services.Interfaces
 
         Motherboard GetMbByModel(string model);
 
-        IEnumerable<Motherboard> GetAllMbs();
+        IEnumerable<Motherboard> GetAllMbs(int? skip = null, int? take = null);
 
         Motherboard GetMbById(int? id);
 

@@ -22,9 +22,9 @@ namespace PcPartPicker.Services.Implementations
             unitOfWork.Save();
         }
 
-        public IEnumerable<SystemBuild> GetAllSystemBuilds()
+        public IEnumerable<SystemBuild> GetAllSystemBuilds(int? skip = null, int? take = null)
         {
-            return unitOfWork.SystemBuildRepository.Get(a => true, null, "Cpu,Case,Gpu,Motherboard,MemoryOption,StorageOption");
+            return unitOfWork.SystemBuildRepository.Get(a => true, null, "Cpu,Case,Gpu,Motherboard,MemoryOption,StorageOption", skip, take);
         }
 
         public SystemBuild GetSystemBuildById(int? id)

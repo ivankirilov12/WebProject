@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PcPartPicker.Data;
 using PcPartPicker.Models.Models;
 using PcPartPicker.Services.Interfaces;
 
@@ -25,6 +21,11 @@ namespace PcPartPicker.Areas.Component
         public IActionResult Index()
         {
             return View(_service.GetAllGpus());
+        }
+
+        public IEnumerable<Gpu> GetGpus(int? skip, int? take)
+        {
+            return _service.GetAllGpus(skip, take);
         }
 
         public List<string> GetGpuModels()

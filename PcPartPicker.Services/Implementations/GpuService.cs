@@ -22,9 +22,9 @@ namespace PcPartPicker.Services.Implementations
             unitOfWork.Save();
         }
 
-        public IEnumerable<Gpu> GetAllGpus()
+        public IEnumerable<Gpu> GetAllGpus(int? skip = null, int? take = null)
         {
-            return unitOfWork.GpusRepository.Get(a => true);
+            return unitOfWork.GpusRepository.Get(a => true, null, "", skip, take);
         }
 
         public Gpu GetGpuById(int? id)

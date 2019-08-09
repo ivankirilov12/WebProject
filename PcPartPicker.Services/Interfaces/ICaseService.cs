@@ -10,7 +10,7 @@ namespace PcPartPicker.Services.Interfaces
 
         Case GetCaseByModel(string model);
 
-        IEnumerable<Case> GetAllCases();
+        IEnumerable<Case> GetAllCases(int? skip = null, int? take = null);
 
         Case GetCaseById(int? id);
 

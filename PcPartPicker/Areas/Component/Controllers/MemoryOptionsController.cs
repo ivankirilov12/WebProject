@@ -24,6 +24,11 @@ namespace PcPartPicker.Areas.Component
             return View(_service.GetAllMemoryOptions());
         }
 
+        public IEnumerable<MemoryOption> GetMemoryOptions(int? skip, int? take)
+        {
+            return _service.GetAllMemoryOptions(skip, take);
+        }
+
         public List<string> GetMemoryOptionModels()
         {
             return _service.GetMemoryOptionModels().ToList();

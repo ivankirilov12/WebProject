@@ -22,9 +22,9 @@ namespace PcPartPicker.Services.Implementations
             unitOfWork.Save();
         }
 
-        public IEnumerable<Cpu> GetAllCpus()
+        public IEnumerable<Cpu> GetAllCpus(int? skip = null, int? take = null)
         {
-            return unitOfWork.CpusRepository.Get(a => true);
+            return unitOfWork.CpusRepository.Get(a => true, null, "", skip, take);
         }
 
         public Cpu GetCpuById(int? id)

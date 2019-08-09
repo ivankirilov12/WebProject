@@ -9,7 +9,7 @@ namespace PcPartPicker.Services.Interfaces
 
         StorageOption GetStorageOptionByModel(string model);
 
-        IEnumerable<StorageOption> GetAllStorageOptions();
+        IEnumerable<StorageOption> GetAllStorageOptions(int? skip = null, int? take = null);
 
         StorageOption GetStorageOptionById(int? id);
 
