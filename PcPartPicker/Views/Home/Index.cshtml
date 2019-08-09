@@ -3,6 +3,9 @@
 }
 
 <h3>Builds</h3>
-<div id="buildsContainer">
-    
+<div id="buildsContainer" style="display: flex;">
 </div>
+<script src="@Url.Content("~/js/home.js")"></script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using PcPartPicker.Areas.Component.Models;
 using PcPartPicker.Data;
 using PcPartPicker.Models.Models;
 using PcPartPicker.Services.Interfaces;
@@ -27,9 +29,21 @@ namespace PcPartPicker.Areas.Component
             return View(_service.GetAllSystemBuilds());
         }
 
-        public IEnumerable<SystemBuild> GetSystemBuilds(int? skip, int? take)
+        public IEnumerable<SystemBuildVM_Preview> GetSystemBuilds(int? skip, int? take)
         {
-            return _service.GetAllSystemBuilds(skip, take);
+            var builds = _service.GetAllSystemBuilds(skip, take).ToList();
+            List<SystemBuildVM_Preview> vms = new List<SystemBuildVM_Preview>();
+            for (int i = 0; i < builds.Count; i++)
+            {
+                var buildVM = new SystemBuildVM_Preview();
+                buildVM.Id = builds[i].SystemBuildId;
+                buildVM.Name = builds[i].Name;
+                buildVM.Description = builds[i].Description;
+                buildVM.Price = builds[i].Price;
+                vms.Add(buildVM);
+            }
+
+            return vms;
         }
 
         // GET: SystemBuilds/Details/5
