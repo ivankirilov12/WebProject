@@ -52,14 +52,14 @@
             @Html.DisplayNameFor(model => model.MemoryOption)
         </dt>
         <dd>
-            <a asp-controller="Rams" asp-action="Details" asp-route-id="@Model.MemoryOption.MemoryOptionId">@Html.DisplayFor(model => model.MemoryOption.Model)</a>
+            <a asp-controller="MemoryOptions" asp-action="Details" asp-route-id="@Model.MemoryOption.MemoryOptionId">@Html.DisplayFor(model => model.MemoryOption.Model)</a>
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.StorageOption)
         </dt>
         <dd>
-            <a asp-controller="Storages" asp-action="Details" asp-route-id="@Model.StorageOption.StorageOptionId">@Html.DisplayFor(model => model.StorageOption.Model)</a>
+            <a asp-controller="StorageOptions" asp-action="Details" asp-route-id="@Model.StorageOption.StorageOptionId">@Html.DisplayFor(model => model.StorageOption.Model)</a>
         </dd>
 
         <dt>
