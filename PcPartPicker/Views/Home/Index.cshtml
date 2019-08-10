@@ -2,9 +2,14 @@
     ViewData["Title"] = "Home Page";
 }
 
-<h3>Builds</h3>
-<div id="buildsContainer" style="display: flex;">
+<h3>System builds</h3>
+<div class="homePageDescription">
+    Building your own PC and need ideas on where to get started? Explore our system builds which cover systems for a variety of use-cases and budgets.
 </div>
+<div id="buildsContainer" class="buildsContainer">
+</div>
+<a class="a-btn" asp-area="Component" asp-controller="SystemBuilds">View System Builds</a>
+
 <script src="@Url.Content("~/js/home.js")"></script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
