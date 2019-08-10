@@ -44,7 +44,6 @@ p, h1, h2, h3, h4, h5, h6, span, div {
 .component-box {
     padding: 10px;
     display: inline-block;
-    background-color: #91C4E4;
     margin: 5px;
     cursor:pointer;
     color:black;
@@ -129,4 +128,17 @@ a.buildPage {
 .navbar-inverse {
     background-color: #191b2b;
     border-color: #080808;
+}
+
+.account {
+    color: black;    
+}
+
+.account > span{
+    font-size:larger;
+}
+
+select {
+    height: 2em;
+    color:black;
 }
