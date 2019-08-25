@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="MotherboardId" />
             <div class="form-group">
@@ -32,6 +32,11 @@
                 <label asp-for="CpuSocket" class="control-label"></label>
                 <input asp-for="CpuSocket" class="form-control" />
                 <span asp-validation-for="CpuSocket" class="text-danger"></span>
+            </div>
+            <img src="https://drive.google.com/uc?export=view&amp;id=@Model.ImgUrl" height="150" width="150" />
+            <div class="form-group">
+                <input type="file" name="image" />
+                <input asp-for="ImgUrl" style="display:none" value="@Model.ImgUrl" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

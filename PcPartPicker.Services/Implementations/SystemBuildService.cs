@@ -33,7 +33,7 @@ namespace PcPartPicker.Services.Implementations
         }
 
         public void InsertSystemBuild(string cpuModel, string caseModel, string gpuModel, string memoryOptionModel, 
-            string motherboardModel, string storageOptionModel, decimal price, string name, string description)
+            string motherboardModel, string storageOptionModel, decimal price, string name, string description, string imgUrl)
         {
             SystemBuild systemBuild = new SystemBuild();
             systemBuild.Cpu = unitOfWork.CpusRepository.Get(a => a.Model == cpuModel).First();
@@ -44,12 +44,15 @@ namespace PcPartPicker.Services.Implementations
             systemBuild.StorageOption = unitOfWork.StorageOptionsRepository.Get(a => a.Model == storageOptionModel).First();
             systemBuild.Price = price;
             systemBuild.Name = name;
+            systemBuild.ImgUrl = imgUrl;
             systemBuild.Description = description;
+
             unitOfWork.SystemBuildRepository.Insert(systemBuild);
             unitOfWork.Save();
         }
 
-        public void Update(string cpuModel, string caseModel, string gpuModel, string memoryOptionModel, string motherboardModel, string storageOptionModel, string name, string description, int id)
+        public void Update(string cpuModel, string caseModel, string gpuModel, string memoryOptionModel, string motherboardModel, 
+            string storageOptionModel, string name, string description, int id, string imgUrl)
         {
             SystemBuild systemBuild = unitOfWork.SystemBuildRepository.GetByID(id);
             systemBuild.Cpu = unitOfWork.CpusRepository.Get(a => a.Model == cpuModel).First();
@@ -62,6 +65,7 @@ namespace PcPartPicker.Services.Implementations
                 systemBuild.Motherboard.Price + systemBuild.StorageOption.Price;
             systemBuild.Name = name;
             systemBuild.Description = description;
+            systemBuild.ImgUrl = imgUrl;
             unitOfWork.SystemBuildRepository.Update(systemBuild);
             unitOfWork.Save();
         }

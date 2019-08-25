@@ -186,7 +186,10 @@ namespace PcPartPicker.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Manufacturer");
+                    b.Property<string>("ImgUrl");
+
+                    b.Property<string>("Manufacturer")
+                        .IsRequired();
 
                     b.Property<string>("Model")
                         .IsRequired();
@@ -194,7 +197,8 @@ namespace PcPartPicker.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10, 5)");
 
-                    b.Property<string>("Type");
+                    b.Property<string>("Type")
+                        .IsRequired();
 
                     b.HasKey("CaseId");
 
@@ -209,7 +213,10 @@ namespace PcPartPicker.Data.Migrations
 
                     b.Property<int>("CacheMemory");
 
-                    b.Property<string>("Manufacturer");
+                    b.Property<string>("ImgUrl");
+
+                    b.Property<string>("Manufacturer")
+                        .IsRequired();
 
                     b.Property<string>("Model")
                         .IsRequired();
@@ -219,7 +226,8 @@ namespace PcPartPicker.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10, 5)");
 
-                    b.Property<string>("Socket");
+                    b.Property<string>("Socket")
+                        .IsRequired();
 
                     b.HasKey("CpuId");
 
@@ -232,9 +240,13 @@ namespace PcPartPicker.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Manufacturer");
+                    b.Property<string>("ImgUrl");
 
-                    b.Property<string>("Memory");
+                    b.Property<string>("Manufacturer")
+                        .IsRequired();
+
+                    b.Property<string>("Memory")
+                        .IsRequired();
 
                     b.Property<string>("Model")
                         .IsRequired();
@@ -253,13 +265,17 @@ namespace PcPartPicker.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Manufacturer");
+                    b.Property<string>("ImgUrl");
+
+                    b.Property<string>("Manufacturer")
+                        .IsRequired();
 
                     b.Property<int>("MemoryCapacity");
 
                     b.Property<float>("MemoryFrequency");
 
-                    b.Property<string>("MemoryType");
+                    b.Property<string>("MemoryType")
+                        .IsRequired();
 
                     b.Property<string>("Model")
                         .IsRequired();
@@ -278,9 +294,13 @@ namespace PcPartPicker.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CpuSocket");
+                    b.Property<string>("CpuSocket")
+                        .IsRequired();
 
-                    b.Property<string>("Manufacturer");
+                    b.Property<string>("ImgUrl");
+
+                    b.Property<string>("Manufacturer")
+                        .IsRequired();
 
                     b.Property<string>("Model")
                         .IsRequired();
@@ -299,9 +319,13 @@ namespace PcPartPicker.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Capacity");
+                    b.Property<string>("Capacity")
+                        .IsRequired();
 
-                    b.Property<string>("Manufacturer");
+                    b.Property<string>("ImgUrl");
+
+                    b.Property<string>("Manufacturer")
+                        .IsRequired();
 
                     b.Property<string>("Model")
                         .IsRequired();
@@ -309,7 +333,8 @@ namespace PcPartPicker.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10, 5)");
 
-                    b.Property<string>("Type");
+                    b.Property<string>("Type")
+                        .IsRequired();
 
                     b.HasKey("StorageOptionId");
 
@@ -326,15 +351,20 @@ namespace PcPartPicker.Data.Migrations
 
                     b.Property<int?>("CpuId");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(2000);
 
                     b.Property<int?>("GpuId");
+
+                    b.Property<string>("ImgUrl");
 
                     b.Property<int?>("MemoryOptionId");
 
                     b.Property<int?>("MotherboardId");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10, 5)");

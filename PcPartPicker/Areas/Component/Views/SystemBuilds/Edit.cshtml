@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="SystemBuildId" />
             <div class="form-group">
@@ -41,13 +41,6 @@
                 <label asp-for="MemoryOption" class="control-label"></label>
                 <select id="memoryoptionList" name="memoryoption"><option>Select a memory option</option></select>
             </div>
-            @*<div class="form-group">
-                    <label asp-for="Price" class="control-label"></label>
-                    <input asp-for="Price" id="price" class="form-control" type="hidden"/>
-                    <span id="currentPrice"></span>
-                    <span asp-validation-for="Price" class="text-danger"></span>
-                </div>*@
-
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <textarea asp-for="Description"></textarea>
@@ -59,7 +52,11 @@
             <input asp-for="Case.Model" type="hidden" id="case" />
             <input asp-for="MemoryOption.Model" type="hidden" id="memoryoption" />
             <input asp-for="StorageOption.Model" type="hidden" id="storageoption" />
-
+            <img src="https://drive.google.com/uc?export=view&amp;id=@Model.ImgUrl" height="150" width="150" />
+            <div class="form-group">
+                <input type="file" name="image" />
+                <input asp-for="ImgUrl" style="display:none" value="@Model.ImgUrl" />
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

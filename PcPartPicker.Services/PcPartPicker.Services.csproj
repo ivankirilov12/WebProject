@@ -5,8 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.40.3.1671" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PcPartPicker.Data\PcPartPicker.Data.csproj" />
     <ProjectReference Include="..\PcPartPicker.Models\PcPartPicker.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Http.Features">
+      <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.http.features\2.1.1\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

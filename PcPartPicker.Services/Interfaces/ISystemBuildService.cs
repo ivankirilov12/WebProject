@@ -10,10 +10,10 @@ namespace PcPartPicker.Services.Interfaces
         SystemBuild GetSystemBuildById(int? id);
 
         void InsertSystemBuild(string cpuModel, string caseModel, string gpuModel, string memoryOptionModel, 
-            string motherboardModel, string storageOptionModel, decimal price, string name, string description);
+            string motherboardModel, string storageOptionModel, decimal price, string name, string description, string imgUrl);
 
         void Update(string cpuModel, string caseModel, string gpuModel, string memoryOptionModel,
-            string motherboardModel, string storageOptionModel, string name, string description, int id);
+            string motherboardModel, string storageOptionModel, string name, string description, int id, string imgUrl);
 
         void Delete(int? id);
     }

@@ -13,12 +13,16 @@ namespace PcPartPicker.Models.Models
         [Required]
         public string Model { get; set; }
 
+        [Required(AllowEmptyStrings = false)]
         public string Manufacturer { get; set; }
 
         [Column(TypeName = "decimal(10, 5)")]
         public decimal Price { get; set; }
-
+        
+        [Required(AllowEmptyStrings = false)]
         public string Type { get; set; }
+
+        public string ImgUrl { get; set; }
 
         public ICollection<SystemBuild> SystemBuilds { get; set; }
     }

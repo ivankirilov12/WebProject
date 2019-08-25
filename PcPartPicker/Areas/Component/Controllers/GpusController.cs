@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PcPartPicker.Definitions;
 using PcPartPicker.Models.Models;
 using PcPartPicker.Services.Interfaces;
 
@@ -11,10 +12,12 @@ namespace PcPartPicker.Areas.Component
     public class GpusController : Controller
     {
         private readonly IGpuService _service;
+        private readonly IGoogleDriveService _driveService;
 
-        public GpusController(IGpuService service)
+        public GpusController(IGpuService service, IGoogleDriveService driveService)
         {
             _service = service;
+            _driveService = driveService;
         }
 
         // GET: Gpus
@@ -72,6 +75,15 @@ namespace PcPartPicker.Areas.Component
         {
             if (ModelState.IsValid)
             {
+                var image = Request.Form.Files.GetFile("image");
+                if (image != null)
+                {
+                    gpu.ImgUrl = _driveService.UploadFile(image);
+                }
+                else
+                {
+                    gpu.ImgUrl = Constants.DEFAULT_GPU_IMG;
+                }
                 _service.InsertGpu(gpu);
                 return RedirectToAction(nameof(Index));
             }
@@ -110,6 +122,12 @@ namespace PcPartPicker.Areas.Component
 
             if (ModelState.IsValid)
             {
+                var image = Request.Form.Files.GetFile("image");
+                if (image != null)
+                {
+                    _driveService.DeleteFile(Request.Form["ImgUrl"]);
+                    gpu.ImgUrl = _driveService.UploadFile(image);
+                }
                 _service.Update(gpu);
                 
                 return RedirectToAction(nameof(Index));
@@ -141,6 +159,13 @@ namespace PcPartPicker.Areas.Component
         [Authorize(Roles = "Admin, Vendor")]
         public IActionResult DeleteConfirmed(int id)
         {
+            var gpu = _service.GetGpuById(id);
+            string imgUrl = gpu.ImgUrl;
+            if (imgUrl != Constants.DEFAULT_GPU_IMG)
+            {
+                _driveService.DeleteFile(gpu.ImgUrl);
+            }
+
             _service.Delete(id);
             return RedirectToAction(nameof(Index));
         }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using PcPartPicker.Areas.Component.Models;
 using PcPartPicker.Data;
+using PcPartPicker.Definitions;
 using PcPartPicker.Models.Models;
 using PcPartPicker.Services.Interfaces;
 
@@ -17,10 +18,12 @@ namespace PcPartPicker.Areas.Component
     public class SystemBuildsController : Controller
     {
         private readonly ISystemBuildService _service;
+        private readonly IGoogleDriveService _driveService;
 
-        public SystemBuildsController(ISystemBuildService service)
+        public SystemBuildsController(ISystemBuildService service, IGoogleDriveService driveService)
         {
             _service = service;
+            _driveService = driveService;
         }
 
         // GET: SystemBuilds
@@ -87,8 +90,15 @@ namespace PcPartPicker.Areas.Component
             decimal price = decimal.Parse(Request.Form["Price"].ToString());
             string name = Request.Form["Name"].ToString();
             string description = Request.Form["Description"].ToString();
-            _service.InsertSystemBuild(cpuModel, caseModel, gpuModel, memoryOptionModel, motherboardModel, storageOptionModel, price, name, description);
-            if (ModelState.IsValid) // remove?
+            var image = Request.Form.Files.GetFile("image");
+            string imgUrl = string.Empty;
+            if (image != null)
+            {
+                imgUrl = _driveService.UploadFile(image);
+            }
+            _service.InsertSystemBuild(cpuModel, caseModel, gpuModel, memoryOptionModel, motherboardModel, storageOptionModel, price, name, description, imgUrl);
+            
+            if (ModelState.IsValid)
             {
                 return RedirectToAction(nameof(Index));
             }
@@ -134,10 +144,21 @@ namespace PcPartPicker.Areas.Component
 
             string name = Request.Form["Name"].ToString();
             string description = Request.Form["Description"].ToString();
-
             if (ModelState.IsValid)
             {
-                _service.Update(cpuModel, caseModel, gpuModel, memoryOptionModel, motherboardModel, storageOptionModel, name, description, id);
+                var image = Request.Form.Files.GetFile("image");
+                string imageUrl = string.Empty;
+                if (image != null)
+                {
+                    _driveService.DeleteFile(Request.Form["ImgUrl"]);
+                    imageUrl = _driveService.UploadFile(image);
+                }
+                else
+                {
+                    imageUrl = Constants.DEFAULT_BUILD_IMG;
+                }
+
+                _service.Update(cpuModel, caseModel, gpuModel, memoryOptionModel, motherboardModel, storageOptionModel, name, description, id, imageUrl);
                 return RedirectToAction(nameof(Index));
             }
             return View(systemBuild);
@@ -167,6 +188,13 @@ namespace PcPartPicker.Areas.Component
         [Authorize(Roles = "Admin, Vendor")]
         public IActionResult DeleteConfirmed(int id)
         {
+            var build = _service.GetSystemBuildById(id);
+            var buildImage = build.ImgUrl;
+            if (buildImage != Constants.DEFAULT_BUILD_IMG)
+            {
+                _driveService.DeleteFile(buildImage);
+            }
+
             _service.Delete(id);
             return RedirectToAction(nameof(Index));
         }

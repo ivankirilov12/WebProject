@@ -54,9 +54,10 @@ namespace PcPartPicker.Data.Migrations
                     CaseId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Model = table.Column<string>(nullable: false),
-                    Manufacturer = table.Column<string>(nullable: true),
+                    Manufacturer = table.Column<string>(nullable: false),
                     Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
-                    Type = table.Column<string>(nullable: true)
+                    Type = table.Column<string>(nullable: false),
+                    ImgUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -71,10 +72,11 @@ namespace PcPartPicker.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Model = table.Column<string>(nullable: false),
                     Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
-                    Manufacturer = table.Column<string>(nullable: true),
-                    Socket = table.Column<string>(nullable: true),
+                    Manufacturer = table.Column<string>(nullable: false),
+                    Socket = table.Column<string>(nullable: false),
                     NumberOfCores = table.Column<int>(nullable: false),
-                    CacheMemory = table.Column<int>(nullable: false)
+                    CacheMemory = table.Column<int>(nullable: false),
+                    ImgUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -88,9 +90,10 @@ namespace PcPartPicker.Data.Migrations
                     GpuId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Model = table.Column<string>(nullable: false),
-                    Manufacturer = table.Column<string>(nullable: true),
+                    Manufacturer = table.Column<string>(nullable: false),
                     Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
-                    Memory = table.Column<string>(nullable: true)
+                    Memory = table.Column<string>(nullable: false),
+                    ImgUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -104,11 +107,12 @@ namespace PcPartPicker.Data.Migrations
                     MemoryOptionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Model = table.Column<string>(nullable: false),
-                    Manufacturer = table.Column<string>(nullable: true),
-                    MemoryType = table.Column<string>(nullable: true),
+                    Manufacturer = table.Column<string>(nullable: false),
+                    MemoryType = table.Column<string>(nullable: false),
                     MemoryCapacity = table.Column<int>(nullable: false),
                     MemoryFrequency = table.Column<float>(nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false)
+                    Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
+                    ImgUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -122,9 +126,10 @@ namespace PcPartPicker.Data.Migrations
                     MotherboardId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Model = table.Column<string>(nullable: false),
-                    Manufacturer = table.Column<string>(nullable: true),
+                    Manufacturer = table.Column<string>(nullable: false),
                     Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
-                    CpuSocket = table.Column<string>(nullable: true)
+                    CpuSocket = table.Column<string>(nullable: false),
+                    ImgUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -138,10 +143,11 @@ namespace PcPartPicker.Data.Migrations
                     StorageOptionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Model = table.Column<string>(nullable: false),
-                    Manufacturer = table.Column<string>(nullable: true),
+                    Manufacturer = table.Column<string>(nullable: false),
                     Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
-                    Type = table.Column<string>(nullable: true),
-                    Capacity = table.Column<string>(nullable: true)
+                    Type = table.Column<string>(nullable: false),
+                    Capacity = table.Column<string>(nullable: false),
+                    ImgUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -260,15 +266,16 @@ namespace PcPartPicker.Data.Migrations
                 {
                     SystemBuildId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(maxLength: 2000, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(10, 5)", nullable: false),
                     CaseId = table.Column<int>(nullable: true),
                     CpuId = table.Column<int>(nullable: true),
                     GpuId = table.Column<int>(nullable: true),
                     MotherboardId = table.Column<int>(nullable: true),
                     MemoryOptionId = table.Column<int>(nullable: true),
-                    StorageOptionId = table.Column<int>(nullable: true)
+                    StorageOptionId = table.Column<int>(nullable: true),
+                    ImgUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

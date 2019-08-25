@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PcPartPicker.Definitions;
 using PcPartPicker.Models.Models;
 using PcPartPicker.Services.Interfaces;
 
@@ -12,10 +12,12 @@ namespace PcPartPicker.Areas.Component
     public class CpusController : Controller
     {
         private readonly ICpuService _service;
+        private readonly IGoogleDriveService _driveService;
 
-        public CpusController(ICpuService service)
+        public CpusController(ICpuService service, IGoogleDriveService driveService)
         {
             _service = service;
+            _driveService = driveService;
         }
 
         // GET: Cpus
@@ -74,6 +76,16 @@ namespace PcPartPicker.Areas.Component
         {
             if (ModelState.IsValid)
             {
+                var image = Request.Form.Files.GetFile("image");
+                if (image != null)
+                {
+                    cpu.ImgUrl = _driveService.UploadFile(image);
+                }
+                else
+                {
+                    cpu.ImgUrl = Constants.DEFAULT_CPU_IMG;
+                }
+
                 _service.InsertCpu(cpu);
                 return RedirectToAction(nameof(Index));
             }
@@ -112,13 +124,20 @@ namespace PcPartPicker.Areas.Component
 
             if (ModelState.IsValid)
             {
+                _driveService.DeleteFile(Request.Form["ImgUrl"]);
+                var image = Request.Form.Files.GetFile("image");
+                if (image != null)
+                {
+                    cpu.ImgUrl = _driveService.UploadFile(image);
+                }
                 _service.Update(cpu);
                 return RedirectToAction(nameof(Index));
             }
             return View(cpu);
         }
 
-        // GET: Cpus/Delete/5[Authorize(Roles = "Admin, Vendor")]
+        // GET: Cpus/Delete/5
+        [Authorize(Roles = "Admin, Vendor")]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -141,8 +160,15 @@ namespace PcPartPicker.Areas.Component
         [Authorize(Roles = "Admin, Vendor")]
         public IActionResult DeleteConfirmed(int id)
         {
+            var cpu = _service.GetCpuById(id);
+            var cpuImage = cpu.ImgUrl;
+            if (cpuImage != Constants.DEFAULT_CPU_IMG)
+            {
+                _driveService.DeleteFile(cpu.ImgUrl);
+            }            
+
             _service.Delete(id);
             return RedirectToAction(nameof(Index));
         }
-    }
+    }   
 }

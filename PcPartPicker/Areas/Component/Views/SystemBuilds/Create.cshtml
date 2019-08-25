@@ -10,10 +10,11 @@
 <hr />
 <div class="row">
     <div class="col-md-4">        
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data" method="post">
             <div class="form-group">
-                <span>Name: </span>
-                <input type="text" asp-for="Name"/>
+                <label asp-for="Name" class="control-label"></label>
+                <input type="text" asp-for="Name" class="userTextInput" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <span>Choose a Cpu: </span><select asp-for="Cpu" id="cpuList" name="cpus" onchange="choosePart(this)"><option>Select a cpu</option></select>
@@ -47,6 +48,9 @@
                 <textarea asp-for="Description"></textarea>
             </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="ImgUrl" type="file" name="image" />
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>

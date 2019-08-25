@@ -37,6 +37,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                <img src="https://drive.google.com/uc?export=view&amp;id=@item.ImgUrl" height="30" width="30"/>
                 @Html.DisplayFor(modelItem => item.Model)
             </td>
             <td>

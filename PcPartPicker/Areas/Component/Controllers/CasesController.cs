@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using PcPartPicker.Definitions;
 using PcPartPicker.Models.Models;
 using PcPartPicker.Services.Interfaces;
 
@@ -12,10 +11,12 @@ namespace PcPartPicker.Areas.Component
     public class CasesController : Controller
     {
         private readonly ICaseService _service;
+        private readonly IGoogleDriveService _driveService;
 
-        public CasesController(ICaseService service)
+        public CasesController(ICaseService service, IGoogleDriveService driveService)
         {
             _service = service;
+            _driveService = driveService;
         }
 
         public IEnumerable<string> GetCaseModels()
@@ -73,6 +74,16 @@ namespace PcPartPicker.Areas.Component
         {
             if (ModelState.IsValid)
             {
+                var image = Request.Form.Files.GetFile("image");
+                if (image != null)
+                {
+                    @case.ImgUrl = _driveService.UploadFile(image);
+                }
+                else
+                {
+                    @case.ImgUrl = Constants.DEFAULT_CASE_IMG;
+                }
+
                 _service.InsertCase(@case);
                 return RedirectToAction(nameof(Index));
             }
@@ -111,6 +122,14 @@ namespace PcPartPicker.Areas.Component
 
             if (ModelState.IsValid)
             {
+                var image = Request.Form.Files.GetFile("image");
+                if (image != null)
+                {
+                    string oldImg = Request.Form["ImgUrl"];
+                    _driveService.DeleteFile(oldImg);
+                    @case.ImgUrl = _driveService.UploadFile(image);
+                }
+
                 _service.Update(@case);
                 return RedirectToAction(nameof(Index));
             }
@@ -141,6 +160,13 @@ namespace PcPartPicker.Areas.Component
         [Authorize(Roles = "Admin, Vendor")]
         public IActionResult DeleteConfirmed(int id)
         {
+            var @case = _service.GetCaseById(id);
+            string imageUrl = @case.ImgUrl;
+            if (imageUrl != Constants.DEFAULT_CASE_IMG)
+            {
+                _driveService.DeleteFile(@case.ImgUrl);
+            }            
+
             _service.Delete(id);
             return RedirectToAction(nameof(Index));
         }

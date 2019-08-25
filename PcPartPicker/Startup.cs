@@ -77,6 +77,8 @@ namespace PcPartPicker
             services.AddScoped<IRepository<StorageOption>, Repository<StorageOption>>();
             services.AddScoped<IRepository<SystemBuild>, Repository<SystemBuild>>();
 
+            services.AddScoped<IGoogleDriveService, GoogleDriveService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

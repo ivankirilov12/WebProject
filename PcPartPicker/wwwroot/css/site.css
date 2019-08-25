@@ -142,3 +142,11 @@ select {
     height: 2em;
     color:black;
 }
+
+textarea{
+    color:black;
+}
+
+.userTextInput {
+    color:black;
+}

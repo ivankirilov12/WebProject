@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PcPartPicker.Data;
+using PcPartPicker.Definitions;
 using PcPartPicker.Models.Models;
 using PcPartPicker.Services.Interfaces;
 
@@ -14,10 +15,12 @@ namespace PcPartPicker.Areas.Component
     public class MotherboardsController : Controller
     {
         private readonly IMotherboardService _service;
+        private readonly IGoogleDriveService _driveService;
 
-        public MotherboardsController(IMotherboardService service)
+        public MotherboardsController(IMotherboardService service, IGoogleDriveService driveService)
         {
             _service = service;
+            _driveService = driveService;
         }
 
         // GET: Motherboards
@@ -76,6 +79,15 @@ namespace PcPartPicker.Areas.Component
         {
             if (ModelState.IsValid)
             {
+                var image = Request.Form.Files.GetFile("image");
+                if (image != null)
+                {
+                    motherboard.ImgUrl = _driveService.UploadFile(image);
+                }
+                else
+                {
+                    motherboard.ImgUrl = Constants.DEFAULT_MB_IMG;
+                }
                 _service.InsertMb(motherboard);
                 return RedirectToAction(nameof(Index));
             }
@@ -114,6 +126,12 @@ namespace PcPartPicker.Areas.Component
 
             if (ModelState.IsValid)
             {
+                var image = Request.Form.Files.GetFile("image");
+                if (image != null)
+                {
+                    _driveService.DeleteFile(Request.Form["ImgUrl"]);
+                    motherboard.ImgUrl = _driveService.UploadFile(image);
+                }
                 _service.Update(motherboard);
                 return RedirectToAction(nameof(Index));
             }
@@ -144,6 +162,13 @@ namespace PcPartPicker.Areas.Component
         [Authorize(Roles = "Admin, Vendor")]
         public IActionResult DeleteConfirmed(int id)
         {
+            var mb = _service.GetMbById(id);
+            string imgUrl = mb.ImgUrl;
+            if (imgUrl != Constants.DEFAULT_MB_IMG)
+            {
+                _driveService.DeleteFile(imgUrl);
+            }
+
             _service.Delete(id);
             return RedirectToAction(nameof(Index));
         }

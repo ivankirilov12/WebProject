@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PcPartPicker.Definitions;
 using PcPartPicker.Models.Models;
 using PcPartPicker.Services.Interfaces;
 
@@ -12,10 +13,12 @@ namespace PcPartPicker.Areas.Component
     public class StorageOptionsController : Controller
     {
         private readonly IStorageOptionService _service;
+        private readonly IGoogleDriveService _driveService;
 
-        public StorageOptionsController(IStorageOptionService service)
+        public StorageOptionsController(IStorageOptionService service, IGoogleDriveService driveService)
         {
             _service = service;
+            _driveService = driveService;
         }
 
         // GET: Storages
@@ -73,6 +76,15 @@ namespace PcPartPicker.Areas.Component
         {
             if (ModelState.IsValid)
             {
+                var image = Request.Form.Files.GetFile("image");
+                if (image != null)
+                {
+                    storageOption.ImgUrl = _driveService.UploadFile(image);
+                }
+                else
+                {
+                    storageOption.ImgUrl = Constants.DEFAULT_STORAGE_IMG;
+                }
                 _service.InsertStorageOption(storageOption);
                 return RedirectToAction(nameof(Index));
             }
@@ -111,6 +123,12 @@ namespace PcPartPicker.Areas.Component
 
             if (ModelState.IsValid)
             {
+                var image = Request.Form.Files.GetFile("image");
+                if (image != null)
+                {
+                    _driveService.DeleteFile(Request.Form["ImgUrl"]);
+                    storageOption.ImgUrl = _driveService.UploadFile(image);
+                }
                 _service.Update(storageOption);
                 return RedirectToAction(nameof(Index));
             }
@@ -141,6 +159,13 @@ namespace PcPartPicker.Areas.Component
         [Authorize(Roles = "Admin, Vendor")]
         public IActionResult DeleteConfirmed(int id)
         {
+            var storage = _service.GetStorageOptionById(id);
+            string imgUrl = storage.ImgUrl;
+            if (imgUrl != Constants.DEFAULT_STORAGE_IMG)
+            {
+                _driveService.DeleteFile(imgUrl);
+            }            
+
             _service.Delete(id);
             return RedirectToAction(nameof(Index));
         }
